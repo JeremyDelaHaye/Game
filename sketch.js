@@ -1,4 +1,3 @@
-// add wsad movement 
 // add colision detection 
 // create gun/bullet class 
 
@@ -14,6 +13,11 @@ function draw()
     player.updateRotation()
     player.draw()
     player.movement()
+    
+}
+
+function mousePressed()
+{
     
 }
 

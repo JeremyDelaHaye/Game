@@ -1,12 +1,10 @@
-// make it so square rotates based on mouse position
-
-
-class character
+class Character
 {
     #x; 
     #y; 
     #speed;
-    #sprite
+    #sprite;
+    #angle 
 
     constructor(x,y,sprite)
     {
@@ -14,8 +12,8 @@ class character
         this.#y = y;
         this.#speed = 10;
         this.#sprite = sprite;
+        this.#angle = 0;
     }
-
 
     moveX(distance)
     {
@@ -31,9 +29,14 @@ class character
     {
         this.#x = xPos
     }
-    setX(yPos)
+    setY(yPos)
     {
         this.#y = yPos
+    }
+
+    setAngle(value)
+    {
+        this.#angle = value
     }
 
     getX()
@@ -46,22 +49,48 @@ class character
         return(this.#y)
     }
 
-    draw()
+    getAngle()
     {
-        /*
-        let x;
-        let y;
-        let angle = map(mouseX, 0, width, 0, TWO_PI);
-        push();
-        translate(x,y);
-        rotate(angle);
-        rect(0,0, 100, 100);
-        pop();
-        */
-        noStroke()
-        rect(this.#x+18.5,this.#y,12.5,100)
-        rect(this.#x,this.#y,50)
-        
-        
+        return(this.#angle)
     }
+
+    getSprite()
+    {
+        return(this.#sprite)
+    }
+}
+
+class Player extends Character
+{
+    constructor(x,y,speed,sprite,angle)
+    {
+        super(x,y,speed,sprite,angle)
+    }
+
+    updateRotation()
+    {
+        this.setAngle(atan2(mouseY - (this.getY()+ 25), mouseX - (this.getX() + 25)) - HALF_PI)
+    }
+
+    movement()
+    {
+        const A = 65, D = 68, W = 87, S = 83;
+        if (keyIsDown(A)) { player.moveX(-0.3); }
+        if (keyIsDown(D)) { player.moveX(0.3);  }
+        if (keyIsDown(W)) { player.moveY(-0.3); }
+        if (keyIsDown(S)) { player.moveY(0.3);  }
+    }
+                                
+    draw() 
+    {
+        push();
+            translate(this.getX() + 25, this.getY() + 25); 
+            rotate(this.getAngle());
+            noStroke();
+            rect(-25, -25, 50, 50);           
+            rect(-6.25, 0, 12.5, 50);         
+        pop();
+    }
+
+
 }

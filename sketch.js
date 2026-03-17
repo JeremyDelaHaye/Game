@@ -7,19 +7,10 @@ function setup()
     createCanvas(600,600)
 }
 
-function draw()
+function draw() 
 {
     background(0)
     player.updateRotation()
     player.draw()
-    player.movement()
-    
+    player.movement()  
 }
-
-function mousePressed()
-{
-    
-}
-
-
-

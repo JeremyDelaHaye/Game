@@ -94,3 +94,35 @@ class Player extends Character
 
 
 }
+
+class Enemy extends Character
+{
+    #state
+
+    constructor(x,y,speed,sprite,angle)
+    {
+        super(x,y,speed,sprite,angle)
+        this.#state = true;
+    }
+
+    kill(incomingX,incomingY)
+    {
+        const width = 50;
+        const height = 50;
+
+        if (incomingX > this.getX() && incomingX < this.getX() + width &&
+        incomingY > this.getY() && incomingY < this.getY() + height)
+        {
+            this.#state = false;
+        }
+
+    }
+
+    draw()
+    {
+        if (this.#state === true)
+        {
+            rect(this.getX(),this.getY(),50,50)
+        }
+    }
+}

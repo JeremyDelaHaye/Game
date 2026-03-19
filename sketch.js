@@ -28,6 +28,7 @@ function draw()
     {}
 
     enemy.draw()
+    
 }
 
 function mousePressed()

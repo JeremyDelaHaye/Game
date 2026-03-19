@@ -115,7 +115,6 @@ class Enemy extends Character
         {
             this.#state = false;
         }
-
     }
 
     draw()

@@ -62,9 +62,32 @@ class Character
 
 class Player extends Character
 {
-    constructor(x,y,speed,sprite,angle)
+    #frameIndex;
+    #frameTimer;
+    #frameDelay;
+    #sheet;
+    #movementState
+
+    constructor(x,y,sprite,sheet)
     {
-        super(x,y,speed,sprite,angle)
+        super(x,y,sprite)
+        this.#sheet = sheet;
+        this.#movementState = true 
+        this.#frameIndex = 0;
+        this.#frameTimer = 0;
+        this.#frameDelay = 8;
+    }
+
+    animateWalk()
+    {   
+        this.#frameTimer++;
+        if (this.#frameTimer >= this.#frameDelay) 
+        {
+            if (this.#frameIndex < 2) this.#frameIndex = 2; // start at 3rd sprite
+            this.#frameIndex = ((this.#frameIndex - 2 + 1) % 9) + 2;
+            this.#frameTimer = 0;
+        }
+
     }
 
     updateRotation()
@@ -75,10 +98,14 @@ class Player extends Character
     movement()
     {
         const A = 65, D = 68, W = 87, S = 83;
-        if (keyIsDown(A)) { player.moveX(-0.3); }
-        if (keyIsDown(D)) { player.moveX(0.3);  }
-        if (keyIsDown(W)) { player.moveY(-0.3); }
-        if (keyIsDown(S)) { player.moveY(0.3);  }
+
+        this.#movementState = false;
+        if (keyIsDown(A)) { player.moveX(-0.3); this.#movementState = true;}
+        if (keyIsDown(D)) { player.moveX(0.3);  this.#movementState = true;}
+        if (keyIsDown(W)) { player.moveY(-0.3); this.#movementState = true;}
+        if (keyIsDown(S)) { player.moveY(0.3);  this.#movementState = true;}
+
+        
     }
                                 
     draw() 
@@ -87,11 +114,19 @@ class Player extends Character
             translate(this.getX() + 25, this.getY() + 25); 
             rotate(this.getAngle());
             noStroke();
-            rect(-25, -25, 50, 50);           
-            rect(-6.25, 0, 12.5, 50);         
+            imageMode(CENTER)
+            let sx = this.#frameIndex * 60
+            if (this.#movementState === true)
+            {
+                image(this.#sheet, 0, 0, 100, 100, sx, 0, 60, 60)
+            }
+            else
+            {
+                image(this.getSprite(),-25, -25, 100, 100)
+            }
+                 
         pop();
     }
-
 
 }
 

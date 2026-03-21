@@ -118,7 +118,7 @@ class Player extends Character
             let sx = this.#frameIndex * 60
             if (this.#movementState === true)
             {
-                image(this.#sheet, 0, 0, 100, 100, sx, 0, 60, 60)
+                image(this.#sheet, 15, 0, 100, 100, sx, 0, 60, 60)
             }
             else
             {

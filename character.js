@@ -113,18 +113,17 @@ class Player extends Character
         push();
             translate(this.getX() + 25, this.getY() + 25); 
             rotate(this.getAngle());
+            rotate(PI)
             noStroke();
-            imageMode(CENTER)
-            let sx = this.#frameIndex * 60
             if (this.#movementState === true)
             {
-                image(this.#sheet, 15, 0, 100, 100, sx, 0, 60, 60)
+                fill(0,0,255)
+                rect(-30,-30,37)
+                rect(10,-30,37)
             }
-            else
-            {
-                image(this.getSprite(),-25, -25, 100, 100)
-            }
-                 
+            image(this.getSprite(),-30, -25,80,40)
+
+            
         pop();
     }
 

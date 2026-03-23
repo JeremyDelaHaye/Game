@@ -1,27 +1,16 @@
-class Bullet 
+class Bullet extends gameObject
 {
-    #x
-    #y
+    
     #angle 
     #speed
 
     constructor(x,y,angle,speed)
     {
-        this.#x = x
-        this.#y = y
+        super(x,y)
         this.#angle = angle
         this.#speed = speed
     }
 
-    getX()
-    {
-        return(this.#x)
-    }
-
-    getY()
-    {
-        return(this.#y)
-    }
 
     getAngle()
     {
@@ -30,15 +19,21 @@ class Bullet
 
     draw()
     {
-        this.#x += this.#speed * Math.cos(this.#angle + Math.PI / 2);
-        this.#y += this.#speed * Math.sin(this.#angle + Math.PI / 2);
+        /*
+        let xx = this.getX()
+        let yy = this.getY()
+        xx += this.#speed * Math.cos(this.#angle + Math.PI / 2);
+        yy += this.#speed * Math.sin(this.#angle + Math.PI / 2);
 
         push();
-            translate(this.#x + 25, this.#y + 25); 
+            translate(xx + 25, xx+ 25); 
             rotate(this.#angle - Math.PI / 2);
             noStroke();
             rectMode(CENTER);
             rect(0, 0, 50, 10);
         pop();
+        */
+
+        
     }
 }

@@ -1,15 +1,13 @@
-class Character
+class Character extends gameObject
 {
-    #x; 
-    #y; 
+    
     #speed;
     #sprite;
     #angle 
 
     constructor(x,y,sprite)
     {
-        this.#x = x;
-        this.#y = y;
+        super(x,y,width,height)
         this.#speed = 10;
         this.#sprite = sprite;
         this.#angle = 0;
@@ -17,36 +15,19 @@ class Character
 
     moveX(distance)
     {
-        this.#x += (this.#speed * distance);
+        let val = this.getX()
+        this.setX(val += (this.#speed * distance)) ;
     }
 
     moveY(distance)
     {
-        this.#y += (this.#speed * distance); 
-    }
-
-    setX(xPos)
-    {
-        this.#x = xPos
-    }
-    setY(yPos)
-    {
-        this.#y = yPos
+        let val = this.getY()
+        this.setY(val += (this.#speed * distance)) ; 
     }
 
     setAngle(value)
     {
         this.#angle = value
-    }
-
-    getX()
-    {
-        return(this.#x)
-    }
-
-    getY()
-    {
-        return(this.#y)
     }
 
     getAngle()

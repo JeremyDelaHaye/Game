@@ -8,7 +8,7 @@ function preload()
 
 function setup()
 {
-    createCanvas(600,600) 
+    createCanvas(750,600) 
     player = new Player(300,300,idle,sheet)
     enemy = new Enemy(random(600),random(600),10)
      
@@ -19,10 +19,8 @@ function draw()
     
     background(0)
     player.draw() 
-    try{bullet.draw()}
-    catch{}
-    try{enemy.kill(bullet.getX(),bullet.getY())}
-    catch{}
+    //bullet.drawX()
+    
     enemy.draw()
     
 }
@@ -30,6 +28,7 @@ function draw()
 function mousePressed()
 {
     bullet = new Bullet(player.getX(),player.getY(),player.getAngle(),30)
+    console.log(bullet)
 }
 
 function shooting()

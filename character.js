@@ -62,33 +62,14 @@ class Character
 
 class Player extends Character
 {
-    #frameIndex;
-    #frameTimer;
-    #frameDelay;
-    #sheet;
     #movementState
 
-    constructor(x,y,sprite,sheet)
+    constructor(x,y,sprite)
     {
         super(x,y,sprite)
-        this.#sheet = sheet;
         this.#movementState = true 
-        this.#frameIndex = 0;
-        this.#frameTimer = 0;
-        this.#frameDelay = 8;
     }
 
-    animateWalk()
-    {   
-        this.#frameTimer++;
-        if (this.#frameTimer >= this.#frameDelay) 
-        {
-            if (this.#frameIndex < 2) this.#frameIndex = 2; // start at 3rd sprite
-            this.#frameIndex = ((this.#frameIndex - 2 + 1) % 9) + 2;
-            this.#frameTimer = 0;
-        }
-
-    }
 
     updateRotation()
     {
@@ -110,6 +91,8 @@ class Player extends Character
                                 
     draw() 
     {
+        this.updateRotation()
+        this.movement()
         push();
             translate(this.getX() + 25, this.getY() + 25); 
             rotate(this.getAngle());

@@ -1,4 +1,4 @@
-class Character extends gameObject
+class Character extends GameObject
 {
     
     #speed;

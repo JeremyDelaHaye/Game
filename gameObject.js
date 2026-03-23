@@ -1,4 +1,4 @@
-class gameObject
+class GameObject
 {
     #x
     #y

@@ -28,10 +28,6 @@ function draw()
 function mousePressed()
 {
     bullet = new Bullet(player.getX(),player.getY(),player.getAngle(),30)
-    console.log(bullet)
-}
+    bullet.draw()
 
-function shooting()
-{
-    
 }

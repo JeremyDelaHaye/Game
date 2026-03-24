@@ -11,6 +11,17 @@ function setup()
     createCanvas(750,600) 
     player = new Player(300,300,idle,sheet)
     enemy = new Enemy(random(600),random(600),10)
+    grid = new Grid(50)
+    grid.createEmptyGrid()
+    for (i = 0; i < 12;i++)
+    {
+        grid.addToGrid(i,13)
+    }
+
+    for (i = 0; i < 15;i++)
+    {
+        grid.addToGrid(10,i)
+    }
      
 }
 
@@ -19,15 +30,13 @@ function draw()
     
     background(0)
     player.draw() 
-    //bullet.drawX()
+    grid.drawGrid()
     
-    enemy.draw()
+    
     
 }
 
 function mousePressed()
 {
-    bullet = new Bullet(player.getX(),player.getY(),player.getAngle(),30)
-    bullet.draw()
-
+    //bullet = new Bullet(player.getX(),player.getY(),player.getAngle(),30)
 }

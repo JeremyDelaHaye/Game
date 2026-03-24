@@ -62,10 +62,26 @@ class Player extends Character
         const A = 65, D = 68, W = 87, S = 83;
 
         this.#movementState = false;
-        if (keyIsDown(A)) { player.moveX(-0.3); this.#movementState = true;}
-        if (keyIsDown(D)) { player.moveX(0.3);  this.#movementState = true;}
-        if (keyIsDown(W)) { player.moveY(-0.3); this.#movementState = true;}
-        if (keyIsDown(S)) { player.moveY(0.3);  this.#movementState = true;}
+        if (keyIsDown(A)) 
+        { 
+            let int = (this.getY()+= (this.getSpeed() * distance))
+            player.moveX(-0.3); this.#movementState = true;
+        }
+
+        if (keyIsDown(D)) 
+        { 
+            player.moveX(0.3);  this.#movementState = true;
+        }
+
+        if (keyIsDown(W)) 
+        { 
+            player.moveY(-0.3); this.#movementState = true;
+        }
+
+        if (keyIsDown(S)) 
+        { 
+            player.moveY(0.3);  this.#movementState = true;
+        }
 
         
     }

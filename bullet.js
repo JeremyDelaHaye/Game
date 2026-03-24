@@ -16,11 +16,4 @@ class Bullet extends GameObject
     {
         return(this.#angle)
     }
-
-    draw()
-    {
-        rect(100,100,100)
-    }
-
-    
 }

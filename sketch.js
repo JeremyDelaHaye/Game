@@ -1,4 +1,3 @@
-// add colision detection 
 let idle, sheet; 
 function preload()
 {
@@ -17,7 +16,6 @@ function setup()
     {
         grid.addToGrid(i,13)
     }
-
     for (i = 0; i < 15;i++)
     {
         grid.addToGrid(10,i)
@@ -29,8 +27,12 @@ function draw()
 {
     
     background(0)
-    player.draw() 
+    player.draw(grid) 
     grid.drawGrid()
+
+    try{bullet.draw()}
+    catch{}
+    
     
     
     
@@ -38,5 +40,5 @@ function draw()
 
 function mousePressed()
 {
-    //bullet = new Bullet(player.getX(),player.getY(),player.getAngle(),30)
+    bullet = new Bullet(player.getX(),player.getY(),player.getAngle(),30)
 }

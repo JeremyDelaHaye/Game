@@ -29,7 +29,6 @@ class Grid
     addToGrid(x,y)
     {
         this.#cells[x][y] = true
-        console.log(this.#cells)
     } 
 
     drawGrid()

@@ -57,39 +57,32 @@ class Player extends Character
         this.setAngle(atan2(mouseY - (this.getY()+ 25), mouseX - (this.getX() + 25)) - HALF_PI)
     }
 
-    movement()
+    movement(grid)
     {
         const A = 65, D = 68, W = 87, S = 83;
-
         this.#movementState = false;
-        if (keyIsDown(A)) 
-        { 
-            let int = (this.getY()+= (this.getSpeed() * distance))
-            player.moveX(-0.3); this.#movementState = true;
-        }
 
-        if (keyIsDown(D)) 
-        { 
-            player.moveX(0.3);  this.#movementState = true;
-        }
+        const speed = 10 * 0.3;
+        const size = 50;
 
-        if (keyIsDown(W)) 
-        { 
-            player.moveY(-0.3); this.#movementState = true;
-        }
+        const left  = () => grid.isOccupied(this.getX() - speed, this.getY()) || grid.isOccupied(this.getX() - speed, this.getY() + size);
+        const right = () => grid.isOccupied(this.getX() + size + speed, this.getY()) || grid.isOccupied(this.getX() + size + speed, this.getY() + size);
+        const up    = () => grid.isOccupied(this.getX(), this.getY() - speed) || grid.isOccupied(this.getX() + size, this.getY() - speed);
+        const down  = () => grid.isOccupied(this.getX(), this.getY() + size + speed) || grid.isOccupied(this.getX() + size, this.getY() + size + speed);
 
-        if (keyIsDown(S)) 
-        { 
-            player.moveY(0.3);  this.#movementState = true;
-        }
+        if (keyIsDown(A) && !left())  { this.moveX(-0.3); this.#movementState = true; }
+        if (keyIsDown(D) && !right()) { this.moveX(0.3);  this.#movementState = true; }
+        if (keyIsDown(W) && !up())    { this.moveY(-0.3); this.#movementState = true; }
+        if (keyIsDown(S) && !down())  { this.moveY(0.3);  this.#movementState = true; }
+    }
 
         
-    }
+    
                                 
-    draw() 
+    draw(grid) 
     {
         this.updateRotation()
-        this.movement()
+        this.movement(grid)
         push();
             translate(this.getX() + 25, this.getY() + 25); 
             rotate(this.getAngle());

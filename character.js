@@ -63,7 +63,11 @@ class Player extends Character
         this.#walkSheet = walkSheet
         this.#walkFrame = 0
         this.#walkTimer = 0
+    }
 
+    getAttackFrame()
+    {
+        return(this.#attackFrame)
     }
 
     startAttack()
@@ -75,6 +79,7 @@ class Player extends Character
 
     animateAttack()
     {
+       
         this.#attackTimer++
         if (this.#attackTimer >= 8)
         {
@@ -97,8 +102,6 @@ class Player extends Character
             this.#walkTimer = 0
         }
     }
-
-    
 
 
     updateRotation()

@@ -44,12 +44,61 @@ class Character extends GameObject
 class Player extends Character
 {
     #movementState
+    #attackSheet
+    #attackFrame
+    #attackTimer
+    #isAttacking
+    #walkSheet
+    #walkFrame
+    #walkTimer
 
-    constructor(x,y,sprite)
+    constructor(x,y,sprite,attackSheet,walkSheet)
     {
         super(x,y,sprite)
         this.#movementState = true 
+        this.#attackSheet = attackSheet
+        this.#attackFrame = 0
+        this.#attackTimer = 0
+        this.#isAttacking = false
+        this.#walkSheet = walkSheet
+        this.#walkFrame = 0
+        this.#walkTimer = 0
+
     }
+
+    startAttack()
+    {
+        this.#isAttacking = true
+        this.#attackFrame = 0
+        this.#attackTimer = 0
+    }
+
+    animateAttack()
+    {
+        this.#attackTimer++
+        if (this.#attackTimer >= 8)
+        {
+            this.#attackFrame++
+            this.#attackTimer = 0
+            if (this.#attackFrame >= 7)
+            {
+                this.#attackFrame = 0
+                this.#isAttacking = false  
+            }
+        }
+    }
+
+    animateWalk()
+    {
+        this.#walkTimer++
+        if(this.#walkTimer >= 8)
+        {
+            this.#walkFrame = (this.#walkFrame + 1) % 8 
+            this.#walkTimer = 0
+        }
+    }
+
+    
 
 
     updateRotation()
@@ -88,15 +137,32 @@ class Player extends Character
             rotate(this.getAngle());
             rotate(PI)
             noStroke();
-            if (this.#movementState === true)
+            if (this.#isAttacking)
             {
-                fill(0,0,255)
-                rect(-30,-30,37)
-                rect(10,-30,37)
+                this.animateAttack()
+                let sx = this.#attackFrame * 58
+                push()
+                    rotate(-HALF_PI)
+                    image(this.#attackSheet, -75, -75, 150, 150, sx, 0, 58, 60)
+                pop()    
             }
-            image(this.getSprite(),-30, -25,80,40)
-
-            
+            else if (this.#movementState)
+            {
+                this.animateWalk()
+                let sx = this.#walkFrame * 60
+                push()
+                    rotate(-HALF_PI)
+                    image(this.#walkSheet, -75, -75, 150, 150, sx, 0, 60, 60)
+                pop()
+            }
+            else
+            {
+                push()
+                    rotate(-HALF_PI)
+                    image(this.#walkSheet, -75, -75, 150, 150, 1, 0, 60, 60)
+                pop()
+                
+            }
         pop();
     }
 

@@ -20,16 +20,13 @@ function draw()
     background(0)
     player.draw(grid) 
     grid.drawGrid()
-    try{bullet.draw()}
-    catch{}
+    
 }
 
 function mousePressed()
 {
-    //bullet = new Bullet(player.getX(),player.getY(),player.getAngle(),30) 
     if (player.getAttackFrame() === 0)
     {
         player.startAttack() 
     }
-    
 }

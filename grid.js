@@ -9,6 +9,11 @@ class Grid
         this.createEmptyGrid()
     }
 
+    getCells()
+    {
+        return this.#cells
+    }
+
     createEmptyGrid()
     {
 
@@ -28,8 +33,12 @@ class Grid
 
     addToGrid(x,y)
     {
+        //const rows = Math.ceil(y/this.#cellSize);
+        //const cols = Math.ceil(x/this.#cellSize);
         this.#cells[x][y] = true
     } 
+
+    
 
     drawGrid()
     {
@@ -41,6 +50,7 @@ class Grid
             {
                 if(this.#cells[row][col] === true)
                 {
+                    fill(255)
                     rect(col * this.#cellSize, row * this.#cellSize, this.#cellSize, this.#cellSize);
                 }
             }

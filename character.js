@@ -2,14 +2,13 @@ class Character extends GameObject
 {
     
     #speed;
-    #sprite;
     #angle 
 
-    constructor(x,y,sprite)
+    constructor(x,y,)
     {
         super(x,y,width,height)
         this.#speed = 10;
-        this.#sprite = sprite;
+        
         this.#angle = 0;
     }
 
@@ -35,10 +34,7 @@ class Character extends GameObject
         return(this.#angle)
     }
 
-    getSprite()
-    {
-        return(this.#sprite)
-    }
+    
 }
 
 class Player extends Character
@@ -52,9 +48,9 @@ class Player extends Character
     #walkFrame
     #walkTimer
 
-    constructor(x,y,sprite,attackSheet,walkSheet)
+    constructor(x,y,attackSheet,walkSheet)
     {
-        super(x,y,sprite)
+        super(x,y)
         this.#movementState = true 
         this.#attackSheet = attackSheet
         this.#attackFrame = 0
@@ -68,6 +64,11 @@ class Player extends Character
     getAttackFrame()
     {
         return(this.#attackFrame)
+    }
+
+    getAttackState()
+    {
+        return(this.#isAttacking)
     }
 
     startAttack()
@@ -174,30 +175,36 @@ class Player extends Character
 class Enemy extends Character
 {
     #state
+    #size
+    #destX
+    #destY
 
-    constructor(x,y,speed,sprite,angle)
+    constructor(x,y,speed,sprite,angle,size)
     {
         super(x,y,speed,sprite,angle)
         this.#state = true;
+        this.#size = size
+        this.#destX
+        this.#destY
+        this.#setPoint
     }
 
-    kill(incomingX,incomingY)
+    #setPoint()
     {
-        const width = 50;
-        const height = 50;
+        this.#destX = random(500)
+        this.#destY = ranom(500)
+    }
 
-        if (incomingX > this.getX() && incomingX < this.getX() + width &&
-        incomingY > this.getY() && incomingY < this.getY() + height)
+    draw(p)
+    {   
+        if (p.getAttackFrame() === 4 && dist(p.getX(), p.getY(), this.getX(), this.getY()) < 80)
         {
             this.#state = false;
         }
-    }
-
-    draw()
-    {
-        if (this.#state === true)
+        if (this.#state)
         {
-            rect(this.getX(),this.getY(),50,50)
+            fill(255, 0, 0)
+            rect(this.getX(), this.getY(), this.#size)
         }
     }
 }

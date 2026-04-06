@@ -22,6 +22,7 @@ function draw()
     player.draw(colGrid)
     colGrid.drawGrid()   
     enemy1.draw(player)
+    rect(100,100,50)
 }
 
 function mousePressed()

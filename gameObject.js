@@ -52,6 +52,4 @@ class GameObject
     {
         this.#height = newHeight
     }
-
-
 }

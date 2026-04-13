@@ -3,13 +3,14 @@ class Character extends GameObject
     
     #speed;
     #angle 
+    #walkSheet
 
-    constructor(x,y)
+    constructor(x,y,walkSheet)
     {
         super(x,y,width,height)
         this.#speed = 10;
-        
         this.#angle = 0;
+        this.#walkSheet = walkSheet
     }
 
     moveX(distance)
@@ -34,6 +35,11 @@ class Character extends GameObject
         return(this.#angle)
     }
 
+    getWalkSheet()
+    {
+        return(this.#walkSheet)
+    }
+
     
 }
 
@@ -44,20 +50,18 @@ class Player extends Character
     #attackFrame
     #attackTimer
     #isAttacking
-    #walkSheet
     #walkFrame
     #walkTimer
     #score
 
     constructor(x,y,attackSheet,walkSheet)
     {
-        super(x,y)
+        super(x,y,walkSheet)
         this.#movementState = true 
         this.#attackSheet = attackSheet
         this.#attackFrame = 0
         this.#attackTimer = 0
         this.#isAttacking = false
-        this.#walkSheet = walkSheet
         this.#walkFrame = 0
         this.#walkTimer = 0
         this.#score = 0
@@ -77,6 +81,8 @@ class Player extends Character
     {
         return(this.#score)
     }
+
+    
 
     setScore(score)
     {
@@ -173,14 +179,14 @@ class Player extends Character
                 let sx = this.#walkFrame * 60
                 push()
                    rotate(-HALF_PI)
-                    image(this.#walkSheet, -75, -75, 150, 150, sx, 0, 60, 60)
+                    image(this.getWalkSheet(), -75, -75, 150, 150, sx, 0, 60, 60)
                 pop()
             }
             else
             {
                 push()
                    rotate(-HALF_PI)
-                    image(this.#walkSheet, -75, -75, 150, 150, 1, 0, 60, 60)
+                    image(this.getWalkSheet(), -75, -75, 150, 150, 1, 0, 60, 60)
                 pop()
                 
             }
@@ -195,36 +201,78 @@ class Enemy extends Character
     #size
     #destX
     #destY
+    #walkFrame
+    #walkTimer
 
-    constructor(x,y,speed,sprite,angle,size)
+    constructor(x,y,speed,sprite,angle,size,walkSheet)
     {
-        super(x,y,speed,sprite,angle)
+        super(x,y,walkSheet)
         this.#state = true;
         this.#size = size
-        this.#destX
-        this.#destY
-        this.#setPoint
+        this.#walkFrame = 0
+        this.#walkTimer = 0
+        this.#setPoint()
     }
 
     #setPoint()
     {
-        this.#destX = random(500)
-        this.#destY = ranom(500)
+        this.#destX = random(width)
+        this.#destY = random(height)
     }
 
-    draw(p)
+    #animateWalk()
+    {
+        this.#walkTimer++
+        if (this.#walkTimer >= 8)
+        {
+            this.#walkFrame = (this.#walkFrame + 1) % 8
+            this.#walkTimer = 0
+        }
+    }
+
+    draw(p,colGrid)
     {   
         if (p.getAttackFrame() === 4 && dist(p.getX(), p.getY(), this.getX(), this.getY()) < 80)
         {
             this.#state = false;
             let score = p.getScore()
             p.setScore(score++)
-            console.log(p.getScore())
         }
         if (this.#state)
         {
-            fill(255, 0, 0)
-            rect(this.getX(), this.getY(), this.#size)
+            this.patrol(colGrid)
+            this.#animateWalk()
+            this.setAngle(atan2(this.#destY - (this.getY() + 25), this.#destX - (this.getX() + 25)) - HALF_PI)
+            push()
+                translate(this.getX() + 25, this.getY() + 25)
+                rotate(this.getAngle())
+                rotate(PI)
+                noStroke()
+                push()
+                    rotate(-HALF_PI)
+                    let sx = this.#walkFrame * 60
+                 image(this.getWalkSheet(), -75, -75, 150, 150, sx, 0, 60, 60)
+            pop()
+        pop()
+    }
+}
+
+   
+
+
+    patrol(colGrid) 
+    {
+        let s = 5
+        if (this.#destX > this.getX()) this.setX(this.getX() + s);
+        else this.setX(this.getX() - s);
+
+        if (this.#destY > this.getY()) this.setY(this.getY() + s);
+        else this.setY(this.getY() - s);
+
+        const arrived = dist(this.getX(), this.getY(), this.#destX, this.#destY) < s;
+        if (arrived || colGrid.isOccupied(this.getX(), this.getY())) 
+        {
+            this.#setPoint();
         }
     }
 }

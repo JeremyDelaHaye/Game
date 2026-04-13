@@ -15,17 +15,8 @@ class Grid
     }
 
     getCell(x,y)
-    {
-        try 
-        {
-            return(this.cells[x][y])
-
-        }
-        catch
-        {
-           
-            console.log('out of scope')
-        }
+    { 
+        return(this.#cells[x][y])
     }
 
     getCellSize()
@@ -96,8 +87,6 @@ class Grid
     {
         return Math.floor(coord / this.#cellSize);
     }
-
-
 }
 
 class TextureGrid extends Grid
@@ -106,8 +95,7 @@ class TextureGrid extends Grid
     constructor(cellSize,texture)
     {
         super(cellSize)
-        this.#texture = texture
-        
+        this.#texture = texture  
     }
 
     drawTexture()
@@ -116,7 +104,6 @@ class TextureGrid extends Grid
         const cols = Math.ceil(width/this.getCellSize());
         for (let row = 0; row < rows; row++)
         {
-            
             for (let col = 0; col < cols; col++)
             {    
                 if((this.getCells()[row][col]) === true)

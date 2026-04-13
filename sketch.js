@@ -7,17 +7,17 @@ function preload()
 
 function setup()
 {
-    //createCanvas(500,500)
-    //createClasses()
-    //brickGrid.setCell(5,0,true)
-    //mergeGrids(brickGrid,colGrid)
+    createCanvas(500,500)
+    createClasses()
+    brickGrid.setCell(5,0,true)
+    mergeGrids(brickGrid,colGrid)
 }
 
 function draw() 
 {
-    //background(0)
-    //player.draw(colGrid)
-    //brickGrid.drawTexture() 
+    background(0)
+    player.draw(colGrid)
+    brickGrid.drawTexture() 
     
 }
 

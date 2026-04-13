@@ -4,7 +4,7 @@ class Character extends GameObject
     #speed;
     #angle 
 
-    constructor(x,y,)
+    constructor(x,y)
     {
         super(x,y,width,height)
         this.#speed = 10;
@@ -47,6 +47,7 @@ class Player extends Character
     #walkSheet
     #walkFrame
     #walkTimer
+    #score
 
     constructor(x,y,attackSheet,walkSheet)
     {
@@ -59,6 +60,7 @@ class Player extends Character
         this.#walkSheet = walkSheet
         this.#walkFrame = 0
         this.#walkTimer = 0
+        this.#score = 0
     }
 
     getAttackFrame()
@@ -69,6 +71,16 @@ class Player extends Character
     getAttackState()
     {
         return(this.#isAttacking)
+    }
+
+    getScore()
+    {
+        return(this.#score)
+    }
+
+    setScore(score)
+    {
+        this.#score = score
     }
 
     startAttack()
@@ -107,7 +119,8 @@ class Player extends Character
 
     updateRotation()
     {
-        this.setAngle(atan2(mouseY - (this.getY()+ 25), mouseX - (this.getX() + 25)) - HALF_PI)
+        this.setAngle(atan2(mouseY - (this.getY()+ 25), mouseX - (this.getX() + 25))- HALF_PI)
+        
     }
 
     movement(grid)
@@ -116,6 +129,7 @@ class Player extends Character
         this.#movementState = false;
 
         const speed = 10 * 0.3;
+        let s = 0.3
         const size = 50;
 
         const left  = () => grid.isOccupied(this.getX() - speed, this.getY()) || grid.isOccupied(this.getX() - speed, this.getY() + size);
@@ -123,10 +137,11 @@ class Player extends Character
         const up    = () => grid.isOccupied(this.getX(), this.getY() - speed) || grid.isOccupied(this.getX() + size, this.getY() - speed);
         const down  = () => grid.isOccupied(this.getX(), this.getY() + size + speed) || grid.isOccupied(this.getX() + size, this.getY() + size + speed);
 
-        if (keyIsDown(A) && !left())  { this.moveX(-0.3); this.#movementState = true; }
-        if (keyIsDown(D) && !right()) { this.moveX(0.3);  this.#movementState = true; }
-        if (keyIsDown(W) && !up())    { this.moveY(-0.3); this.#movementState = true; }
-        if (keyIsDown(S) && !down())  { this.moveY(0.3);  this.#movementState = true; }
+        if (keyIsDown(SHIFT)){s = 0.65}
+        if (keyIsDown(A) && !left())  { this.moveX(-s); this.#movementState = true; }
+        if (keyIsDown(D) && !right()) { this.moveX(s);  this.#movementState = true; }
+        if (keyIsDown(W) && !up())    { this.moveY(-s); this.#movementState = true; }
+        if (keyIsDown(S) && !down())  { this.moveY(s);  this.#movementState = true; }
     }
 
         
@@ -141,12 +156,14 @@ class Player extends Character
             rotate(this.getAngle());
             rotate(PI)
             noStroke();
+
+            
             if (this.#isAttacking)
             {
                 this.animateAttack()
                 let sx = this.#attackFrame * 58
                 push()
-                    rotate(-HALF_PI)
+                   rotate(-HALF_PI)
                     image(this.#attackSheet, -75, -75, 150, 150, sx, 0, 58, 60)
                 pop()    
             }
@@ -155,14 +172,14 @@ class Player extends Character
                 this.animateWalk()
                 let sx = this.#walkFrame * 60
                 push()
-                    rotate(-HALF_PI)
+                   rotate(-HALF_PI)
                     image(this.#walkSheet, -75, -75, 150, 150, sx, 0, 60, 60)
                 pop()
             }
             else
             {
                 push()
-                    rotate(-HALF_PI)
+                   rotate(-HALF_PI)
                     image(this.#walkSheet, -75, -75, 150, 150, 1, 0, 60, 60)
                 pop()
                 
@@ -200,6 +217,9 @@ class Enemy extends Character
         if (p.getAttackFrame() === 4 && dist(p.getX(), p.getY(), this.getX(), this.getY()) < 80)
         {
             this.#state = false;
+            let score = p.getScore()
+            p.setScore(score++)
+            console.log(p.getScore())
         }
         if (this.#state)
         {

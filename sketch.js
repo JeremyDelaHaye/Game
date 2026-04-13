@@ -20,8 +20,8 @@ function draw()
 {
     background(0)
     player.draw(colGrid)
-    colGrid.drawGrid()   
-    //enemy1.draw(player)
+    //colGrid.drawGrid() 
+    enemy1.draw(player)
     rect(100,100,50)
 }
 

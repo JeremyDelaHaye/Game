@@ -14,6 +14,11 @@ class Grid
         return this.#cells
     }
 
+    getCellSize()
+    {
+        return this.#cellSize
+    }
+
     createEmptyGrid()
     {
 
@@ -83,4 +88,30 @@ class Grid
     }
 
 
+}
+
+class TextureGrid extends grid
+{
+    #texture
+    constructor(texture)
+    {
+        super(cells,cellSize)
+        this.#texture = texture
+    }
+
+    drawTexture()
+    {
+        const rows = Math.ceil(height/this.getCellSize);
+        const cols = Math.ceil(width/this.getCellSize);
+        for (let row = 0; row < rows; row++)
+        {
+            for (let col = 0; col < cols; col++)
+            {
+                if(this.getCells[row][col] === true)
+                {
+                    image(this.#texture,col * this.getCellSize, row * this.getCellSize, this.getCellSize, this.getCellSize)            
+                }
+            }
+        }
+    }
 }

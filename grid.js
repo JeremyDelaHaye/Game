@@ -19,6 +19,11 @@ class Grid
         return this.#cellSize
     }
 
+    setCell(row,col,input)
+    {
+        this.#cells[row][col] = input
+    }
+
     createEmptyGrid()
     {
 
@@ -35,15 +40,6 @@ class Grid
             }
         }
     }
-
-    addToGrid(x,y)
-    {
-        //const rows = Math.ceil(y/this.#cellSize);
-        //const cols = Math.ceil(x/this.#cellSize);
-        this.#cells[x][y] = true
-    } 
-
-    
 
     drawGrid()
     {
@@ -108,18 +104,12 @@ class TextureGrid extends Grid
         {
             
             for (let col = 0; col < cols; col++)
-            {
-                //console.log(this.getCells()[row])
-
-                /*
-                if(this.getCells[row][col] === true)
+            {    
+                if((this.getCells()[row][col]) === true)
                 {
-                   // image(this.#texture,col * this.getCellSize, row * this.getCellSize, this.getCellSize, this.getCellSize)  
-                   
-                   fill(255)
-                    rect(col * this.getCellSize, row * this.getCellSize, this.getCellSize, this.getCellSize);         
+                    fill(255,0,0)
+                    image(this.#texture,col * this.getCellSize(), row * this.getCellSize(), this.getCellSize(), this.getCellSize())
                 }
-                    */
             }
         }
     }

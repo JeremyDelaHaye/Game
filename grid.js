@@ -90,27 +90,36 @@ class Grid
 
 }
 
-class TextureGrid extends grid
+class TextureGrid extends Grid
 {
     #texture
-    constructor(texture)
+    constructor(cellSize,texture)
     {
-        super(cells,cellSize)
+        super(cellSize)
         this.#texture = texture
+        this.createEmptyGrid()
     }
 
     drawTexture()
     {
-        const rows = Math.ceil(height/this.getCellSize);
-        const cols = Math.ceil(width/this.getCellSize);
+        const rows = Math.ceil(height/this.getCellSize());
+        const cols = Math.ceil(width/this.getCellSize());
         for (let row = 0; row < rows; row++)
         {
+            
             for (let col = 0; col < cols; col++)
             {
+                //console.log(this.getCells()[row])
+
+                /*
                 if(this.getCells[row][col] === true)
                 {
-                    image(this.#texture,col * this.getCellSize, row * this.getCellSize, this.getCellSize, this.getCellSize)            
+                   // image(this.#texture,col * this.getCellSize, row * this.getCellSize, this.getCellSize, this.getCellSize)  
+                   
+                   fill(255)
+                    rect(col * this.getCellSize, row * this.getCellSize, this.getCellSize, this.getCellSize);         
                 }
+                    */
             }
         }
     }

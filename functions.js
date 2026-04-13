@@ -5,9 +5,9 @@ function mergeGrids(inputGrid,colGrid)
 
     for (let row = 0; row < inputRow; row++)
     {
-        for (let col = 0; col < inputCol; col--)
+        for (let col = 0; col < inputCol; col)
         {    
-            console.log(inputCol)
+            
         }
     }
 }

@@ -1,19 +1,13 @@
-function addToCollisionGrid(inputGrid,colGrid)
+function mergeGrids(inputGrid,colGrid)
 {
     const inputRow = (Math.ceil(height/inputGrid.getCellSize())-1);
     const inputCol = (Math.ceil(width/inputGrid.getCellSize())-1);
 
     for (let row = 0; row < inputRow; row++)
     {
-        for (let col = 0; col < inputCol; col++)
+        for (let col = 0; col < inputCol; col--)
         {    
-            if((inputGrid.getCells()[inputRow][inputCol]) === true)
-            {
-                if((colGrid.getCells()[inputRow][inputCol])=== false)
-                {
-                    colGrid.setCell(inputRow,inputCol,true)
-                }
-            }
+            console.log(inputCol)
         }
     }
 }

@@ -10,10 +10,7 @@ function setup()
     createCanvas(500,500)
     createClasses()
     brickGrid.setCell(5,0,true)
-    
-    addToCollisionGrid(brickGrid,colGrid) 
-    console.log(brickGrid.getCells())
-    console.log(colGrid.getCells())
+    mergeGrids(brickGrid,colGrid)
 }
 
 function draw() 

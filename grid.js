@@ -14,6 +14,20 @@ class Grid
         return this.#cells
     }
 
+    getCell(x,y)
+    {
+        try 
+        {
+            return(this.cells[x][y])
+
+        }
+        catch
+        {
+           
+            console.log('out of scope')
+        }
+    }
+
     getCellSize()
     {
         return this.#cellSize
@@ -93,7 +107,7 @@ class TextureGrid extends Grid
     {
         super(cellSize)
         this.#texture = texture
-        this.createEmptyGrid()
+        
     }
 
     drawTexture()

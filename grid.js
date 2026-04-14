@@ -87,6 +87,18 @@ class Grid
     {
         return Math.floor(coord / this.#cellSize);
     }
+
+    getGridPosX(x)
+    {
+        return(this.#getIndexOfCoord(x))
+    }
+
+    getGridPosY(y)
+    {
+        return(this.#getIndexOfCoord(y))
+    }
+
+    
 }
 
 class TextureGrid extends Grid

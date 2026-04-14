@@ -53,6 +53,7 @@ class Player extends Character
     #walkFrame
     #walkTimer
     #score
+    #state
 
     constructor(x,y,attackSheet,walkSheet)
     {
@@ -65,6 +66,7 @@ class Player extends Character
         this.#walkFrame = 0
         this.#walkTimer = 0
         this.#score = 0
+        this.#state = true;
     }
 
     getAttackFrame()
@@ -82,8 +84,17 @@ class Player extends Character
         return(this.#score)
     }
 
-    
+    getState()
+    {
+        return(this.#state)
+    }
 
+    setState(input)
+    {
+        this.#state = input
+    }
+
+ 
     setScore(score)
     {
         this.#score = score
@@ -220,6 +231,12 @@ class Enemy extends Character
         this.#destY = random(height)
     }
 
+    #followPlayer(player)
+    { 
+        this.#destX = player.getX()
+        this.#destY = player.getY()
+    }
+
     #animateWalk()
     {
         this.#walkTimer++
@@ -230,17 +247,17 @@ class Enemy extends Character
         }
     }
 
-    draw(p,colGrid)
+    draw(player,colGrid)
     {   
-        if (p.getAttackFrame() === 4 && dist(p.getX(), p.getY(), this.getX(), this.getY()) < 80)
+        if (player.getAttackFrame() === 4 && dist(player.getX(), player.getY(), this.getX(), this.getY()) < 80)
         {
             this.#state = false;
-            let score = p.getScore()
-            p.setScore(score++)
+            let score = player.getScore()
+            player.setScore(score++)
         }
         if (this.#state)
         {
-            this.patrol(colGrid)
+            this.patrol(colGrid,player)
             this.#animateWalk()
             this.setAngle(atan2(this.#destY - (this.getY() + 25), this.#destX - (this.getX() + 25)) - HALF_PI)
             push()
@@ -251,16 +268,16 @@ class Enemy extends Character
                 push()
                     rotate(-HALF_PI)
                     let sx = this.#walkFrame * 60
-                 image(this.getWalkSheet(), -75, -75, 150, 150, sx, 0, 60, 60)
+                    image(this.getWalkSheet(), -75, -75, 150, 150, sx, 0, 60, 60)
+                pop()
             pop()
-        pop()
+        }
     }
-}
 
    
 
 
-    patrol(colGrid) 
+    patrol(colGrid,player) 
     {
         let s = 5
         if (this.#destX > this.getX()) this.setX(this.getX() + s);
@@ -268,11 +285,45 @@ class Enemy extends Character
 
         if (this.#destY > this.getY()) this.setY(this.getY() + s);
         else this.setY(this.getY() - s);
-
+        
+        if (this.getX() === player.getX() && this.getY() === player.getY())
+        {
+            player.setState(false)
+        }
+        this.lookForPlayer(colGrid,player)
         const arrived = dist(this.getX(), this.getY(), this.#destX, this.#destY) < s;
         if (arrived || colGrid.isOccupied(this.getX(), this.getY())) 
         {
             this.#setPoint();
         }
     }
+
+    lookForPlayer(grid, player)
+    {
+        let enemyGridX = grid.getGridPosX(this.getX())
+        let enemyGridY = grid.getGridPosY(this.getY())
+        let playerGridX = grid.getGridPosX(player.getX())
+        let playerGridY = grid.getGridPosY(player.getY())
+
+        const steps = Math.ceil(dist(enemyGridX, enemyGridY, playerGridX, playerGridY))
+
+        for (let i = 1; i <= steps; i++)
+        {
+            let t = i / steps
+            let checkX = Math.round(lerp(enemyGridX, playerGridX, t))
+            let checkY = Math.round(lerp(enemyGridY, playerGridY, t))
+
+            if (grid.getCell(checkY, checkX) === true)
+            {
+                return false
+            }
+
+            if (checkX === playerGridX && checkY === playerGridY)
+            {
+                this.#followPlayer(player)
+                return true
+            }
+        }
+        return false
+    } 
 }

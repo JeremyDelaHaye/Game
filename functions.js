@@ -12,10 +12,24 @@ function mergeGrids(inputGrid,colGrid)
     }
 }
 
+function clearGrid(grid)
+{
+    const inputRow = (Math.ceil(height/grid.getCellSize()));
+    const inputCol = (Math.ceil(width/grid.getCellSize()));
+
+    for (let row = 0; row < inputRow; row++)
+    {
+        for (let col = 0; col < inputCol; col++)
+        {    
+            grid.setCell(row,col,false)
+        }
+    }
+}
+
 function createClasses()
 {
     const CELLSIZE = 50;
-    player = new Player(width/2,height/2,attackSheet,walkSheet)
+    player = new Player(5,height/2,attackSheet,walkSheet)
     enemy1 = new Enemy(random(500), random(500), null, null, null, CELLSIZE, enemyWalk) 
     enemy2 = new Enemy(random(500), random(500), null, null, null, CELLSIZE, enemyWalk) 
     brickGrid = new TextureGrid(CELLSIZE,bricks)

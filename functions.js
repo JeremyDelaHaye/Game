@@ -29,61 +29,93 @@ function clearGrid(grid)
 function createClasses()
 {
     const CELLSIZE = 50;
-    player = new Player(5,height/2,attackSheet,walkSheet)
+    player = new Player(1000,height/2,attackSheet,walkSheet)
     enemy1 = new Enemy(random(500), random(500), 2, enemyWalk,100) 
     enemy2 = new Enemy(random(500), random(500), 2, enemyWalk, 100) 
     brickGrid = new TextureGrid(CELLSIZE,bricks)
     colGrid = new Grid(CELLSIZE) 
     enemyGrid = new Grid(CELLSIZE)
+
+    console.log(player.getX(),player.getY())
 }
 
 function createLevel()
 {
-    // outer walls
-    for (let i = 0; i < 14; i++)
+    // outer walls - 2 thick
+    for (let i = 0; i < 20; i++)
     {
         brickGrid.setCell(0, i, true)
-        brickGrid.setCell(13, i, true)
+        brickGrid.setCell(1, i, true)
+        brickGrid.setCell(18, i, true)
+        brickGrid.setCell(19, i, true)
         brickGrid.setCell(i, 0, true)
-        brickGrid.setCell(i, 13, true)
+        brickGrid.setCell(i, 1, true)
+        brickGrid.setCell(i, 18, true)
+        brickGrid.setCell(i, 19, true)
     }
 
-    // horizontal divider with 2-wide doorway
-    for (let i = 0; i < 14; i++) brickGrid.setCell(6, i, true)
-    brickGrid.setCell(6, 6, false)
-    brickGrid.setCell(6, 7, false)
+    // horizontal divider top - 2 thick with 2-wide doorway
+    for (let i = 0; i < 20; i++)
+    {
+        brickGrid.setCell(7, i, true)
+        brickGrid.setCell(8, i, true)
+    }
+    brickGrid.setCell(7, 9, false)
+    brickGrid.setCell(7, 10, false)
+    brickGrid.setCell(8, 9, false)
+    brickGrid.setCell(8, 10, false)
 
-    // vertical divider top half with 2-wide doorway
-    for (let i = 0; i < 6; i++) brickGrid.setCell(i, 7, true)
-    brickGrid.setCell(3, 7, false)
+    // horizontal divider bottom - 2 thick with 2-wide doorway
+    for (let i = 0; i < 20; i++)
+    {
+        brickGrid.setCell(12, i, true)
+        brickGrid.setCell(13, i, true)
+    }
+    brickGrid.setCell(12, 9, false)
+    brickGrid.setCell(12, 10, false)
+    brickGrid.setCell(13, 9, false)
+    brickGrid.setCell(13, 10, false)
+
+    // vertical divider left - 2 thick with 2-wide doorways
+    for (let i = 2; i < 18; i++)
+    {
+        brickGrid.setCell(i, 7, true)
+        brickGrid.setCell(i, 8, true)
+    }
     brickGrid.setCell(4, 7, false)
-
-    // vertical divider bottom half with 2-wide doorway
-    for (let i = 7; i < 14; i++) brickGrid.setCell(i, 7, true)
-    brickGrid.setCell(9, 7, false)
+    brickGrid.setCell(4, 8, false)
+    brickGrid.setCell(5, 7, false)
+    brickGrid.setCell(5, 8, false)
     brickGrid.setCell(10, 7, false)
+    brickGrid.setCell(10, 8, false)
+    brickGrid.setCell(11, 7, false)
+    brickGrid.setCell(11, 8, false)
+    brickGrid.setCell(15, 7, false)
+    brickGrid.setCell(15, 8, false)
+    brickGrid.setCell(16, 7, false)
+    brickGrid.setCell(16, 8, false)
 
-    // small room top-left with 2-wide entrance
-    for (let i = 1; i < 5; i++) brickGrid.setCell(i, 4, true)
-    brickGrid.setCell(2, 4, false)
-    brickGrid.setCell(3, 4, false)
+    // vertical divider right - 2 thick with 2-wide doorways
+    for (let i = 2; i < 18; i++)
+    {
+        brickGrid.setCell(i, 12, true)
+        brickGrid.setCell(i, 13, true)
+    }
+    brickGrid.setCell(4, 12, false)
+    brickGrid.setCell(4, 13, false)
+    brickGrid.setCell(5, 12, false)
+    brickGrid.setCell(5, 13, false)
+    brickGrid.setCell(10, 12, false)
+    brickGrid.setCell(10, 13, false)
+    brickGrid.setCell(11, 12, false)
+    brickGrid.setCell(11, 13, false)
+    brickGrid.setCell(15, 12, false)
+    brickGrid.setCell(15, 13, false)
+    brickGrid.setCell(16, 12, false)
+    brickGrid.setCell(16, 13, false)
 
-    // small room bottom-right with 2-wide entrance
-    for (let i = 8; i < 13; i++) brickGrid.setCell(i, 10, true)
-    brickGrid.setCell(10, 10, false)
-    brickGrid.setCell(11, 10, false)
-
-    // pillars (single cells, player navigates around)
-    brickGrid.setCell(2, 2, true)
-    brickGrid.setCell(4, 2, true)
-    brickGrid.setCell(2, 10, true)
-    brickGrid.setCell(4, 10, true)
-    brickGrid.setCell(9, 2, true)
-    brickGrid.setCell(11, 2, true)
-    brickGrid.setCell(9, 11, true)
-    brickGrid.setCell(11, 11, true)
+    // 2x2 pillars in
 }
-
 function level1Setup()
 {
     const CELLSIZE = 50;

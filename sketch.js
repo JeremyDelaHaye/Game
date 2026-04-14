@@ -8,7 +8,7 @@ function preload()
 
 function setup()
 {
-    createCanvas(700,700)
+    createCanvas(1000,1000)
     createClasses()
     level1Setup()
     

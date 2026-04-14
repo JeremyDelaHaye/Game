@@ -10,9 +10,8 @@ function setup()
 {
     createCanvas(700,700)
     createClasses()
-    brickGrid.setCell(5,0,true)
-    createLevel()
-    mergeGrids(brickGrid,colGrid)
+    level1Setup()
+    
     
 }
 

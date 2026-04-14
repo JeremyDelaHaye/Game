@@ -29,6 +29,16 @@ class Grid
         this.#cells[row][col] = input
     }
 
+    setCellFromCord(x,y,input)
+    {
+        this.setCell(this.#getIndexOfCoord(x),this.#getIndexOfCoord(y),input)
+    }
+
+    getCellFromCord(x,y)
+    {
+        return(getCell(this.#getIndexOfCoord(x),this.#getIndexOfCoord(y)))
+    }
+
     createEmptyGrid()
     {
 
@@ -127,3 +137,4 @@ class TextureGrid extends Grid
         }
     }
 }
+

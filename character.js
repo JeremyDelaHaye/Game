@@ -30,6 +30,11 @@ class Character extends GameObject
         this.#angle = value
     }
 
+    setSpeed(value)
+    {
+        this.#speed = value
+    }
+
     getAngle()
     {
         return(this.#angle)
@@ -39,6 +44,13 @@ class Character extends GameObject
     {
         return(this.#walkSheet)
     }
+
+    getSpeed()
+    {
+        return(this.#speed)
+    }
+
+
 
     
 }
@@ -54,6 +66,7 @@ class Player extends Character
     #walkTimer
     #score
     #state
+    #health
 
     constructor(x,y,attackSheet,walkSheet)
     {
@@ -67,6 +80,12 @@ class Player extends Character
         this.#walkTimer = 0
         this.#score = 0
         this.#state = true;
+        this.#health = 100 //max
+    }
+
+    getHealth()
+    {
+        return(this.#health)
     }
 
     getAttackFrame()
@@ -94,7 +113,11 @@ class Player extends Character
         this.#state = input
     }
 
- 
+    setHealth(input)
+    {
+        this.#health = input
+    }
+
     setScore(score)
     {
         this.#score = score
@@ -142,6 +165,8 @@ class Player extends Character
 
     movement(grid)
     {
+
+        
         const A = 65, D = 68, W = 87, S = 83;
         this.#movementState = false;
 
@@ -209,26 +234,34 @@ class Player extends Character
 class Enemy extends Character
 {
     #state
-    #size
     #destX
     #destY
     #walkFrame
     #walkTimer
+    #health
+    
 
-    constructor(x,y,speed,sprite,angle,size,walkSheet)
+    constructor(x,y,speed,walkSheet,attackSheet)
     {
-        super(x,y,walkSheet)
+        super(x,y,walkSheet,attackSheet)
+        this.#health = 100
         this.#state = true;
-        this.#size = size
         this.#walkFrame = 0
         this.#walkTimer = 0
-        this.#setPoint()
+        this.setSpeed(speed)  
+        this.#setRandomPoint()
     }
 
-    #setPoint()
+    #setRandomPoint()
     {
         this.#destX = random(width)
         this.#destY = random(height)
+    }
+
+    #setCustomPoint(x,y)
+    {
+        this.#destX = x
+        this.#destY = y
     }
 
     #followPlayer(player)
@@ -251,9 +284,14 @@ class Enemy extends Character
     {   
         if (player.getAttackFrame() === 4 && dist(player.getX(), player.getY(), this.getX(), this.getY()) < 80)
         {
-            this.#state = false;
-            let score = player.getScore()
-            player.setScore(score++)
+            this.#health -= 10;
+            console.log(this.#health)
+            if (this.#health <= 0)
+            {
+                this.#state = false;
+                let score = player.getScore()
+                player.setScore(score++)
+            }
         }
         if (this.#state)
         {
@@ -267,6 +305,11 @@ class Enemy extends Character
                 noStroke()
                 push()
                     rotate(-HALF_PI)
+                    rectMode(CENTER)
+                    fill(155)
+                    rect(-32.5, 0, 15, 50)
+                    fill(255, 0, 0)
+                    rect(-32.5, 0, 7, this.#health /2)
                     let sx = this.#walkFrame * 60
                     image(this.getWalkSheet(), -75, -75, 150, 150, sx, 0, 60, 60)
                 pop()
@@ -279,22 +322,24 @@ class Enemy extends Character
 
     patrol(colGrid,player) 
     {
-        let s = 5
+        let s = this.getSpeed()  
         if (this.#destX > this.getX()) this.setX(this.getX() + s);
         else this.setX(this.getX() - s);
 
         if (this.#destY > this.getY()) this.setY(this.getY() + s);
         else this.setY(this.getY() - s);
-        
+    
         if (this.getX() === player.getX() && this.getY() === player.getY())
         {
             player.setState(false)
         }
+
         this.lookForPlayer(colGrid,player)
         const arrived = dist(this.getX(), this.getY(), this.#destX, this.#destY) < s;
+
         if (arrived || colGrid.isOccupied(this.getX(), this.getY())) 
         {
-            this.#setPoint();
+            this.#setRandomPoint();
         }
     }
 

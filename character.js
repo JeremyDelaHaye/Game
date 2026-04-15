@@ -320,26 +320,32 @@ class Enemy extends Character
    
 
 
-    patrol(colGrid,player) 
+    patrol(colGrid, player)
     {
-        let s = this.getSpeed()  
-        if (this.#destX > this.getX()) this.setX(this.getX() + s);
-        else this.setX(this.getX() - s);
+        let s = this.getSpeed()
+        const size = 50
 
-        if (this.#destY > this.getY()) this.setY(this.getY() + s);
-        else this.setY(this.getY() - s);
-    
+        const blockedLeft  = colGrid.isOccupied(this.getX() - s, this.getY()) || colGrid.isOccupied(this.getX() - s, this.getY() + size)
+        const blockedRight = colGrid.isOccupied(this.getX() + size + s, this.getY()) || colGrid.isOccupied(this.getX() + size + s, this.getY() + size)
+        const blockedUp    = colGrid.isOccupied(this.getX(), this.getY() - s) || colGrid.isOccupied(this.getX() + size, this.getY() - s)
+        const blockedDown  = colGrid.isOccupied(this.getX(), this.getY() + size + s) || colGrid.isOccupied(this.getX() + size, this.getY() + size + s)
+
+        if (this.#destX < this.getX() && !blockedLeft)  this.setX(this.getX() - s)
+        if (this.#destX > this.getX() && !blockedRight) this.setX(this.getX() + s)
+        if (this.#destY < this.getY() && !blockedUp)    this.setY(this.getY() - s)
+        if (this.#destY > this.getY() && !blockedDown)  this.setY(this.getY() + s)
+
         if (this.getX() === player.getX() && this.getY() === player.getY())
         {
             player.setState(false)
         }
 
-        this.lookForPlayer(colGrid,player)
-        const arrived = dist(this.getX(), this.getY(), this.#destX, this.#destY) < s;
+        this.lookForPlayer(colGrid, player)
 
-        if (arrived || colGrid.isOccupied(this.getX(), this.getY())) 
+        const arrived = dist(this.getX(), this.getY(), this.#destX, this.#destY) < s
+        if (arrived || blockedLeft || blockedRight || blockedUp || blockedDown)
         {
-            this.#setRandomPoint();
+            this.#setRandomPoint()
         }
     }
 

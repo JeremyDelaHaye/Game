@@ -29,7 +29,7 @@ function clearGrid(grid)
 function createClasses()
 {
     const CELLSIZE = 50;
-    player = new Player(1000,height/2,attackSheet,walkSheet)
+    player = new Player(500,500,walkSheet,attackSheet)
     enemy1 = new Enemy(random(500), random(500), 2, enemyWalk,100) 
     enemy2 = new Enemy(random(500), random(500), 2, enemyWalk, 100) 
     brickGrid = new TextureGrid(CELLSIZE,bricks)
@@ -119,7 +119,7 @@ function createLevel()
 function level1Setup()
 {
     const CELLSIZE = 50;
-    player = new Player(5,height/2,attackSheet,walkSheet)
+    player = new Player(width/2,height/2,attackSheet,walkSheet)
     enemy1 = new Enemy(random(500), random(500), 2, enemyWalk,100) 
     enemy2 = new Enemy(random(500), random(500), 2, enemyWalk, 100) 
     brickGrid = new TextureGrid(CELLSIZE,bricks)

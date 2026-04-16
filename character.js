@@ -288,9 +288,11 @@ class Enemy extends Character
             console.log(this.#health)
             if (this.#health <= 0)
             {
+                
                 this.#state = false;
                 let score = player.getScore()
                 player.setScore(score++)
+                
             }
         }
         if (this.#state)
@@ -340,7 +342,11 @@ class Enemy extends Character
             player.setState(false)
         }
 
-        this.lookForPlayer(colGrid, player)
+        if (this.lookForPlayer(colGrid, player))
+        {
+            this.#followPlayer(player)
+        }
+        
 
         const arrived = dist(this.getX(), this.getY(), this.#destX, this.#destY) < s
         if (arrived || blockedLeft || blockedRight || blockedUp || blockedDown)
@@ -371,10 +377,68 @@ class Enemy extends Character
 
             if (checkX === playerGridX && checkY === playerGridY)
             {
-                this.#followPlayer(player)
                 return true
             }
         }
         return false
     } 
+
+}
+
+class FixedEnemy extends Enemy
+{
+    #health
+    #walkFrame
+    #state
+
+    constructor(x,y,walkSheet,attackSheet)
+    {
+        super(x,y,walkSheet,attackSheet)
+        this.#health = 100;
+        this.#state = true
+    }
+
+    draw(player,colGrid)
+    {
+
+        if (this.lookForPlayer(colGrid,player))
+        {
+            this.setAngle(atan2(player.getX() - (this.getY() + 25), player.getY() - (this.getX() + 25)))
+        }
+
+        if (player.getAttackFrame() === 4 && dist(player.getX(), player.getY(), this.getX(), this.getY()) < 80)
+        {
+            this.#health -= 10;
+            console.log(this.#health)
+            if (this.#health <= 0)
+            {
+                
+                this.#state = false;
+                let score = player.getScore()
+                player.setScore(score++)
+                
+            }
+        }   
+        
+        if (this.#state)
+        {
+            push()
+            translate(this.getX() + 25, this.getY() + 25)
+            rotate(this.getAngle())
+            rotate(PI)
+            noStroke()
+            push()
+                rotate(-HALF_PI)
+                rectMode(CENTER)
+                fill(155)
+                rect(-32.5, 0, 15, 50)
+                fill(255, 0, 0)
+                rect(-32.5, 0, 7, this.#health /2)
+                let sx = this.#walkFrame * 60
+                image(this.getWalkSheet(), -75, -75, 150, 150, sx, 0, 60, 60)
+                pop()
+            pop()
+        }
+        
+    }
 }

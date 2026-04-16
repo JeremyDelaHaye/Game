@@ -22,6 +22,7 @@ function draw()
     brickGrid.drawTexture() 
     enemy1.draw(player,colGrid)
     enemy2.draw(player,colGrid)
+    fixedEnemy1.draw(player,colGrid)
     
     
 }

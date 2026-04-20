@@ -165,8 +165,6 @@ class Player extends Character
 
     movement(grid)
     {
-
-        
         const A = 65, D = 68, W = 87, S = 83;
         this.#movementState = false;
 
@@ -186,47 +184,61 @@ class Player extends Character
         if (keyIsDown(S) && !down())  { this.moveY(s);  this.#movementState = true; }
     }
 
+    checkHealth()
+    {
+        if (this.#health <= 0)
+        {
+            this.#state = false
+            return false;
+        }
+
+        return true
+    }
+
         
     
                                 
     draw(grid) 
     {
-        this.updateRotation()
-        this.movement(grid)
-        push();
-            translate(this.getX() + 25, this.getY() + 25); 
-            rotate(this.getAngle());
-            rotate(PI)
-            noStroke();
+        if(this.checkHealth())
+        {
+            this.updateRotation()
+            this.movement(grid)
+            push();
+                translate(this.getX() + 25, this.getY() + 25); 
+                rotate(this.getAngle());
+                rotate(PI)
+                noStroke();
 
             
-            if (this.#isAttacking)
-            {
-                this.animateAttack()
-                let sx = this.#attackFrame * 58
-                push()
-                   rotate(-HALF_PI)
-                    image(this.#attackSheet, -75, -75, 150, 150, sx, 0, 58, 60)
-                pop()    
-            }
-            else if (this.#movementState)
-            {
-                this.animateWalk()
-                let sx = this.#walkFrame * 60
-                push()
-                   rotate(-HALF_PI)
-                    image(this.getWalkSheet(), -75, -75, 150, 150, sx, 0, 60, 60)
-                pop()
-            }
-            else
-            {
-                push()
+                if (this.#isAttacking)
+                {
+                    this.animateAttack()
+                    let sx = this.#attackFrame * 58
+                    push()
+                        rotate(-HALF_PI)
+                        image(this.#attackSheet, -75, -75, 150, 150, sx, 0, 58, 60)
+                    pop()    
+                }
+                else if (this.#movementState)
+                {
+                    this.animateWalk()
+                    let sx = this.#walkFrame * 60
+                    push()
+                        rotate(-HALF_PI)
+                        image(this.getWalkSheet(), -75, -75, 150, 150, sx, 0, 60, 60)
+                    pop()
+                }
+                else
+                {
+                    push()
                    rotate(-HALF_PI)
                     image(this.getWalkSheet(), -75, -75, 150, 150, 1, 0, 60, 60)
-                pop()
-                
-            }
-        pop();
+                    pop()
+                }
+            pop();
+        }
+        
     }
 
 }
@@ -285,7 +297,6 @@ class Enemy extends Character
         if (player.getAttackFrame() === 4 && dist(player.getX(), player.getY(), this.getX(), this.getY()) < 80)
         {
             this.#health -= 10;
-            console.log(this.#health)
             if (this.#health <= 0)
             {
                 
@@ -345,9 +356,13 @@ class Enemy extends Character
         if (this.lookForPlayer(colGrid, player))
         {
             this.#followPlayer(player)
+        }   
+
+        if (abs(this.getX() - player.getX()) < 50 && abs(this.getY() - player.getY()) < 50)
+        {
+            this.attackPlayer(player)
         }
         
-
         const arrived = dist(this.getX(), this.getY(), this.#destX, this.#destY) < s
         if (arrived || blockedLeft || blockedRight || blockedUp || blockedDown)
         {
@@ -383,6 +398,12 @@ class Enemy extends Character
         return false
     } 
 
+    attackPlayer(player)
+    {
+        let input = player.getHealth()-1
+        player.setHealth(input)
+    }
+
 }
 
 class FixedEnemy extends Enemy
@@ -403,7 +424,7 @@ class FixedEnemy extends Enemy
 
         if (this.lookForPlayer(colGrid,player))
         {
-            this.setAngle(atan2(player.getX() - (this.getY() + 25), player.getY() - (this.getX() + 25)))
+            this.setAngle(atan2(player.getY() - (this.getY() + 25), player.getX() - (this.getX() + 25)))
         }
 
         if (player.getAttackFrame() === 4 && dist(player.getX(), player.getY(), this.getX(), this.getY()) < 80)
@@ -428,7 +449,7 @@ class FixedEnemy extends Enemy
             rotate(PI)
             noStroke()
             push()
-                rotate(-HALF_PI)
+                rotate(PI)
                 rectMode(CENTER)
                 fill(155)
                 rect(-32.5, 0, 15, 50)

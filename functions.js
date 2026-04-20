@@ -135,3 +135,8 @@ function level1Draw()
 {
 
 }
+
+function spawnLogic(grid)
+{
+    grid.getEmptyCoord()
+}   

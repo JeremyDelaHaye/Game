@@ -106,8 +106,28 @@ class Grid
     getGridPosY(y)
     {
         return(this.#getIndexOfCoord(y))
+    }  
+
+    getRandomEmptyCoords()
+    {  
+        const rows = Math.ceil(height/this.#cellSize);
+        const cols = Math.ceil(width/this.#cellSize);
+        const emptyCells = [];
+
+        for (let row = 0; row < rows; row++)
+        {
+            for (let col = 0; col < cols; col++)
+            {
+                if(this.#cells[row][col] === false)
+                {
+                    emptyCells.push({x: col * this.#cellSize, y: row * this.#cellSize});
+                }
+            }
+        }
+        return emptyCells[Math.floor(Math.random() * emptyCells.length)];
     }
 
+    
     
 }
 

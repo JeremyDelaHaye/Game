@@ -108,7 +108,7 @@ class Grid
         return(this.#getIndexOfCoord(y))
     }  
 
-    getRandomEmptyCoords()
+    getEmptyCoord()
     {  
         const rows = Math.ceil(height/this.#cellSize);
         const cols = Math.ceil(width/this.#cellSize);

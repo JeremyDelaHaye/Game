@@ -119,13 +119,18 @@ function createLevel()
 function level1Setup()
 {
     const CELLSIZE = 50;
-    player = new Player(width/2,height/2,attackSheet,walkSheet)
-    enemy1 = new Enemy(random(500), random(500), 2, enemyWalk,100) 
-    enemy2 = new Enemy(random(500), random(500), 2, enemyWalk, 100)
+   
+    
     fixedEnemy1 = new FixedEnemy(200,200,enemyWalk,enemyWalk) 
     brickGrid = new TextureGrid(CELLSIZE,bricks)
     colGrid = new Grid(CELLSIZE) 
     enemyGrid = new Grid(CELLSIZE)
+    mergeGrids(brickGrid,colGrid)
+    let l1 = colGrid.getEmptyCoord()
+    let l2 = colGrid.getEmptyCoord()
+    player = new Player(width/2,height/2,attackSheet,walkSheet)
+    enemy1 = new Enemy(l1.x, l1.y, 2, enemyWalk,100) 
+    enemy2 = new Enemy(l2.x, l2.y, 2, enemyWalk, 100)
 
     createLevel()
     mergeGrids(brickGrid,colGrid)

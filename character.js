@@ -411,6 +411,7 @@ class FixedEnemy extends Enemy
     #health
     #walkFrame
     #state
+    #bullets
     
 
     constructor(x,y,walkSheet,attackSheet)
@@ -418,15 +419,21 @@ class FixedEnemy extends Enemy
         super(x,y,walkSheet,attackSheet)
         this.#health = 100;
         this.#state = true
+        this.#bullets = []
+
     }
 
     draw(player,colGrid)
     {
+        this.drawBullets()
         if (this.lookForPlayer(colGrid,player))
         {
             this.setAngle(atan2(player.getY() - (this.getY() + 25), player.getX() - (this.getX() + 25)))
-            this.shoot()
+            let bullet = new Bullet(this.getX(),this.getY(),this.getAngle())
+            this.#bullets.push(bullet)
         }
+        
+        
 
         if (player.getAttackFrame() === 4 && dist(player.getX(), player.getY(), this.getX(), this.getY()) < 80)
         {
@@ -464,8 +471,14 @@ class FixedEnemy extends Enemy
                  
     }
 
-    shoot()
+    drawBullets()
     {
-        bullet = new bullet(this.getX(),this.getY(),this.getAngle())
+        for (let i = 0; i < this.#bullets.length;i++)
+        {
+            console.log(this.#bullets[i])
+            this.#bullets[i].draw()
+        }
     }
+
+    
 }

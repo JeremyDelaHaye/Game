@@ -18,8 +18,11 @@ class Bullet extends GameObject
 
     draw()
     {
-        this.getX() += this.#speed * Math.cos(this.#angle + Math.PI / 2);
-        this.getY() += this.#speed * Math.sin(this.#angle + Math.PI / 2);
+        let sx = this.getX() + this.#speed * Math.cos(this.#angle + Math.PI / 2);
+        let sy = this.getY() + this.#speed * Math.sin(this.#angle + Math.PI / 2);
+
+        this.setX(sx)
+        this.setY(sy)
 
         push();
             translate(this.getX() + 25, this.getY() + 25); 

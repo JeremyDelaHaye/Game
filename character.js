@@ -1,28 +1,29 @@
 class Character extends GameObject
 {
-    
-    #speed;
+    #speed
     #angle 
     #walkSheet
+    #attackSheet
 
-    constructor(x,y,walkSheet)
+    constructor(x,y,walkSheet,attackSheet)
     {
         super(x,y,width,height)
         this.#speed = 10;
         this.#angle = 0;
         this.#walkSheet = walkSheet
+        this.#attackSheet = attackSheet
     }
 
     moveX(distance)
     {
         let val = this.getX()
-        this.setX(val += (this.#speed * distance)) ;
+        this.setX(val += (this.#speed * distance))
     }
 
     moveY(distance)
     {
         let val = this.getY()
-        this.setY(val += (this.#speed * distance)) ; 
+        this.setY(val += (this.#speed * distance))
     }
 
     setAngle(value)
@@ -45,14 +46,15 @@ class Character extends GameObject
         return(this.#walkSheet)
     }
 
+    getAttackSheet()
+    {
+        return(this.#attackSheet)
+    }
+
     getSpeed()
     {
         return(this.#speed)
     }
-
-
-
-    
 }
 
 class Player extends Character
@@ -70,7 +72,7 @@ class Player extends Character
 
     constructor(x,y,attackSheet,walkSheet)
     {
-        super(x,y,walkSheet)
+        super(x,y,walkSheet,attackSheet)
         this.#movementState = true 
         this.#attackSheet = attackSheet
         this.#attackFrame = 0
@@ -79,8 +81,8 @@ class Player extends Character
         this.#walkFrame = 0
         this.#walkTimer = 0
         this.#score = 0
-        this.#state = true;
-        this.#health = 100 //max
+        this.#state = true
+        this.#health = 100
     }
 
     getHealth()
@@ -132,7 +134,6 @@ class Player extends Character
 
     animateAttack()
     {
-       
         this.#attackTimer++
         if (this.#attackTimer >= 8)
         {
@@ -156,11 +157,9 @@ class Player extends Character
         }
     }
 
-
     updateRotation()
     {
-        this.setAngle(atan2(mouseY - (this.getY()+ 25), mouseX - (this.getX() + 25))- HALF_PI)
-        
+        this.setAngle(atan2(mouseY - (this.getY() + 25), mouseX - (this.getX() + 25)) - HALF_PI)
     }
 
     movement(grid)
@@ -191,13 +190,9 @@ class Player extends Character
             this.#state = false
             return false;
         }
-
         return true
     }
 
-        
-    
-                                
     draw(grid) 
     {
         if(this.checkHealth())
@@ -210,7 +205,6 @@ class Player extends Character
                 rotate(PI)
                 noStroke();
 
-            
                 if (this.#isAttacking)
                 {
                     this.animateAttack()
@@ -232,15 +226,13 @@ class Player extends Character
                 else
                 {
                     push()
-                   rotate(-HALF_PI)
-                    image(this.getWalkSheet(), -75, -75, 150, 150, 1, 0, 60, 60)
+                        rotate(-HALF_PI)
+                        image(this.getWalkSheet(), -75, -75, 150, 150, 1, 0, 60, 60)
                     pop()
                 }
             pop();
         }
-        
     }
-
 }
 
 class Enemy extends Character
@@ -251,16 +243,22 @@ class Enemy extends Character
     #walkFrame
     #walkTimer
     #health
-    
+    #bullets
+    #bulletSpeed
+    #attackFrame
+    #attackTimer
+    #isAttacking
 
     constructor(x,y,speed,walkSheet,attackSheet)
     {
         super(x,y,walkSheet,attackSheet)
         this.#health = 100
-        this.#state = true;
+        this.#state = true
         this.#walkFrame = 0
         this.#walkTimer = 0
-        this.setSpeed(speed)  
+        this.#bullets = []
+        this.#bulletSpeed = 20
+        this.setSpeed(speed)
         this.#setRandomPoint()
     }
 
@@ -292,23 +290,103 @@ class Enemy extends Character
         }
     }
 
-    draw(player,colGrid)
+    getHealth()
+    {
+        return(this.#health)
+    }
+
+    getState()
+    {
+        return(this.#state)
+    }
+
+    getWalkFrame()
+    {
+        return(this.#walkFrame)
+    }
+
+    setEnemyHealth(input)
+    {
+        this.#health = input
+    }
+
+    setEnemyState(input)
+    {
+        this.#state = input
+    }
+
+    getAttackFrame()
+    {
+        return(this.#attackFrame)
+    }
+
+    getAttackState()
+    {
+        return(this.#isAttacking)
+    }
+
+    startAttack()
+    {
+        this.#isAttacking = true
+        this.#attackFrame = 0
+        this.#attackTimer = 0
+    }
+
+    #animateAttack()
     {   
+        this.#attackTimer++
+        if (this.#attackTimer >= 8)
+        {
+            this.#attackFrame++
+            this.#attackTimer = 0
+            if (this.#attackFrame >= 7)
+            {
+                this.#attackFrame = 0
+                this.#isAttacking = false
+            }
+        }
+    }
+
+    checkDamage(player)
+    {
         if (player.getAttackFrame() === 4 && dist(player.getX(), player.getY(), this.getX(), this.getY()) < 80)
         {
             this.#health -= 10;
             if (this.#health <= 0)
             {
-                
                 this.#state = false;
-                let score = player.getScore()
-                player.setScore(score++)
-                
+                player.setScore(player.getScore() + 1)
             }
         }
+    }
+
+    shoot()
+    {
+        if (frameCount % 10 === 0)
+        {
+            let bullet = new Bullet(this.getX(), this.getY() + 15, this.getAngle() , this.#bulletSpeed)
+            this.#bullets.push(bullet)
+        }
+    }
+
+    drawBullets(player)
+    {
+        for (let i = this.#bullets.length - 1; i >= 0; i--)
+        {
+            this.#bullets[i].draw()
+            if (dist(this.#bullets[i].getX(), this.#bullets[i].getY(), player.getX(), player.getY()) < 50)
+            {
+                this.damagePlayer(player, 12)
+                this.#bullets.splice(i, 1)
+            }
+        }
+    }
+
+    draw(player, colGrid)
+    {   
         if (this.#state)
         {
-            this.patrol(colGrid,player)
+            this.patrol(colGrid, player)
             this.#animateWalk()
             this.setAngle(atan2(this.#destY - (this.getY() + 25), this.#destX - (this.getX() + 25)) - HALF_PI)
             push()
@@ -322,15 +400,22 @@ class Enemy extends Character
                     fill(155)
                     rect(-32.5, 0, 15, 50)
                     fill(255, 0, 0)
-                    rect(-32.5, 0, 7, this.#health /2)
-                    let sx = this.#walkFrame * 60
-                    image(this.getWalkSheet(), -75, -75, 150, 150, sx, 0, 60, 60)
+                    rect(-32.5, 0, 7, this.#health / 2)
+                    if (this.#isAttacking)
+                    {
+                        this.#animateAttack()
+                        let sx = this.#attackFrame * 58
+                        image(this.getAttackSheet(), -75, -75, 150, 150, sx, 0, 58, 60)
+                    }
+                    else
+                    {
+                        let sx = this.#walkFrame * 60
+                        image(this.getWalkSheet(), -75, -75, 150, 150, sx, 0, 60, 60)
+                    }
                 pop()
             pop()
         }
     }
-
-   
 
 
     patrol(colGrid, player)
@@ -348,19 +433,19 @@ class Enemy extends Character
         if (this.#destY < this.getY() && !blockedUp)    this.setY(this.getY() - s)
         if (this.#destY > this.getY() && !blockedDown)  this.setY(this.getY() + s)
 
-        if (this.getX() === player.getX() && this.getY() === player.getY())
-        {
-            player.setState(false)
-        }
-
         if (this.lookForPlayer(colGrid, player))
         {
             this.#followPlayer(player)
-        }   
+        }
 
+        //attacking player condtions
         if (abs(this.getX() - player.getX()) < 50 && abs(this.getY() - player.getY()) < 50)
         {
-            this.attackPlayer(player)
+            this.damagePlayer(player, 1)
+            if (!this.#isAttacking)
+            {
+                this.startAttack()
+            }  
         }
         
         const arrived = dist(this.getX(), this.getY(), this.#destX, this.#destY) < s
@@ -396,108 +481,33 @@ class Enemy extends Character
             }
         }
         return false
-    } 
-
-    attackPlayer(player)
-    {
-        let input = player.getHealth()-1
-        player.setHealth(input)
     }
 
+    damagePlayer(player, damage)
+    {
+        player.setHealth(player.getHealth() - damage)
+    }
 }
 
-class FixedEnemy extends Enemy
+class ShootingEnemy extends Enemy
 {
-    #health
-    #walkFrame
-    #state
-    #bullets
-    #bulletSpeed
-    
-
-    constructor(x,y,walkSheet,attackSheet)
+    constructor(x,y,speed,walkSheet)
     {
-        super(x,y,walkSheet,attackSheet)
-        this.#health = 100;
-        this.#state = true
-        this.#bullets = []
-        this.#bulletSpeed = 20
-
+        super(x,y,speed,walkSheet)
     }
 
-    logic(player,colGrid)
+    logic(player, colGrid)
     {
-        if (this.#state)
+        if (this.getState())
         {
-            this.drawBullets()
-            if (this.lookForPlayer(colGrid,player))
+            if (this.lookForPlayer(colGrid, player))
             {
-                this.setAngle(atan2(player.getY() - (this.getY() + 25), player.getX() - (this.getX() + 25)))
+                this.setAngle(atan2(player.getY() - (this.getY() + 25), player.getX() - (this.getX() + 25)) - HALF_PI)
                 this.shoot()
             }
             this.checkDamage(player)
-            this.draw()
-            this.drawBullets() 
-        }
-                        
-    }
-
-    drawBullets()
-    {
-        for (let i = 0; i < this.#bullets.length;i++)
-        {
-            console.log(this.#bullets[i])
-            this.#bullets[i].draw()
-
-            
+            this.draw(player, colGrid)
+            this.drawBullets(player)
         }
     }
-
-    shoot()
-    {
-        if (frameCount % 10 === 0)
-        {
-            let bullet = new Bullet(this.getX(),this.getY()+15,this.getAngle()-HALF_PI,this.#bulletSpeed)
-            this.#bullets.push(bullet)
-        }
-    }
-
-    checkDamage(player)
-    {
-        if (player.getAttackFrame() === 4 && dist(player.getX(), player.getY(), this.getX(), this.getY()) < 80)
-        {
-            this.#health -= 10;
-            console.log(this.#health)
-            if (this.#health <= 0)
-            {
-                
-                this.#state = false;
-                let score = player.getScore()
-                player.setScore(score++)
-                
-            }
-        } 
-    }
-
-    draw()
-    {
-        push()
-            translate(this.getX() + 25, this.getY() + 25)
-            rotate(this.getAngle())
-            rotate(PI)
-            noStroke()
-            push()
-                rotate(PI)
-                rectMode(CENTER)
-                fill(155)
-                rect(-32.5, 0, 15, 50)
-                fill(255, 0, 0)
-                rect(-32.5, 0, 7, this.#health /2)
-                let sx = this.#walkFrame * 60
-                image(this.getWalkSheet(), -75, -75, 150, 150, sx, 0, 60, 60)
-            pop()
-        pop()
-    }
-
-    
 }

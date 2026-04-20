@@ -26,19 +26,6 @@ function clearGrid(grid)
     }
 }
 
-function createClasses()
-{
-    const CELLSIZE = 50;
-    player = new Player(500,500,walkSheet,attackSheet)
-    enemy1 = new Enemy(random(500), random(500), 2, enemyWalk,100) 
-    enemy2 = new Enemy(random(500), random(500), 2, enemyWalk, 100) 
-    brickGrid = new TextureGrid(CELLSIZE,bricks)
-    colGrid = new Grid(CELLSIZE) 
-    enemyGrid = new Grid(CELLSIZE)
-
-    console.log(player.getX(),player.getY())
-}
-
 function createLevel()
 {
     // outer walls - 2 thick
@@ -116,29 +103,19 @@ function createLevel()
 
     // 2x2 pillars in
 }
+
 function level1Setup()
 {
     const CELLSIZE = 50;
-   
-    
-    fixedEnemy1 = new FixedEnemy(200,200,enemyWalk,enemyWalk) 
     brickGrid = new TextureGrid(CELLSIZE,bricks)
     colGrid = new Grid(CELLSIZE) 
-    enemyGrid = new Grid(CELLSIZE)
     mergeGrids(brickGrid,colGrid)
     let l1 = colGrid.getEmptyCoord()
-    let l2 = colGrid.getEmptyCoord()
     player = new Player(width/2,height/2,attackSheet,walkSheet)
-    enemy1 = new Enemy(l1.x, l1.y, 2, enemyWalk,100) 
-    enemy2 = new Enemy(l2.x, l2.y, 2, enemyWalk, 100)
-
+    enemy1 = new ShootingEnemy(l1.x, l1.y,1,enemyWalk,attackSheet)
+    enemy2 = new Enemy(l1.x, l1.y,1,enemyWalk,attackSheet)
     createLevel()
     mergeGrids(brickGrid,colGrid)
-}
-
-function level1Draw()
-{
-
 }
 
 function spawnLogic(grid)

@@ -412,6 +412,7 @@ class FixedEnemy extends Enemy
     #walkFrame
     #state
     #bullets
+    #bulletSpeed
     
 
     constructor(x,y,walkSheet,attackSheet)
@@ -420,21 +421,49 @@ class FixedEnemy extends Enemy
         this.#health = 100;
         this.#state = true
         this.#bullets = []
+        this.#bulletSpeed = 20
 
     }
 
-    draw(player,colGrid)
+    logic(player,colGrid)
     {
-        this.drawBullets()
-        if (this.lookForPlayer(colGrid,player))
+        if (this.#state)
         {
-            this.setAngle(atan2(player.getY() - (this.getY() + 25), player.getX() - (this.getX() + 25)))
-            let bullet = new Bullet(this.getX(),this.getY(),this.getAngle())
+            this.drawBullets()
+            if (this.lookForPlayer(colGrid,player))
+            {
+                this.setAngle(atan2(player.getY() - (this.getY() + 25), player.getX() - (this.getX() + 25)))
+                this.shoot()
+            }
+            this.checkDamage(player)
+            this.draw()
+            this.drawBullets() 
+        }
+                        
+    }
+
+    drawBullets()
+    {
+        for (let i = 0; i < this.#bullets.length;i++)
+        {
+            console.log(this.#bullets[i])
+            this.#bullets[i].draw()
+
+            
+        }
+    }
+
+    shoot()
+    {
+        if (frameCount % 10 === 0)
+        {
+            let bullet = new Bullet(this.getX(),this.getY()+15,this.getAngle()-HALF_PI,this.#bulletSpeed)
             this.#bullets.push(bullet)
         }
-        
-        
+    }
 
+    checkDamage(player)
+    {
         if (player.getAttackFrame() === 4 && dist(player.getX(), player.getY(), this.getX(), this.getY()) < 80)
         {
             this.#health -= 10;
@@ -447,11 +476,12 @@ class FixedEnemy extends Enemy
                 player.setScore(score++)
                 
             }
-        }   
-        
-        if (this.#state)
-        {
-            push()
+        } 
+    }
+
+    draw()
+    {
+        push()
             translate(this.getX() + 25, this.getY() + 25)
             rotate(this.getAngle())
             rotate(PI)
@@ -465,19 +495,8 @@ class FixedEnemy extends Enemy
                 rect(-32.5, 0, 7, this.#health /2)
                 let sx = this.#walkFrame * 60
                 image(this.getWalkSheet(), -75, -75, 150, 150, sx, 0, 60, 60)
-                pop()
             pop()
-        }
-                 
-    }
-
-    drawBullets()
-    {
-        for (let i = 0; i < this.#bullets.length;i++)
-        {
-            console.log(this.#bullets[i])
-            this.#bullets[i].draw()
-        }
+        pop()
     }
 
     

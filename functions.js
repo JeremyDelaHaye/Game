@@ -108,11 +108,11 @@ function level1Setup()
 {
     const CELLSIZE = 50;
     brickGrid = new TextureGrid(CELLSIZE,bricks)
-    colGrid = new Grid(CELLSIZE) 
+    colGrid = new Grid(CELLSIZE)
     mergeGrids(brickGrid,colGrid)
     let l1 = colGrid.getEmptyCoord()
     player = new Player(width/2,height/2,attackSheet,walkSheet)
-    enemy1 = new ShootingEnemy(l1.x, l1.y,1,enemyWalk,attackSheet,10)
+    enemy1 = new ShootingEnemy(l1.x, l1.y,1,enemyArmed,attackSheet,splatter1,dead1,10)
     createLevel()
     mergeGrids(brickGrid,colGrid)
 }

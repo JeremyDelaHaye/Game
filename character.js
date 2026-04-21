@@ -252,8 +252,8 @@ class Player extends Character
 class Enemy extends Character
 {
     #state
-    #destX
-    #destY
+    #velX
+    #velY
     #walkFrame
     #walkTimer
     #health
@@ -262,10 +262,12 @@ class Enemy extends Character
     #attackFrame
     #attackTimer
     #isAttacking
+    #bloodSplatter
+    #deadSprite
     #damage
-    #bloodSplatters
+    
 
-    constructor(x,y,speed,walkSheet,attackSheet,damage)
+    constructor(x,y,speed,walkSheet,attackSheet,bloodSplatter,deadSprite,damage)
     {
         super(x,y,walkSheet,attackSheet,damage)
         this.#health = 100
@@ -275,27 +277,26 @@ class Enemy extends Character
         this.#bullets = []
         this.#bulletSpeed = 20
         this.setSpeed(speed)
-        this.#setRandomPoint()
         this.#damage = damage
-        this.#bloodSplatters = []
+        this.#bloodSplatter = bloodSplatter
+        this.#deadSprite = deadSprite
+        this.#velX = (Math.random() * 2 - 1) * speed
+        this.#velY = (Math.random() * 2 - 1) * speed
     }
 
-    #setRandomPoint()
-    {
-        this.#destX = random(width)
-        this.#destY = random(height)
-    }
+    
+    
 
     #setCustomPoint(x,y)
     {
-        this.#destX = x
-        this.#destY = y
+        this.#velX = x
+        this.#velY = y
     }
 
     #followPlayer(player)
     { 
-        this.#destX = player.getX()
-        this.#destY = player.getY()
+        this.#velX = player.getX()
+        this.#velY = player.getY()
     }
 
     #animateWalk()
@@ -321,6 +322,16 @@ class Enemy extends Character
     getWalkFrame()
     {
         return(this.#walkFrame)
+    }
+
+    getBloodSplatter()
+    {
+        return(this.#bloodSplatter)
+    }
+
+    getDead()
+    {
+        return(this.#deadSprite)
     }
 
     setEnemyHealth(input)
@@ -374,7 +385,7 @@ class Enemy extends Character
             {
                 this.#state = false;
                 player.setScore(player.getScore() + 1)
-                this.addBloodSplatter()
+                
             }
         }
     }
@@ -412,7 +423,6 @@ class Enemy extends Character
             this.checkDamage(player)
             this.patrol(colGrid, player)
             this.#animateWalk()
-            this.setAngle(atan2(this.#destY - (this.getY() + 25), this.#destX - (this.getX() + 25)) - HALF_PI)
             push()
                 translate(this.getX() + 25, this.getY() + 25)
                 rotate(this.getAngle())
@@ -439,6 +449,12 @@ class Enemy extends Character
                 pop()
             pop()
         }
+        else
+        {
+            image(this.getBloodSplatter(),this.getX(),this.getY(),150,150)
+            image(this.getDead(),this.getX(),this.getY(),125,125)
+            console.log('dead')
+        }
     }
 
 
@@ -452,22 +468,19 @@ class Enemy extends Character
         const blockedUp    = colGrid.isOccupied(this.getX(), this.getY() - s) || colGrid.isOccupied(this.getX() + size, this.getY() - s)
         const blockedDown  = colGrid.isOccupied(this.getX(), this.getY() + size + s) || colGrid.isOccupied(this.getX() + size, this.getY() + size + s)
 
-        if (this.#destX < this.getX() && !blockedLeft)  this.setX(this.getX() - s)
-        if (this.#destX > this.getX() && !blockedRight) this.setX(this.getX() + s)
-        if (this.#destY < this.getY() && !blockedUp)    this.setY(this.getY() - s)
-        if (this.#destY > this.getY() && !blockedDown)  this.setY(this.getY() + s)
+
+        if (blockedLeft || blockedRight) this.#velX *= -1
+        if (blockedUp   || blockedDown)  this.#velY *= -1
+
+        this.setX(this.getX() + this.#velX)
+        this.setY(this.getY() + this.#velY)
+
+        this.setAngle(atan2(this.#velY, this.#velX) - HALF_PI)
 
         if (this.lookForPlayer(colGrid, player))
         {
-            this.#followPlayer(player)
-        }
-
-        //attacking player condtions
-        
-        const arrived = dist(this.getX(), this.getY(), this.#destX, this.#destY) < s
-        if (arrived || blockedLeft || blockedRight || blockedUp || blockedDown)
-        {
-            this.#setRandomPoint()
+            this.#velX += (player.getX() - this.getX()) * 0.01
+            this.#velY += (player.getY() - this.getY()) * 0.01
         }
     }
 
@@ -515,7 +528,7 @@ class Enemy extends Character
     {
         this.triggerAttack(player)
         this.draw(player,colGrid)
-        this.drawBloodSplatter()
+        
     }
 
     damagePlayer(player, damage)
@@ -523,32 +536,13 @@ class Enemy extends Character
         player.setHealth(player.getHealth() - damage)
     }
 
-    addBloodSplatter()
-    {
-        let splatterNum = random(0,3)
-        let blood = 
-        {
-            x: this.getX(),
-            y: this.getY(),
-            splatter: splatterNum
-        }
-        this.#bloodSplatters.push(blood)
-    }
-
-    drawBloodSplatter()
-    {
-        for (let i = 0; i<this.#bloodSplatters.length; i++ )
-        {
-            image(splatter1, this.#bloodSplatters[i].splatter,this.#bloodSplatters[i].x,this.#bloodSplatters[i].y)
-        }
-    }
 }
 
 class ShootingEnemy extends Enemy
 {
-    constructor(x,y,speed,walkSheet,attackSheet,damage)
+    constructor(x,y,speed,walkSheet,attackSheet,bloodSplatter,deadSprite,damage)
     {
-        super(x,y,speed,walkSheet,attackSheet,damage)
+        super(x,y,speed,walkSheet,attackSheet,bloodSplatter,deadSprite,damage)
     }
 
     logic(player, colGrid)
@@ -561,9 +555,8 @@ class ShootingEnemy extends Enemy
                 this.shoot()
             }
             this.checkDamage(player)
-            this.draw(player, colGrid)
             this.drawBullets(player,colGrid)
-            this.drawBloodSplatter()
         }
+        this.draw(player, colGrid)
     }
 }

@@ -112,7 +112,7 @@ function level1Setup()
     mergeGrids(brickGrid,colGrid)
     let l1 = colGrid.getEmptyCoord()
     player = new Player(width/2,height/2,attackSheet,walkSheet)
-    enemy1 = new ShootingEnemy(l1.x, l1.y,1,enemyWalk,attackSheet)
+    enemy1 = new ShootingEnemy(l1.x, l1.y,1,enemyWalk,attackSheet,10)
     createLevel()
     mergeGrids(brickGrid,colGrid)
 }
@@ -124,5 +124,32 @@ function spawnLogic(grid)
 
 function drawUI(player)
 {
-    text('score:' + player.getScore().ToString())
+    textSize(25)
+    fill(255)
+    text('score:' + player.getScore(),10,20)
+    text('health:' +player.getHealth(),150,20)
+}
+
+function deathScreen()
+{   
+    background(0)
+    textSize(50)
+    text('You Died',width/2,height/2)
+    text('Press mouse to restart',width/2,height/1.5)
+}
+
+function startScreen()
+{
+    
+    background(0)
+    textSize(50)
+    text('video game fr',width/2,height/2)
+    text('Press mouse to start',width/2,height/1.5)
+}
+
+function resetGame()
+{   
+    player.setHealth(100)
+    player.setScore(0)
+    player.setState(true)
 }

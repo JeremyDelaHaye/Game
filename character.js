@@ -4,14 +4,16 @@ class Character extends GameObject
     #angle 
     #walkSheet
     #attackSheet
+    #damage
 
-    constructor(x,y,walkSheet,attackSheet)
+    constructor(x,y,walkSheet,attackSheet,damage)
     {
         super(x,y,width,height)
         this.#speed = 10;
         this.#angle = 0;
         this.#walkSheet = walkSheet
         this.#attackSheet = attackSheet
+        this.#damage = damage
     }
 
     moveX(distance)
@@ -36,6 +38,11 @@ class Character extends GameObject
         this.#speed = value
     }
 
+    setDamage(value)
+    {
+        this.#damage = value
+    }
+
     getAngle()
     {
         return(this.#angle)
@@ -55,6 +62,11 @@ class Character extends GameObject
     {
         return(this.#speed)
     }
+
+    getDamage()
+    {
+        return(this.#damage)
+    }
 }
 
 class Player extends Character
@@ -69,10 +81,11 @@ class Player extends Character
     #score
     #state
     #health
+    #damage
 
-    constructor(x,y,attackSheet,walkSheet)
+    constructor(x,y,attackSheet,walkSheet,damage)
     {
-        super(x,y,walkSheet,attackSheet)
+        super(x,y,walkSheet,attackSheet,damage)
         this.#movementState = true 
         this.#attackSheet = attackSheet
         this.#attackFrame = 0
@@ -81,8 +94,9 @@ class Player extends Character
         this.#walkFrame = 0
         this.#walkTimer = 0
         this.#score = 0
-        this.#state = true
+        this.#state = false
         this.#health = 100
+        this.#damage = damage
     }
 
     getHealth()
@@ -248,10 +262,11 @@ class Enemy extends Character
     #attackFrame
     #attackTimer
     #isAttacking
+    #damage
 
-    constructor(x,y,speed,walkSheet,attackSheet)
+    constructor(x,y,speed,walkSheet,attackSheet,damage)
     {
-        super(x,y,walkSheet,attackSheet)
+        super(x,y,walkSheet,attackSheet,damage)
         this.#health = 100
         this.#state = true
         this.#walkFrame = 0
@@ -260,6 +275,7 @@ class Enemy extends Character
         this.#bulletSpeed = 20
         this.setSpeed(speed)
         this.#setRandomPoint()
+        this.#damage = damage
     }
 
     #setRandomPoint()
@@ -376,7 +392,7 @@ class Enemy extends Character
             this.#bullets[i].draw()
             if (dist(this.#bullets[i].getX(), this.#bullets[i].getY(), player.getX(), player.getY()) < 50)
             {
-                this.damagePlayer(player, 1)
+                this.damagePlayer(player, this.getDamage())
                 this.#bullets.splice(i, 1)
             }
             else if (colGrid.isOccupied(this.#bullets[i].getX(),this.#bullets[i].getY()))
@@ -456,7 +472,7 @@ class Enemy extends Character
     {
         if (abs(this.getX() - player.getX()) < 50 && abs(this.getY() - player.getY()) < 50)
         {
-            this.damagePlayer(player, 1)
+            this.damagePlayer(player, this.getDamage())
             if (!this.#isAttacking)
             {
                 this.startAttack()
@@ -506,9 +522,9 @@ class Enemy extends Character
 
 class ShootingEnemy extends Enemy
 {
-    constructor(x,y,speed,walkSheet,attackSheet)
+    constructor(x,y,speed,walkSheet,attackSheet,damage)
     {
-        super(x,y,speed,walkSheet,attackSheet)
+        super(x,y,speed,walkSheet,attackSheet,damage)
     }
 
     logic(player, colGrid)

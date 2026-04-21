@@ -263,6 +263,7 @@ class Enemy extends Character
     #attackTimer
     #isAttacking
     #damage
+    #bloodSplatters
 
     constructor(x,y,speed,walkSheet,attackSheet,damage)
     {
@@ -276,6 +277,7 @@ class Enemy extends Character
         this.setSpeed(speed)
         this.#setRandomPoint()
         this.#damage = damage
+        this.#bloodSplatters = []
     }
 
     #setRandomPoint()
@@ -372,6 +374,7 @@ class Enemy extends Character
             {
                 this.#state = false;
                 player.setScore(player.getScore() + 1)
+                this.addBloodSplatter()
             }
         }
     }
@@ -512,11 +515,32 @@ class Enemy extends Character
     {
         this.triggerAttack(player)
         this.draw(player,colGrid)
+        this.drawBloodSplatter()
     }
 
     damagePlayer(player, damage)
     {
         player.setHealth(player.getHealth() - damage)
+    }
+
+    addBloodSplatter()
+    {
+        let splatterNum = random(0,3)
+        let blood = 
+        {
+            x: this.getX(),
+            y: this.getY(),
+            splatter: splatterNum
+        }
+        this.#bloodSplatters.push(blood)
+    }
+
+    drawBloodSplatter()
+    {
+        for (let i = 0; i<this.#bloodSplatters.length; i++ )
+        {
+            image(splatter1, this.#bloodSplatters[i].splatter,this.#bloodSplatters[i].x,this.#bloodSplatters[i].y)
+        }
     }
 }
 
@@ -539,6 +563,7 @@ class ShootingEnemy extends Enemy
             this.checkDamage(player)
             this.draw(player, colGrid)
             this.drawBullets(player,colGrid)
+            this.drawBloodSplatter()
         }
     }
 }

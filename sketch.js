@@ -4,6 +4,9 @@ function preload()
     attackSheet = loadImage('Assets/playerAttack.png')
     enemyWalk = loadImage('assets/enemyUnarmed.png')
     bricks = loadImage('Assets/bricks.jpg')
+    splatter1 = loadImage('assets/splatter1.png')
+    splatter2 = loadImage('assets/splatter2.png')
+    splatter3 = loadImage('assets/splatter3.png')
 }
 
 function setup()
@@ -51,3 +54,6 @@ function mousePressed()
         console.log('uhateme')
     }
 }
+
+
+

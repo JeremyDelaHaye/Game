@@ -15,10 +15,14 @@ function setup()
 function draw() 
 {
     background(0)
-    player.draw(colGrid)
-    brickGrid.drawTexture() 
-   // enemy1.logic(player,colGrid)
-    enemy2.draw(player,colGrid)
+    if (player.getHealth() >= 0)
+    {
+        player.draw(colGrid)
+        brickGrid.drawTexture() 
+        enemy1.logic(player,colGrid)
+    }
+    
+    //enemy2.logic(player,colGrid)
     
     
 }

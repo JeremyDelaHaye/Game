@@ -369,15 +369,19 @@ class Enemy extends Character
         }
     }
 
-    drawBullets(player)
+    drawBullets(player,colGrid)
     {
         for (let i = this.#bullets.length - 1; i >= 0; i--)
         {
             this.#bullets[i].draw()
             if (dist(this.#bullets[i].getX(), this.#bullets[i].getY(), player.getX(), player.getY()) < 50)
             {
-                this.damagePlayer(player, 12)
+                this.damagePlayer(player, 1)
                 this.#bullets.splice(i, 1)
+            }
+            else if (colGrid.isOccupied(this.#bullets[i].getX(),this.#bullets[i].getY()))
+            {
+                this.#bullets.splice(i,1)
             }
         }
     }
@@ -386,6 +390,7 @@ class Enemy extends Character
     {   
         if (this.#state)
         {
+            this.checkDamage(player)
             this.patrol(colGrid, player)
             this.#animateWalk()
             this.setAngle(atan2(this.#destY - (this.getY() + 25), this.#destX - (this.getX() + 25)) - HALF_PI)
@@ -439,6 +444,16 @@ class Enemy extends Character
         }
 
         //attacking player condtions
+        
+        const arrived = dist(this.getX(), this.getY(), this.#destX, this.#destY) < s
+        if (arrived || blockedLeft || blockedRight || blockedUp || blockedDown)
+        {
+            this.#setRandomPoint()
+        }
+    }
+
+    triggerAttack(player)
+    {
         if (abs(this.getX() - player.getX()) < 50 && abs(this.getY() - player.getY()) < 50)
         {
             this.damagePlayer(player, 1)
@@ -446,12 +461,6 @@ class Enemy extends Character
             {
                 this.startAttack()
             }  
-        }
-        
-        const arrived = dist(this.getX(), this.getY(), this.#destX, this.#destY) < s
-        if (arrived || blockedLeft || blockedRight || blockedUp || blockedDown)
-        {
-            this.#setRandomPoint()
         }
     }
 
@@ -483,6 +492,12 @@ class Enemy extends Character
         return false
     }
 
+    logic(player,colGrid)
+    {
+        this.triggerAttack(player)
+        this.draw(player,colGrid)
+    }
+
     damagePlayer(player, damage)
     {
         player.setHealth(player.getHealth() - damage)
@@ -491,9 +506,9 @@ class Enemy extends Character
 
 class ShootingEnemy extends Enemy
 {
-    constructor(x,y,speed,walkSheet)
+    constructor(x,y,speed,walkSheet,attackSheet)
     {
-        super(x,y,speed,walkSheet)
+        super(x,y,speed,walkSheet,attackSheet)
     }
 
     logic(player, colGrid)
@@ -507,7 +522,7 @@ class ShootingEnemy extends Enemy
             }
             this.checkDamage(player)
             this.draw(player, colGrid)
-            this.drawBullets(player)
+            this.drawBullets(player,colGrid)
         }
     }
 }

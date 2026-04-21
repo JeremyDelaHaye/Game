@@ -113,7 +113,6 @@ function level1Setup()
     let l1 = colGrid.getEmptyCoord()
     player = new Player(width/2,height/2,attackSheet,walkSheet)
     enemy1 = new ShootingEnemy(l1.x, l1.y,1,enemyWalk,attackSheet)
-    enemy2 = new Enemy(l1.x, l1.y,1,enemyWalk,attackSheet)
     createLevel()
     mergeGrids(brickGrid,colGrid)
 }
@@ -122,3 +121,8 @@ function spawnLogic(grid)
 {
     grid.getEmptyCoord()
 }   
+
+function drawUI(player)
+{
+    text('score:' + player.getScore().ToString())
+}

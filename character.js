@@ -207,10 +207,22 @@ class Player extends Character
         return true
     }
 
-    draw(grid) 
+    healthPowerUp(healthGrid)
+    {
+        console.log(healthGrid.isOccupied(this.getX(), this.getY()))
+        
+        if (healthGrid.isOccupied(this.getX() + 25, this.getY() + 25))
+        {
+            this.setHealth(this.getHealth()+50)
+            healthGrid.setCellFromCord(this.getX() + 25, this.getY() + 25,false)
+        }
+    }
+
+    draw(grid,healthGrid) 
     {
         if(this.checkHealth())
         {
+            this.healthPowerUp(healthGrid)
             this.updateRotation()
             this.movement(grid)
             push();
@@ -265,7 +277,6 @@ class Enemy extends Character
     #bloodSplatter
     #deadSprite
     #damage
-    
 
     constructor(x,y,speed,walkSheet,attackSheet,bloodSplatter,deadSprite,damage)
     {
@@ -280,23 +291,9 @@ class Enemy extends Character
         this.#damage = damage
         this.#bloodSplatter = bloodSplatter
         this.#deadSprite = deadSprite
-        this.#velX = (Math.random() * 2 - 1) * speed
-        this.#velY = (Math.random() * 2 - 1) * speed
-    }
-
-    
-    
-
-    #setCustomPoint(x,y)
-    {
-        this.#velX = x
-        this.#velY = y
-    }
-
-    #followPlayer(player)
-    { 
-        this.#velX = player.getX()
-        this.#velY = player.getY()
+        let angle = Math.random() * Math.PI * 2
+        this.#velX = Math.cos(angle) * speed
+        this.#velY = Math.sin(angle) * speed
     }
 
     #animateWalk()
@@ -385,7 +382,6 @@ class Enemy extends Character
             {
                 this.#state = false;
                 player.setScore(player.getScore() + 1)
-                
             }
         }
     }
@@ -394,7 +390,7 @@ class Enemy extends Character
     {
         if (frameCount % 10 === 0)
         {
-            let bullet = new Bullet(this.getX(), this.getY() + 15, this.getAngle() , this.#bulletSpeed)
+            let bullet = new Bullet(this.getX(), this.getY() + 15, this.getAngle(), this.#bulletSpeed)
             this.#bullets.push(bullet)
         }
     }
@@ -423,6 +419,7 @@ class Enemy extends Character
             this.checkDamage(player)
             this.patrol(colGrid, player)
             this.#animateWalk()
+            this.setAngle(atan2(this.#velY, this.#velX) - HALF_PI)
             push()
                 translate(this.getX() + 25, this.getY() + 25)
                 rotate(this.getAngle())
@@ -453,10 +450,8 @@ class Enemy extends Character
         {
             image(this.getBloodSplatter(),this.getX(),this.getY(),150,150)
             image(this.getDead(),this.getX(),this.getY(),125,125)
-            console.log('dead')
         }
     }
-
 
     patrol(colGrid, player)
     {
@@ -468,19 +463,22 @@ class Enemy extends Character
         const blockedUp    = colGrid.isOccupied(this.getX(), this.getY() - s) || colGrid.isOccupied(this.getX() + size, this.getY() - s)
         const blockedDown  = colGrid.isOccupied(this.getX(), this.getY() + size + s) || colGrid.isOccupied(this.getX() + size, this.getY() + size + s)
 
-
         if (blockedLeft || blockedRight) this.#velX *= -1
         if (blockedUp   || blockedDown)  this.#velY *= -1
 
         this.setX(this.getX() + this.#velX)
         this.setY(this.getY() + this.#velY)
 
-        this.setAngle(atan2(this.#velY, this.#velX) - HALF_PI)
-
         if (this.lookForPlayer(colGrid, player))
         {
-            this.#velX += (player.getX() - this.getX()) * 0.01
-            this.#velY += (player.getY() - this.getY()) * 0.01
+            this.#velX += (player.getX() - this.getX()) * 0.005
+            this.#velY += (player.getY() - this.getY()) * 0.005
+            let currentSpeed = Math.sqrt(this.#velX ** 2 + this.#velY ** 2)
+            if (currentSpeed > s * 1.3)
+            {
+                this.#velX = (this.#velX / currentSpeed) * s * 1.3
+                this.#velY = (this.#velY / currentSpeed) * s * 1.3
+            }
         }
     }
 
@@ -528,14 +526,12 @@ class Enemy extends Character
     {
         this.triggerAttack(player)
         this.draw(player,colGrid)
-        
     }
 
     damagePlayer(player, damage)
     {
         player.setHealth(player.getHealth() - damage)
     }
-
 }
 
 class ShootingEnemy extends Enemy

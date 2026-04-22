@@ -31,12 +31,13 @@ class Grid
 
     setCellFromCord(x,y,input)
     {
-        this.setCell(this.#getIndexOfCoord(x),this.#getIndexOfCoord(y),input)
+        this.setCell(this.getIndexOfCoord(x),this.getIndexOfCoord(y),input)
+        
     }
 
     getCellFromCord(x,y)
     {
-        return(getCell(this.#getIndexOfCoord(x),this.#getIndexOfCoord(y)))
+        return(getCell(this.getIndexOfCoord(x),this.getIndexOfCoord(y)))
     }
 
     createEmptyGrid()
@@ -81,8 +82,8 @@ class Grid
             return true;
         }
 
-        const row = this.#getIndexOfCoord(y)
-        const col = this.#getIndexOfCoord(x)
+        const row = this.getIndexOfCoord(y)
+        const col = this.getIndexOfCoord(x)
         if (this.#cells[row][col] === true)
         {
             return true
@@ -93,19 +94,19 @@ class Grid
         }
     }
 
-    #getIndexOfCoord(coord) 
+    getIndexOfCoord(coord) 
     {
         return Math.floor(coord / this.#cellSize);
     }
 
     getGridPosX(x)
     {
-        return(this.#getIndexOfCoord(x))
+        return(this.getIndexOfCoord(x))
     }
 
     getGridPosY(y)
     {
-        return(this.#getIndexOfCoord(y))
+        return(this.getIndexOfCoord(y))
     }  
 
     getEmptyCoord()
@@ -157,4 +158,34 @@ class TextureGrid extends Grid
         }
     }
 }
+
+class ItemGrid extends TextureGrid
+{
+    constructor(cellSize,texture)
+    {
+        super(cellSize,texture)
+    }
+
+    isOccupied(x,y)
+    {
+        if (x < 0 || x >= width || y < 0 || y >= height)
+        {
+            return true;
+        }
+
+        const row = this.getIndexOfCoord(y)
+        const col = this.getIndexOfCoord(x)
+        if (this.getCells()[row][col] === true)
+        {
+            this.setCell(row,col,false)
+            return true
+        }
+        else 
+        {
+            return false
+        }
+    }
+
+}
+
 

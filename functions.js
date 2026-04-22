@@ -100,6 +100,7 @@ function createLevel()
     brickGrid.setCell(15, 13, false)
     brickGrid.setCell(16, 12, false)
     brickGrid.setCell(16, 13, false)
+    healthGrid.setCell(16,13,true)
 
     // 2x2 pillars in
 }
@@ -108,11 +109,12 @@ function level1Setup()
 {
     const CELLSIZE = 50;
     brickGrid = new TextureGrid(CELLSIZE,bricks)
+    healthGrid = new ItemGrid(CELLSIZE,grass)
     colGrid = new Grid(CELLSIZE)
     mergeGrids(brickGrid,colGrid)
     let l1 = colGrid.getEmptyCoord()
     player = new Player(width/2,height/2,attackSheet,walkSheet)
-    enemy1 = new ShootingEnemy(l1.x, l1.y,1,enemyArmed,attackSheet,splatter1,dead1,10)
+    enemy1 = new ShootingEnemy(200, 200,1,enemyArmed,attackSheet,splatter1,dead1,10)
     createLevel()
     mergeGrids(brickGrid,colGrid)
 }

@@ -25,9 +25,8 @@ function preload()
 
 function setup()
 {
-    createCanvas(1000,1000)
+    createCanvas(1250,1000)
     level1Setup()
-    
 }
 
 function draw() 
@@ -37,19 +36,15 @@ function draw()
     if (player.getState())
     {
         brickGrid.drawTexture() 
+        healthGrid.drawTexture()
         enemy1.logic(player,colGrid)
-        player.draw(colGrid)
+        player.draw(colGrid,healthGrid)
         drawUI(player)
     }
     else 
     {
         deathScreen(player)
-    }
-    
-    
-    //enemy2.logic(player,colGrid)d
-    
-    
+    }    
 }
 
 function mousePressed()
@@ -65,7 +60,6 @@ function mousePressed()
     if (player.getState() === false)
     {
         resetGame()
-        console.log('uhateme')
     }
 }
 

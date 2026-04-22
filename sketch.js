@@ -22,7 +22,7 @@ function preload()
     walls = loadImage('Assets/walls.png')
     wood = loadImage('Assets/wood.jpg')
 }
-
+/*
 function setup()
 {
     createCanvas(1250,1000)
@@ -62,6 +62,63 @@ function mousePressed()
         resetGame()
     }
 }
+*/
 
+function setup()
+{
+    initializeGame()
+    
+}
+
+function draw()
+{
+    background(0)
+    switch(gameState)
+    {
+        case 0:
+            level0()
+        break
+
+        case 1:
+            level1()
+        break
+
+        case 2:
+            level2()
+        break
+
+        case 3:
+            level3()
+        break
+
+        case 4:
+            level4()
+        break
+    }
+}
+
+function mousePressed()
+{
+    if(player.getHealth()>=0)
+    {
+        if (player.getAttackFrame() === 0)
+        {
+            player.startAttack() 
+        }
+    }
+
+    if (player.getState() === false)
+    {
+        resetGame()
+    }
+}
+
+function keyPressed()
+{
+    if (keyCode === ENTER)
+    {
+        gameState++
+    }
+}
 
 

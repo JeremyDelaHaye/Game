@@ -115,6 +115,7 @@ function level1Setup()
     let l1 = colGrid.getEmptyCoord()
     player = new Player(width/2,height/2,attackSheet,walkSheet)
     enemy1 = new ShootingEnemy(200, 200,1,enemyArmed,attackSheet,splatter1,dead1,10)
+    enemy2 = new Enemy(720,250,1,enemyUnarmed,attackSheet,splatter2,dead2,10)
     createLevel()
     mergeGrids(brickGrid,colGrid)
 }

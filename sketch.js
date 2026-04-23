@@ -38,7 +38,7 @@ function draw()
         brickGrid.drawTexture() 
         healthGrid.drawTexture()
         enemy1.logic(player,colGrid)
-        enemy2.draw(player,colGrid)
+        enemy2.logic(player,colGrid)
         player.draw(colGrid,healthGrid)
         drawUI(player)
     }

@@ -209,8 +209,6 @@ class Player extends Character
 
     healthPowerUp(healthGrid)
     {
-        console.log(healthGrid.isOccupied(this.getX(), this.getY()))
-        
         if (healthGrid.isOccupied(this.getX() + 25, this.getY() + 25))
         {
             this.setHealth(this.getHealth()+50)
@@ -365,6 +363,7 @@ class Enemy extends Character
         {
             this.#attackFrame++
             this.#attackTimer = 0
+            this.damagePlayer(player, this.getDamage())
             if (this.#attackFrame >= 7)
             {
                 this.#attackFrame = 0
@@ -486,7 +485,6 @@ class Enemy extends Character
     {
         if (abs(this.getX() - player.getX()) < 50 && abs(this.getY() - player.getY()) < 50)
         {
-            this.damagePlayer(player, this.getDamage())
             if (!this.#isAttacking)
             {
                 this.startAttack()

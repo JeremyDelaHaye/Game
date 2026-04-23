@@ -26,11 +26,11 @@ function preload()
 function setup()
 {
     initializeGame()
+    
 }
 
 function draw()
 {
-    background(0)
     switch(gameState)
     {
         case 0:
@@ -76,6 +76,14 @@ function keyPressed()
     if (keyCode === ENTER)
     {
         gameState++
+    }
+
+    if (keyCode === 32)
+    {
+        if (gameState === 5)
+        {
+            gameState = pastState
+        }
     }
 }
 

@@ -13,6 +13,7 @@ function initializeGame()
     createCanvas(1000,700)
     player = new Player(width/2,height/2,attackSheet,walkSheet)
     colGrid = new Grid(CELLSIZE)
+    doorGrid = new Grid(CELLSIZE)
     healthGrid = new ItemGrid(CELLSIZE,grass)
 }
 
@@ -28,7 +29,7 @@ function level0()
 }
 
 function level1()
-{
+{ 
     if(!createdLvl1)
     {
         brickGrid = new TextureGrid(CELLSIZE,bricks)
@@ -47,7 +48,10 @@ function level1()
     enemy2.logic(player,colGrid)
     dead(createdLvl1)
     console.log(player.getState())
-    
+    if (doorGrid.isOccupied(player.getX(),player.getY()) && enemyCount === 0)
+    {
+        gameState++
+    }
 }
 
 function level2()

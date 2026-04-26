@@ -25,34 +25,27 @@ function preload()
 
 function setup()
 {
-    initializeGame()
-    
+    createCanvas(1250,1000)
+    level1Setup()
 }
 
-function draw()
+function draw() 
 {
-    switch(gameState)
+    
+    background(0)
+    if (player.getState())
     {
-        case 0:
-            level0()
-        break
-
-        case 1:
-            level1()
-        break
-
-        case 2:
-            level2()
-        break
-
-        case 3:
-            level3()
-        break
-
-        case 4:
-            level4()
-        break
+        brickGrid.drawTexture() 
+        healthGrid.drawTexture()
+        enemy1.logic(player,colGrid)
+        enemy2.logic(player,colGrid)
+        player.draw(colGrid,healthGrid)
+        drawUI(player)
     }
+    else 
+    {
+        deathScreen(player)
+    }    
 }
 
 function mousePressed()
@@ -70,21 +63,3 @@ function mousePressed()
         resetGame()
     }
 }
-
-function keyPressed()
-{
-    if (keyCode === ENTER)
-    {
-        gameState++
-    }
-
-    if (keyCode === 32)
-    {
-        if (gameState === 5)
-        {
-            gameState = pastState
-        }
-    }
-}
-
-

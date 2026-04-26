@@ -379,6 +379,7 @@ class Enemy extends Character
             this.#health -= 10;
             if (this.#health <= 0)
             {
+                enemyCount--
                 this.#state = false;
                 player.setScore(player.getScore() + 1)
             }

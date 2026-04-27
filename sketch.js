@@ -70,6 +70,12 @@ function mousePressed()
     {
         resetGame()
     }
+    /* 
+    if (npc.getDialougeState)
+    {   
+        npc.setDialogueIndex(this.getDialogueIndex++)
+    }
+    */
 }
 
 function keyPressed()

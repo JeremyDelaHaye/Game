@@ -559,12 +559,29 @@ class ShootingEnemy extends Enemy
 class NPC extends Character
 {
     #dialogue
+    #dialogueState 
     #dialogueIndex
     constructor(x,y,sprite,dialogue)
     {
         super(x,y,sprite)
         this.#dialogue = dialogue
         this.#dialogueIndex = 0
+        this.#dialogueState = false;
+    }
+
+    getDialogueState()
+    {
+        return(this.#dialogueState)
+    }
+
+    getDialogueIndex()
+    {
+        return(this.#dialogueIndex)
+    }
+    
+    setDialogueIndex(input)
+    {
+        this.#dialogueIndex = input
     }
 
     logic(player)
@@ -579,18 +596,23 @@ class NPC extends Character
 
         if (dx <= 50 && dy <= 50)
         {
-            
+            this.#dialogueState = true
         }
     }
 
     dialogue()
     {
-        fill(0)
-        rect(0,1100,width,400)
-        for( let i = this.#dialogueIndex; i < this.#dialogue.length; i++)
+        if (this.#dialogueState === true)
         {
-            text(this.#dialogue[i],0,1300)
+            fill(0)
+            rect(0,1100,width,400)
+            for( let i = this.#dialogueIndex; i < this.#dialogue.length; i++)
+            {
+                text(this.#dialogue[i],0,1300)
+            }
+            this.#dialogueState = false
         }
+        
     }
 
     

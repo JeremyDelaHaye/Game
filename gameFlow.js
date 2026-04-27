@@ -1,6 +1,6 @@
 let gameState;
 let pastState;
-const CELLSIZE = 50;
+const CELLSIZE = 25;
 let createdLvl0 = false
 let createdLvl1 = false
 let createdLvl2 = false
@@ -11,7 +11,7 @@ let enemyCount = 0
 function initializeGame()
 {
     gameState = 0;
-    createCanvas(1000,1000)
+    createCanvas(1500,1500)
     player = new Player(width/2,height/2,attackSheet,walkSheet)
     colGrid = new Grid(CELLSIZE)
     doorGrid = new Grid(CELLSIZE)

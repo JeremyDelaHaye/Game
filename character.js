@@ -558,9 +558,13 @@ class ShootingEnemy extends Enemy
 
 class NPC extends Character
 {
-    constructor(x,y,sprite)
+    #dialogue
+    #dialogueIndex
+    constructor(x,y,sprite,dialogue)
     {
         super(x,y,sprite)
+        this.#dialogue = dialogue
+        this.#dialogueIndex = 0
     }
 
     logic(player)
@@ -578,4 +582,16 @@ class NPC extends Character
             
         }
     }
+
+    dialogue()
+    {
+        fill(0)
+        rect(0,1100,width,400)
+        for( let i = this.#dialogueIndex; i < this.#dialogue.length; i++)
+        {
+            text(this.#dialogue[i],0,1300)
+        }
+    }
+
+    
 }

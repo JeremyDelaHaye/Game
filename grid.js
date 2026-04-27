@@ -5,6 +5,7 @@ class Grid extends GameObject
 
     constructor(cellSize)
     {
+        super()
         this.#cellSize = cellSize
         this.createEmptyGrid()
     }

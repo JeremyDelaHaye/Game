@@ -15,7 +15,7 @@ function initializeGame()
     player = new Player(width/2,height/2,attackSheet,walkSheet)
     colGrid = new Grid(CELLSIZE)
     doorGrid = new Grid(CELLSIZE)
-    healthGrid = new ItemGrid(CELLSIZE,grass)
+    healthGrid = new ItemGrid(CELLSIZE,med)
 }
 
 function level0()
@@ -37,7 +37,8 @@ function level1()
     if (!createdLvl1)
     {
         brickGrid = new TextureGrid(CELLSIZE, bricks)
-        healthGrid = new ItemGrid(CELLSIZE, grass)
+        healthGrid = new ItemGrid(CELLSIZE, med)
+        grassGrid = new TextureGrid(CELLSIZE,grass)
         colGrid = new Grid(CELLSIZE)
         doorGrid = new TextureGrid(CELLSIZE, wood)
         createLevel()
@@ -48,11 +49,12 @@ function level1()
         player = new Player(250, 700, attackSheet, walkSheet)
         player.setState(true)
         enemy1 = new ShootingEnemy(750, 250, 1, enemyArmed, attackSheet, splatter1, dead1, 10)
-        enemy2 = new Enemy(400, 400, 1, enemyUnarmed, attackSheet, splatter2, dead2, 1)
+        enemy2 = new Enemy(400, 400, 1, enemyUnarmed, enemyAttack, splatter2, dead2, 1)
         enemyCount = 2
         createdLvl1 = true
     }
     background(0)
+    grassGrid.drawTexture()
     brickGrid.drawTexture()
     healthGrid.drawTexture()
     enemy1.logic(player, colGrid)
@@ -76,7 +78,7 @@ function level2()
     if (!createdLvl2)
     {
         darkWallGrid = new TextureGrid(CELLSIZE, darkStoneWall)
-        healthGrid = new ItemGrid(CELLSIZE, grass)
+        healthGrid = new ItemGrid(CELLSIZE, med)
         colGrid = new Grid(CELLSIZE)
         doorGrid = new TextureGrid(CELLSIZE, wood)
         createLevel2()
@@ -87,7 +89,7 @@ function level2()
         player = new Player(150, 700, attackSheet, walkSheet)
         player.setState(true)
         enemy1 = new ShootingEnemy(800, 150, 1, enemyArmed, attackSheet, splatter2, dead2, 10)
-        enemy2 = new Enemy(800, 800, 1, enemyUnarmed, attackSheet, splatter3, dead3, 1)
+        enemy2 = new Enemy(800, 800, 1, enemyUnarmed, attackSheet, splatter1, dead3, 1)
         enemy3 = new Enemy(150, 400, 1, enemyUnarmed, attackSheet, splatter1, dead4, 1)
         enemyCount = 3
         createdLvl2 = true
@@ -117,7 +119,7 @@ function level3()
     if (!createdLvl3)
     {
         woodGrid = new TextureGrid(CELLSIZE, wood)
-        healthGrid = new ItemGrid(CELLSIZE, grass)
+        healthGrid = new ItemGrid(CELLSIZE, med)
         colGrid = new Grid(CELLSIZE)
         doorGrid = new TextureGrid(CELLSIZE, bricks)
         createLevel3()
@@ -128,7 +130,7 @@ function level3()
         healthGrid.setCell(15, 15, true)
         player = new Player(150, 800, attackSheet, walkSheet)
         player.setState(true)
-        enemy1 = new ShootingEnemy(800, 150, 2, enemyArmed, attackSheet, splatter3, dead3, 10)
+        enemy1 = new ShootingEnemy(800, 150, 2, enemyArmed, attackSheet, splatter2, dead3, 10)
         enemy2 = new ShootingEnemy(800, 800, 2, enemyArmed, attackSheet, splatter1, dead4, 10)
         enemy3 = new Enemy(500, 800, 1, enemyUnarmed, attackSheet, splatter2, dead1, 1)
         enemy4 = new Enemy(500, 150, 1, enemyUnarmed, attackSheet, splatter2, dead2, 1)
@@ -190,3 +192,4 @@ function dead()
         if (pastState === 3) createdLvl3 = false
     }
 }
+

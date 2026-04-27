@@ -18,9 +18,9 @@ function preload()
     playerWalk = loadImage('Assets/playerWalk.png')
     splatter1 = loadImage('Assets/splatter1.png')
     splatter2 = loadImage('Assets/splatter2.png')
-    splatter3 = loadImage('Assets/splatter3.png')
     walls = loadImage('Assets/walls.png')
     wood = loadImage('Assets/wood.jpg')
+    med = loadImage('Assets/med.png')
 }
 
 function setup()
@@ -52,8 +52,9 @@ function draw()
         case 4:
             level4()
         case 5:
-    
+            console.log('dead')
         break
+        
     }
 }
 

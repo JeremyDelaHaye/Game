@@ -26,63 +26,129 @@ function clearGrid(grid)
     }
 }
 
+function occupyEmptyGrid(fillGrid, checkGrid)
+{
+    try{
+    const checkRow = (Math.ceil(height/checkGrid.getCellSize()));
+    const checkCol = (Math.ceil(width/checkGrid.getCellSize()));
+
+    for (let row = 0; row < checkRow; row++)
+    {
+        for (let col = 0; col < checkCol; col++)
+        {
+            if (!checkGrid.getCell(row,col))
+            {
+                fillGrid.setCell(row,col,true)
+            }
+        }
+    }  
+    }
+    catch{}
+}
+
 function createLevel()
 {
-    // outer border
+    // outer border with door gap at row 0 cols 28-31
     for (let i = 0; i < 60; i++)
     {
-        brickGrid.setCell(0, i, true)
+        if (i < 28 || i > 31) brickGrid.setCell(0, i, true)
         brickGrid.setCell(59, i, true)
         brickGrid.setCell(i, 0, true)
         brickGrid.setCell(i, 59, true)
     }
-    // top exit door (4 cells wide at cols 28-31)
-    brickGrid.setCell(0, 28, false)
-    brickGrid.setCell(0, 29, false)
-    brickGrid.setCell(0, 30, false)
-    brickGrid.setCell(0, 31, false)
 
-    // horizontal dividing wall: rows 29-30, cols 5-54
+    // W_A: West / Central divider
+    for (let r = 5; r <= 22; r++)
+    {
+        brickGrid.setCell(r, 20, true)
+        brickGrid.setCell(r, 21, true)
+    }
+    // W_A doorway at rows 11-14
+    for (let r = 11; r <= 14; r++)
+    {
+        brickGrid.setCell(r, 20, false)
+        brickGrid.setCell(r, 21, false)
+    }
+
+    // W_B: Central / East divider
+    for (let r = 5; r <= 22; r++)
+    {
+        brickGrid.setCell(r, 38, true)
+        brickGrid.setCell(r, 39, true)
+    }
+    for (let r = 11; r <= 14; r++)
+    {
+        brickGrid.setCell(r, 38, false)
+        brickGrid.setCell(r, 39, false)
+    }
+
+    // W_C: top section / South Vault divider
     for (let c = 5; c <= 54; c++)
     {
-        brickGrid.setCell(29, c, true)
-        brickGrid.setCell(30, c, true)
+        brickGrid.setCell(23, c, true)
+        brickGrid.setCell(24, c, true)
     }
-    // 4-cell-wide doorway through the wall at cols 28-31
+    // W_C doorway at cols 28-31
     for (let c = 28; c <= 31; c++)
     {
-        brickGrid.setCell(29, c, false)
-        brickGrid.setCell(30, c, false)
+        brickGrid.setCell(23, c, false)
+        brickGrid.setCell(24, c, false)
     }
 
-    // 2x2 pillars
-    // pillar A: top room, rows 10-11 cols 10-11
-    brickGrid.setCell(10, 10, true)
-    brickGrid.setCell(10, 11, true)
-    brickGrid.setCell(11, 10, true)
-    brickGrid.setCell(11, 11, true)
-    // pillar B: top room, rows 10-11 cols 48-49
-    brickGrid.setCell(10, 48, true)
-    brickGrid.setCell(10, 49, true)
-    brickGrid.setCell(11, 48, true)
-    brickGrid.setCell(11, 49, true)
-    // pillar C: bottom room, rows 48-49 cols 18-19
-    brickGrid.setCell(48, 18, true)
-    brickGrid.setCell(48, 19, true)
-    brickGrid.setCell(49, 18, true)
-    brickGrid.setCell(49, 19, true)
+    // West Hall ring of 4 pillars
+    const wPillars = [[9,5],[9,14],[17,5],[17,14]]
+    for (const [r,c] of wPillars)
+    {
+        brickGrid.setCell(r, c, true)
+        brickGrid.setCell(r, c+1, true)
+        brickGrid.setCell(r+1, c, true)
+        brickGrid.setCell(r+1, c+1, true)
+    }
+
+    // East Hall ring of 4 pillars
+    const ePillars = [[9,44],[9,53],[17,44],[17,53]]
+    for (const [r,c] of ePillars)
+    {
+        brickGrid.setCell(r, c, true)
+        brickGrid.setCell(r, c+1, true)
+        brickGrid.setCell(r+1, c, true)
+        brickGrid.setCell(r+1, c+1, true)
+    }
+
+    // Central Lobby flanking pillars (aisle stays open at cols 28-31)
+    const cPillars = [[13,26],[13,32]]
+    for (const [r,c] of cPillars)
+    {
+        brickGrid.setCell(r, c, true)
+        brickGrid.setCell(r, c+1, true)
+        brickGrid.setCell(r+1, c, true)
+        brickGrid.setCell(r+1, c+1, true)
+    }
+
+    // South Vault ring of 4 pillars
+    const sPillars = [[32,14],[32,44],[50,14],[50,44]]
+    for (const [r,c] of sPillars)
+    {
+        brickGrid.setCell(r, c, true)
+        brickGrid.setCell(r, c+1, true)
+        brickGrid.setCell(r+1, c, true)
+        brickGrid.setCell(r+1, c+1, true)
+    }
 
     // health pickups
-    healthGrid.setCell(6, 50, true)
-    healthGrid.setCell(50, 6, true)
-    healthGrid.setCell(35, 35, true)
+    healthGrid.setCell(20, 5, true)
+    healthGrid.setCell(20, 50, true)
+    healthGrid.setCell(40, 28, true)
 
-    // Spawn coords (px) — set these in your spawn logic:
-    //   player        : (725, 125)   col 29, row  5
-    //   ShootingEnemy : (250, 500)   col 10, row 20
-    //   Enemy         : (1250, 1250) col 50, row 50
-
+    // Spawn coords:
+    //   player        : (225,  325)   col  9, row 13   (West Hall)
+    //   ShootingEnemy : (750,  200)   col 30, row  8   (Central Lobby)
+    //   Enemy         : (700, 1250)   col 28, row 50   (South Vault)
+    
+    occupyEmptyGrid(grassGrid,colGrid)
     mergeGrids(brickGrid, colGrid)
+    
+    
 }
 
 function createLevel2()
@@ -161,6 +227,7 @@ function createLevel2()
     //   Enemy         : (750, 1250)   col 30, row 50   (Area C)
 
     mergeGrids(darkWallGrid, colGrid)
+    occupyEmptyGrid()
 }
 
 function createLevel3()

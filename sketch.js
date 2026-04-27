@@ -13,7 +13,6 @@ function preload()
     enemyUnarmed = loadImage('Assets/enemyUnarmed.png')
     enemyArmed = loadImage('Assets/enemyArmed.png')
     grass = loadImage('Assets/grass.jpg')
-    legs = loadImage('Assets/legs.png')
     playerAttack = loadImage('Assets/playerAttack.png')
     playerWalk = loadImage('Assets/playerWalk.png')
     splatter1 = loadImage('Assets/splatter1.png')
@@ -25,8 +24,7 @@ function preload()
 
 function setup()
 {
-    initializeGame()
-    
+    initializeGame() 
 }
 
 function draw()

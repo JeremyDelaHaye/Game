@@ -1,4 +1,4 @@
-class Grid
+class Grid extends GameObject
 {
     #cells
     #cellSize
@@ -141,6 +141,11 @@ class TextureGrid extends Grid
         this.#texture = texture  
     }
 
+    getTexture()
+    {
+        return(this.#texture)
+    }
+
     drawTexture()
     {
         const rows = Math.ceil(height/this.getCellSize());
@@ -156,6 +161,31 @@ class TextureGrid extends Grid
                 }
             }
         }
+    }
+}
+
+class uniqueTextureGrid extends TextureGrid 
+{
+    constructor(cellSize,texture,width,height,x,y)
+    {
+        super(cellSize,texture,width,height,x,y)
+
+    }
+
+    setOccupied()
+    {
+        for (let row = this.getIndexOfCoord(this.getY()); row <= this.getIndexOfCoord(this.getY() + this.getHeight()); row++)
+        {
+            for (let col = this.getIndexOfCoord(this.getX()); col <= this.getIndexOfCoord(this.getX()+ this.getWidth()); col++)
+            {
+                this.setCell(row, col, true)
+            }
+        }
+    }
+
+    drawTexture()
+    {
+        image(this.getTexture(),this.getX(),this.getY(),this.getWidth(),this.getHeight())
     }
 }
 
@@ -185,7 +215,6 @@ class ItemGrid extends TextureGrid
             return false
         }
     }
-
 }
 
 

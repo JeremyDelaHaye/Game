@@ -555,3 +555,27 @@ class ShootingEnemy extends Enemy
         this.draw(player, colGrid)
     }
 }
+
+class NPC extends Character
+{
+    constructor(x,y,sprite)
+    {
+        super(x,y,sprite)
+    }
+
+    logic(player)
+    {
+        this.triggerDialogue(player)
+    }
+
+    triggerDialogue(player)
+    {
+        const dx = Math.abs(player.getX() - npc.getX());
+        const dy = Math.abs(player.getY() - npc.getY());
+
+        if (dx <= 50 && dy <= 50)
+        {
+            
+        }
+    }
+}

@@ -29,6 +29,7 @@ function setup()
 
 function draw()
 {
+    console.log(enemyCount)
     switch(gameState)
     {
         case 0:

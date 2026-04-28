@@ -28,14 +28,24 @@ function loadMap(map, grid,healthGrid)
 
             if (map[row][col] ==='#'){grid.setCell(row,col,true)}
             if (map[row][col] ==='.'){healthGrid.setCell(row,col,true);}
+            
             if (map[row][col] ==='+')
             {
-                enemys.push( new Enemy(x,y,4,enemyUnarmed,enemyAttack,bloodSplatter,deadSprite))
+                enemys.push( new Enemy(x,y,2,enemyUnarmed,enemyAttack,bloodSplatter,deadSprite,10))
             }
             if (map[row][col] === '@')
             {
-                enemys.push(new ShootingEnemy(x,y,2,enemyArmed,bloodSplatter,deadSprite))
+                enemys.push(new ShootingEnemy(x,y,1,enemyArmed,bloodSplatter,deadSprite,2))
             } 
+            if (map[row][col] === '^')
+            {
+                player.setX(x)
+                player.setY(y)
+            }
+            if (map[row][col] === '$')
+            {
+                doorGrid.setCell(row,col,true)
+            }
         }
     }
 }
@@ -96,20 +106,22 @@ function resetGame()
     textureGrids = []
 }
 
-function nextLevel(createdLevel)
+function nextLevel()
 {
-    if (enemyCount === 0)
+    if (enemyCount <= 0)
     {
         //doorGrid.drawTexture()
-        if (doorGrid.isOccupied(player.getX(), player.getY()))
+        if (doorGrid.isOccupied(player.getX() + 25, player.getY() + 25))
         {
-            createdLevel = false
+            if (gameState === 1) createdLvl1 = false
+            if (gameState === 2) createdLvl2 = false
+            if (gameState === 3) createdLvl3 = false
             gameState++
         }
     }
 }
 
-function fullLevelLogic(createdLevel)
+function fullLevelLogic()
 {   
     background(0)
     textureDraw()
@@ -117,6 +129,10 @@ function fullLevelLogic(createdLevel)
     player.draw(colGrid,healthGrid)
     drawUI()
     dead()
-    nextLevel(createdLevel)
-    
+    nextLevel()
+}
+
+function killAll()
+{
+    enemyCount = 0
 }

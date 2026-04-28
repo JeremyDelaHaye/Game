@@ -16,7 +16,7 @@ function initializeGame()
     createCanvas(1500,1500)
     player = new Player(width/2,height/2,attackSheet,walkSheet)
     colGrid = new Grid(CELLSIZE)
-    doorGrid = new Grid(CELLSIZE)
+    doorGrid = new TextureGrid(CELLSIZE,wood)
     healthGrid = new ItemGrid(CELLSIZE,med)
 }
 
@@ -49,14 +49,14 @@ function level1()
         
         //healthGrid.setCell(33,33,true)
 
-        
-        
+        enemyCount = enemys.length-1
         textureGrids.push(brickGrid)
         textureGrids.push(grassGrid)
         textureGrids.push(healthGrid)
         
     }
-    fullLevelLogic(createdLvl1)
+    fullLevelLogic()
+    //enemyCount = 0
 }
 
 function level2()
@@ -65,7 +65,7 @@ function level2()
     {
     
     }
-    fullLevelLogic(createdLvl2)
+    fullLevelLogic()
     
 }
 
@@ -75,7 +75,7 @@ function level3()
     {
         
     }
-    fullLevelLogic(createdLvl3)
+    fullLevelLogic()
     
 }
 
@@ -85,7 +85,7 @@ function level4()
     {
         
     }
-    fullLevelLogic(createdLvl4)
+    fullLevelLogic()
 }
 
 function dead()

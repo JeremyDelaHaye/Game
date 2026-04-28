@@ -41,7 +41,7 @@ function level1()
         let brickGrid = new TextureGrid(CELLSIZE,bricks)
         let grassGrid = new TextureGrid(CELLSIZE,grass)
 
-        loadMap(LEVEL1MAP,brickGrid)
+        loadMap(MAP,brickGrid)
         mergeGrids(brickGrid,colGrid)
         occupyEmptyGrid(grassGrid,colGrid)
         

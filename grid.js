@@ -32,8 +32,7 @@ class Grid extends GameObject
 
     setCellFromCord(x,y,input)
     {
-        this.setCell(this.getIndexOfCoord(x),this.getIndexOfCoord(y),input)
-        
+        this.setCell(this.getIndexOfCoord(x),this.getIndexOfCoord(y),input)   
     }
 
     getCellFromCord(x,y)

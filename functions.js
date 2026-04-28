@@ -31,7 +31,7 @@ function loadMap(map, grid,healthGrid)
             
             if (map[row][col] ==='+')
             {
-                enemys.push( new Enemy(x,y,2,enemyUnarmed,enemyAttack,bloodSplatter,deadSprite,10))
+                enemys.push( new Enemy(x,y,2,enemyUnarmed,enemyAttack,bloodSplatter,deadSprite,5))
             }
             if (map[row][col] === '@')
             {
@@ -72,10 +72,19 @@ function occupyEmptyGrid(fillGrid, checkGrid)
 
 function drawUI()
 {
-    textSize(25)
-    fill(255)
-    text('score:' + player.getScore(), 10, 20)
-    text('health:' + player.getHealth(), 150, 20)
+    const ui = document.getElementById('gameUI')
+    
+    if (gameState >= 1 && gameState <= 3)
+    {
+        ui.style.display = 'block'
+        document.getElementById('healthDisplay').innerText = 'Health: ' + player.getHealth()/2
+        document.getElementById('scoreDisplay').innerText = 'Score: ' + player.getScore()
+    }
+    else
+    {
+        ui.style.display = 'none'
+    }
+    
 }
 
 function enemyDraw()
@@ -96,12 +105,17 @@ function textureDraw()
 
 function resetGame()
 {
-    player.setHealth(100)
+    player.setHealth(200)
     player.setScore(0)
     player.setState(true)
     colGrid.createEmptyGrid()
     healthGrid.createEmptyGrid()
     doorGrid.createEmptyGrid()
+    createdLvl0 = false
+    createdLvl1 = false
+    createdLvl2 = false
+    createdLvl3 = false
+    createdLvl4 = false
     enemys = []
     textureGrids = []
 }
@@ -110,9 +124,10 @@ function nextLevel()
 {
     if (enemyCount <= 0)
     {
-        //doorGrid.drawTexture()
+        doorGrid.drawTexture()
         if (doorGrid.isOccupied(player.getX() + 25, player.getY() + 25))
         {
+            console.log(player.getState())
             if (gameState === 1) createdLvl1 = false
             if (gameState === 2) createdLvl2 = false
             if (gameState === 3) createdLvl3 = false
@@ -123,13 +138,12 @@ function nextLevel()
 
 function fullLevelLogic()
 {   
-    background(0)
     textureDraw()
     enemyDraw()
     player.draw(colGrid,healthGrid)
     drawUI()
-    dead()
     nextLevel()
+    dead()
 }
 
 function killAll()

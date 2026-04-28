@@ -56,3 +56,40 @@ pre {
         height: auto;
     }
 } 
+
+body 
+{
+    margin: 0;
+    padding: 0;
+    background: black;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#gameUI {
+    display: none;
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 20px 30px;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    min-width: 150px;
+    z-index: 10;
+}
+
+#gameUI h2 {
+    margin: 0 0 10px 0;
+    font-size: 22px;
+}
+
+#gameUI p {
+    margin: 5px 0;
+}

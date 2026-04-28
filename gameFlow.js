@@ -9,11 +9,17 @@ let createdLvl4 = false
 let enemys = [] 
 let textureGrids = []
 let enemyCount = 0
+let scaleFactor = 1
 
 function initializeGame()
 {
     gameState = 0;
-    createCanvas(1500,1500)
+    let cnv = createCanvas(1500,1500)
+
+    scaleFactor = Math.min(windowWidth / 1500, (windowHeight - 4) / 1500)
+    cnv.style('width',  (1500 * scaleFactor) + 'px')
+    cnv.style('height', (1500 * scaleFactor) + 'px')
+
     player = new Player(width/2,height/2,attackSheet,walkSheet)
     colGrid = new Grid(CELLSIZE)
     doorGrid = new TextureGrid(CELLSIZE,wood)
@@ -26,7 +32,7 @@ function level0()
     textAlign(CENTER)
     textSize(50)
     fill(255)
-    text('Press ENTER to start', width/2, height/2)
+    text('Press to start', width/2, height/2)
 }
 
 function level1()
@@ -40,16 +46,15 @@ function level1()
         let brickGrid = new TextureGrid(CELLSIZE,bricks)
         let grassGrid = new TextureGrid(CELLSIZE,grass)
 
-        player.setX(50)
-        player.setY(1250)
 
         loadMap(LEVEL1MAP,brickGrid,healthGrid)
+        console.log('door cells set:', doorGrid.getCells().flat().filter(x => x).length)
         mergeGrids(brickGrid,colGrid)
         occupyEmptyGrid(grassGrid,colGrid)
         
         //healthGrid.setCell(33,33,true)
 
-        enemyCount = enemys.length-1
+        enemyCount = enemys.length
         textureGrids.push(brickGrid)
         textureGrids.push(grassGrid)
         textureGrids.push(healthGrid)
@@ -63,7 +68,21 @@ function level2()
 {
     if (!createdLvl2)
     {
-    
+        resetGame()
+        createdLvl2 = true
+        let woodGrid = new TextureGrid(CELLSIZE,wood)
+        let stoneGrid = new TextureGrid(CELLSIZE,darkStoneWall)
+
+        loadMap(LEVEL2MAP,stoneGrid,healthGrid)
+
+        mergeGrids(stoneGrid,colGrid)
+        occupyEmptyGrid(woodGrid,colGrid)
+
+        enemyCount = enemys.length
+        textureGrids.push(stoneGrid)
+        textureGrids.push(woodGrid)
+        textureGrids.push(healthGrid)
+        
     }
     fullLevelLogic()
     
@@ -73,7 +92,7 @@ function level3()
 {
     if (!createdLvl3)
     {
-        
+        resetGame()
     }
     fullLevelLogic()
     
@@ -90,16 +109,9 @@ function level4()
 
 function dead()
 {
-    if (!player.getState())
+    if (player.getState() === false)
     {
         pastState = gameState
-        background(0)
-        textAlign(CENTER)
-        textSize(50)
-        fill(255)
-        text("YOU DIED", width/2, height/2)
-        textSize(25)
-        text("Press SPACE to respawn", width/2, height/1.5)
         gameState = 5
 
         if (pastState === 1) createdLvl1 = false

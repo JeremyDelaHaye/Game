@@ -95,7 +95,7 @@ class Player extends Character
         this.#walkTimer = 0
         this.#score = 0
         this.#state = false
-        this.#health = 100
+        this.#health = 200
         this.#damage = damage
     }
 
@@ -211,7 +211,7 @@ class Player extends Character
     {
         if (healthGrid.isOccupied(this.getX() + 25, this.getY() + 25))
         {
-            this.setHealth(this.getHealth()+50)
+            this.setHealth(200)
             healthGrid.setCellFromCord(this.getX() + 25, this.getY() + 25,false)
         }
     }
@@ -274,6 +274,7 @@ class Enemy extends Character
     #isAttacking
     #bloodSplatter
     #deadSprite
+    #attackCooldown
     #damage
 
     constructor(x,y,speed,walkSheet,attackSheet,bloodSplatter,deadSprite,damage)
@@ -284,11 +285,12 @@ class Enemy extends Character
         this.#walkFrame = 0
         this.#walkTimer = 0
         this.#bullets = []
-        this.#bulletSpeed = 20
+        this.#bulletSpeed = 40
         this.setSpeed(speed)
         this.#damage = damage
         this.#bloodSplatter = bloodSplatter
         this.#deadSprite = deadSprite
+        this.#attackCooldown = 0
         let angle = Math.random() * Math.PI * 2
         this.#velX = Math.cos(angle) * speed
         this.#velY = Math.sin(angle) * speed
@@ -368,6 +370,7 @@ class Enemy extends Character
             {
                 this.#attackFrame = 0
                 this.#isAttacking = false
+                this.#attackCooldown = 120
             }
         }
     }
@@ -484,6 +487,7 @@ class Enemy extends Character
 
     triggerAttack(player)
     {
+        if (this.#attackCooldown > 0) { this.#attackCooldown--; return }
         if (abs(this.getX() - player.getX()) < 50 && abs(this.getY() - player.getY()) < 50)
         {
             if (!this.#isAttacking)

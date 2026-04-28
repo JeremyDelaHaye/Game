@@ -6,6 +6,8 @@ let createdLvl1 = false
 let createdLvl2 = false
 let createdLvl3 = false
 let createdLvl4 = false
+let enemys = []
+let textureGrids = []
 let enemyCount = 0
 
 function initializeGame()
@@ -20,11 +22,6 @@ function initializeGame()
 
 function level0()
 {
-    if (!createdLvl0)
-    {
-        player.setState(true)
-        createdLvl0 = true
-    }
     background(0)
     textAlign(CENTER)
     textSize(50)
@@ -36,141 +33,58 @@ function level1()
 {
     if (!createdLvl1)
     {
-        brickGrid = new TextureGrid(CELLSIZE, bricks)
-        healthGrid = new ItemGrid(CELLSIZE, med)
-        grassGrid = new TextureGrid(CELLSIZE,grass)
-        colGrid = new Grid(CELLSIZE)
-        doorGrid = new TextureGrid(CELLSIZE, wood)
-        createLevel()
-        doorGrid.setCell(0, 9, true)
-        doorGrid.setCell(0, 10, true)
-        healthGrid.setCell(12, 3, true)
-        healthGrid.setCell(3, 15, true)
-        player = new Player(250, 700, attackSheet, walkSheet)
-        player.setState(true)
-        enemy1 = new ShootingEnemy(750, 250, 1, enemyArmed, attackSheet, splatter1, dead1, 10)
-        enemy2 = new Enemy(400, 400, 1, enemyUnarmed, enemyAttack, splatter2, dead2, 1)
-        enemyCount = 2
+        resetGame()
         createdLvl1 = true
+
+        let enemy1 = new ShootingEnemy(50,50,4,enemyArmed,enemyAttack,splatter1,dead4,5)
+        let enemy2 = new Enemy(1000,50,4,enemyUnarmed,enemyAttack,splatter2,dead2,5)
+        let brickGrid = new TextureGrid(CELLSIZE,bricks)
+        let grassGrid = new TextureGrid(CELLSIZE,grass)
+
+        loadMap(LEVEL1MAP,brickGrid)
+        mergeGrids(brickGrid,colGrid)
+        occupyEmptyGrid(grassGrid,colGrid)
+        
+        healthGrid.setCell(33,33,true)
+
+        
+        //enemys.push(enemy1)
+        //enemys.push(enemy2)
+        textureGrids.push(brickGrid)
+        textureGrids.push(healthGrid)
+        textureGrids.push(grassGrid)
+        
     }
-    background(0)
-    grassGrid.drawTexture()
-    brickGrid.drawTexture()
-    healthGrid.drawTexture()
-    enemy1.logic(player, colGrid)
-    enemy2.logic(player, colGrid)
-    player.draw(colGrid, healthGrid)
-    drawUI(player)
-    if (enemyCount === 0)
-    {
-        doorGrid.drawTexture()
-        if (doorGrid.isOccupied(player.getX(), player.getY()))
-        {
-            createdLvl1 = false
-            gameState++
-        }
-    }
-    dead()
+    fullLevelLogic(createdLvl1)
 }
 
 function level2()
 {
     if (!createdLvl2)
     {
-        darkWallGrid = new TextureGrid(CELLSIZE, darkStoneWall)
-        healthGrid = new ItemGrid(CELLSIZE, med)
-        colGrid = new Grid(CELLSIZE)
-        doorGrid = new TextureGrid(CELLSIZE, wood)
-        createLevel2()
-        doorGrid.setCell(0, 9, true)
-        doorGrid.setCell(0, 10, true)
-        healthGrid.setCell(3, 3, true)
-        healthGrid.setCell(16, 16, true)
-        player = new Player(150, 700, attackSheet, walkSheet)
-        player.setState(true)
-        enemy1 = new ShootingEnemy(800, 150, 1, enemyArmed, attackSheet, splatter2, dead2, 10)
-        enemy2 = new Enemy(800, 800, 1, enemyUnarmed, attackSheet, splatter1, dead3, 1)
-        enemy3 = new Enemy(150, 400, 1, enemyUnarmed, attackSheet, splatter1, dead4, 1)
-        enemyCount = 3
-        createdLvl2 = true
+    
     }
-    background(0)
-    darkWallGrid.drawTexture()
-    healthGrid.drawTexture()
-    enemy1.logic(player, colGrid)
-    enemy2.logic(player, colGrid)
-    enemy3.logic(player, colGrid)
-    player.draw(colGrid, healthGrid)
-    drawUI(player)
-    if (enemyCount === 0)
-    {
-        doorGrid.drawTexture()
-        if (doorGrid.isOccupied(player.getX(), player.getY()))
-        {
-            createdLvl2 = false
-            gameState++
-        }
-    }
-    dead()
+    fullLevelLogic(createdLvl2)
+    
 }
 
 function level3()
 {
     if (!createdLvl3)
     {
-        woodGrid = new TextureGrid(CELLSIZE, wood)
-        healthGrid = new ItemGrid(CELLSIZE, med)
-        colGrid = new Grid(CELLSIZE)
-        doorGrid = new TextureGrid(CELLSIZE, bricks)
-        createLevel3()
-        doorGrid.setCell(0, 9, true)
-        doorGrid.setCell(0, 10, true)
-        healthGrid.setCell(15, 3, true)
-        healthGrid.setCell(3, 15, true)
-        healthGrid.setCell(15, 15, true)
-        player = new Player(150, 800, attackSheet, walkSheet)
-        player.setState(true)
-        enemy1 = new ShootingEnemy(800, 150, 2, enemyArmed, attackSheet, splatter2, dead3, 10)
-        enemy2 = new ShootingEnemy(800, 800, 2, enemyArmed, attackSheet, splatter1, dead4, 10)
-        enemy3 = new Enemy(500, 800, 1, enemyUnarmed, attackSheet, splatter2, dead1, 1)
-        enemy4 = new Enemy(500, 150, 1, enemyUnarmed, attackSheet, splatter2, dead2, 1)
-        enemyCount = 4
-        createdLvl3 = true
+        
     }
-    background(0)
-    woodGrid.drawTexture()
-    healthGrid.drawTexture()
-    enemy1.logic(player, colGrid)
-    enemy2.logic(player, colGrid)
-    enemy3.logic(player, colGrid)
-    enemy4.logic(player, colGrid)
-    player.draw(colGrid, healthGrid)
-    drawUI(player)
-    if (enemyCount === 0)
-    {
-        doorGrid.drawTexture()
-        if (doorGrid.isOccupied(player.getX(), player.getY()))
-        {
-            createdLvl3 = false
-            gameState++
-        }
-    }
-    dead()
+    fullLevelLogic(createdLvl3)
+    
 }
 
 function level4()
 {
     if (!createdLvl4)
     {
-        createdLvl4 = true
+        
     }
-    background(0)
-    textAlign(CENTER)
-    textSize(50)
-    fill(255)
-    text('You Win!', width/2, height/2)
-    textSize(25)
-    text('Press ENTER to play again', width/2, height/1.5)
+    fullLevelLogic(createdLvl4)
 }
 
 function dead()

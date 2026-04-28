@@ -535,9 +535,9 @@ class Enemy extends Character
 
 class ShootingEnemy extends Enemy
 {
-    constructor(x,y,speed,walkSheet,attackSheet,bloodSplatter,deadSprite,damage)
+    constructor(x,y,speed,walkSheet,bloodSplatter,deadSprite,damage)
     {
-        super(x,y,speed,walkSheet,attackSheet,bloodSplatter,deadSprite,damage)
+        super(x,y,speed,walkSheet,bloodSplatter,deadSprite,damage)
     }
 
     logic(player, colGrid)

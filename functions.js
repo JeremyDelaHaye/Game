@@ -18,15 +18,24 @@ function loadMap(map, grid,healthGrid)
     {
         for (let col = 0; col < map[row].length; col++)
         {
+            const x = col * CELLSIZE
+            const y = row * CELLSIZE
+
+            const deadSprites = [dead1, dead2, dead3, dead4]
+            const splatSprites = [splatter1, splatter2]
+            const deadSprite = deadSprites[Math.floor(Math.random() * deadSprites.length)]
+            const bloodSplatter = splatSprites[Math.floor(Math.random() * splatSprites.length)]
+
             if (map[row][col] ==='#'){grid.setCell(row,col,true)}
             if (map[row][col] ==='.'){healthGrid.setCell(row,col,true);}
-            
             if (map[row][col] ==='+')
             {
-                //let unarmedEnemy = new Enemy()
+                enemys.push( new Enemy(x,y,4,enemyUnarmed,enemyAttack,bloodSplatter,deadSprite))
             }
-            //create enemy class and push to enemys 
-            //occupy health grid at chord then push to textureGrids 
+            if (map[row][col] === '@')
+            {
+                enemys.push(new ShootingEnemy(x,y,2,enemyArmed,bloodSplatter,deadSprite))
+            } 
         }
     }
 }
@@ -109,4 +118,5 @@ function fullLevelLogic(createdLevel)
     drawUI()
     dead()
     nextLevel(createdLevel)
+    
 }

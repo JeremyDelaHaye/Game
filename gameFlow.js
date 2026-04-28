@@ -6,7 +6,7 @@ let createdLvl1 = false
 let createdLvl2 = false
 let createdLvl3 = false
 let createdLvl4 = false
-let enemys = []
+let enemys = [] 
 let textureGrids = []
 let enemyCount = 0
 
@@ -36,23 +36,24 @@ function level1()
         resetGame()
         createdLvl1 = true
 
-        let enemy1 = new ShootingEnemy(50,50,4,enemyArmed,enemyAttack,splatter1,dead4,5)
-        let enemy2 = new Enemy(1000,50,4,enemyUnarmed,enemyAttack,splatter2,dead2,5)
+        
         let brickGrid = new TextureGrid(CELLSIZE,bricks)
         let grassGrid = new TextureGrid(CELLSIZE,grass)
 
-        loadMap(MAP,brickGrid)
+        player.setX(50)
+        player.setY(1250)
+
+        loadMap(LEVEL1MAP,brickGrid,healthGrid)
         mergeGrids(brickGrid,colGrid)
         occupyEmptyGrid(grassGrid,colGrid)
         
-        healthGrid.setCell(33,33,true)
+        //healthGrid.setCell(33,33,true)
 
         
-        //enemys.push(enemy1)
-        //enemys.push(enemy2)
+        
         textureGrids.push(brickGrid)
-        textureGrids.push(healthGrid)
         textureGrids.push(grassGrid)
+        textureGrids.push(healthGrid)
         
     }
     fullLevelLogic(createdLvl1)

@@ -12,13 +12,21 @@ function mergeGrids(inputGrid, colGrid)
     }
 }
 
-function loadMap(map, grid)
+function loadMap(map, grid,healthGrid)
 {
     for (let row = 0; row < map.length; row++)
     {
         for (let col = 0; col < map[row].length; col++)
         {
-            grid.setCell(row, col, map[row][col] === '#')
+            if (map[row][col] ==='#'){grid.setCell(row,col,true)}
+            if (map[row][col] ==='.'){healthGrid.setCell(row,col,true);}
+            
+            if (map[row][col] ==='+')
+            {
+                //let unarmedEnemy = new Enemy()
+            }
+            //create enemy class and push to enemys 
+            //occupy health grid at chord then push to textureGrids 
         }
     }
 }
@@ -55,8 +63,7 @@ function enemyDraw()
 {
     for (let i = 0; i < enemys.length; i++)
     {
-        enemys[i].logic(player,colGrid)
-        
+        enemys[i].logic(player,colGrid)  
     }
 }
 
@@ -96,8 +103,8 @@ function nextLevel(createdLevel)
 function fullLevelLogic(createdLevel)
 {   
     background(0)
-    enemyDraw()
     textureDraw()
+    enemyDraw()
     player.draw(colGrid,healthGrid)
     drawUI()
     dead()

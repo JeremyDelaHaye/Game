@@ -74,7 +74,7 @@ function drawUI()
 {
     const ui = document.getElementById('gameUI')
     
-    if (gameState >= 1 && gameState <= 3)
+    if (gameState >= 3)
     {
         ui.style.display = 'block'
         document.getElementById('healthDisplay').innerText = 'Health: ' + player.getHealth()/2
@@ -128,9 +128,10 @@ function nextLevel()
         if (doorGrid.isOccupied(player.getX() + 25, player.getY() + 25))
         {
             console.log(player.getState())
-            if (gameState === 1) createdLvl1 = false
-            if (gameState === 2) createdLvl2 = false
-            if (gameState === 3) createdLvl3 = false
+            if (gameState === 3) createdLvl1 = false
+            if (gameState === 4) createdLvl2 = false
+            if (gameState === 5) createdLvl3 = false
+            if (gameState === 6) createdLvl4 = false
             gameState++
         }
     }

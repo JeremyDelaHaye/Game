@@ -141,13 +141,14 @@ class Player extends Character
 
     startAttack()
     {
+        swordSwoosh.play()
         this.#isAttacking = true
         this.#attackFrame = 0
         this.#attackTimer = 0
     }
 
     animateAttack()
-    {
+    { 
         this.#attackTimer++
         if (this.#attackTimer >= 8)
         {
@@ -353,13 +354,14 @@ class Enemy extends Character
 
     startAttack()
     {
+        swordSwoosh.play()
         this.#isAttacking = true
         this.#attackFrame = 0
         this.#attackTimer = 0
     }
 
     #animateAttack()
-    {   
+    {    
         this.#attackTimer++
         if (this.#attackTimer >= 8)
         {
@@ -382,6 +384,7 @@ class Enemy extends Character
             this.#health -= 10;
             if (this.#health <= 0)
             {
+                grunt.play()
                 enemyCount--
                 this.#state = false;
                 player.setScore(player.getScore() + 1)
@@ -393,6 +396,7 @@ class Enemy extends Character
     {
         if (frameCount % 10 === 0)
         {
+            gunShot.play()
             let bullet = new Bullet(this.getX(), this.getY() + 15, this.getAngle(), this.#bulletSpeed)
             this.#bullets.push(bullet)
         }
@@ -591,12 +595,14 @@ class NPC extends Character
     logic(player)
     {
         this.triggerDialogue(player)
+        this.dialogue()
+        image(npc,this.getX(),this.getY(),150,150)
     }
 
     triggerDialogue(player)
     {
-        const dx = Math.abs(player.getX() - npc.getX());
-        const dy = Math.abs(player.getY() - npc.getY());
+        const dx = Math.abs(player.getX() - this.getX());
+        const dy = Math.abs(player.getY() - this.getY());
 
         if (dx <= 50 && dy <= 50)
         {
@@ -608,13 +614,13 @@ class NPC extends Character
     {
         if (this.#dialogueState === true)
         {
-            fill(0)
-            rect(0,1100,width,400)
-            for( let i = this.#dialogueIndex; i < this.#dialogue.length; i++)
+            if (this.#dialogueIndex < this.#dialogue.length)
             {
-                text(this.#dialogue[i],0,1300)
+                fill(255)
+                rect(0,1100,width,400)   
+                text(this.#dialogue[this.#dialogueIndex],0,1300)    
+                this.#dialogueState = false
             }
-            this.#dialogueState = false
         }
         
     }

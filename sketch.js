@@ -12,6 +12,7 @@ function preload()
     enemyAttack = loadImage('Assets/enemyAttack.png')
     enemyUnarmed = loadImage('Assets/enemyUnarmed.png')
     enemyArmed = loadImage('Assets/enemyArmed.png')
+    npc = loadImage('Assets/npc.png')
     grass = loadImage('Assets/grass.jpg')
     playerAttack = loadImage('Assets/playerAttack.png')
     playerWalk = loadImage('Assets/playerWalk.png')
@@ -20,6 +21,9 @@ function preload()
     walls = loadImage('Assets/walls.png')
     wood = loadImage('Assets/wood.jpg')
     med = loadImage('Assets/med.png')
+    gunShot = loadSound('Assets/GunShot.mp3')
+    swordSwoosh = loadSound('Assets/SwordSwoosh.mp3')
+    grunt = loadSound('Assets/Grunt.mp3')
 }
 
 function setup()
@@ -38,25 +42,6 @@ function draw()
     switch(gameState)
     {
         case 0:
-            level0()
-        break
-
-        case 1:
-            level1()
-        break
-
-        case 2:
-            level2()
-        break
-
-        case 3:
-            level3()
-        break
-
-        case 4:
-            level4()
-        break
-        case 5:
             fill(0)
             rect(1500,1500)
             textAlign(CENTER)
@@ -65,8 +50,9 @@ function draw()
             text("YOU DIED", width/2, height/2)
             textSize(25)
             text("Press SPACE to respawn", width/2, height/1.5)
-        break 
-        case 6:
+        break
+
+        case 1:
             fill(0)
             rect(1500,1500)
             textAlign(CENTER)
@@ -75,15 +61,38 @@ function draw()
             text("PAUSE", width/2, height/2)
             textSize(25)
             text("Press SPACE to restart", width/2, height/1.5)
-            text("Press ENTER to go to main menu",width/2, height/1.25)
+            text("Press ENTER to go to main menu", width/2, height/1.25)
+        break
 
+        case 2:
+            level0()
+        break
+
+        case 3:
+            level1()
+        break
+
+        case 4:
+            level2()
+        break
+
+        case 5:
+            level3()
+        break
+
+        case 6:
+            level4()
+        break
+        
+        case 7:
+            level5()
         break
     }
 }
 
 function mousePressed()
 {
-    if (gameState === 0)
+    if (gameState === 2)
     {
         gameState++
     }
@@ -91,7 +100,7 @@ function mousePressed()
     {
         if (player.getAttackFrame() === 0)
         {
-            player.startAttack() 
+            player.startAttack()
         }
     }
 
@@ -100,32 +109,34 @@ function mousePressed()
         resetGame()
     }
 
-    /* 
-    if (npc.getDialougeState)
-    {   
-        npc.setDialogueIndex(this.getDialogueIndex++)
+    if (createdLvl5)
+    {
+        if (character.getDialogueState())
+        {
+            character.setDialogueIndex(character.getDialogueIndex()+1)
+            console.log(character.getDialogueIndex)
+        }
     }
-    */
 }
 
 function keyPressed()
 {
     if (keyCode === ENTER)
     {
-        if (gameState === 6)
+        if (gameState === 1)
         {
             resetGame()
-            gameState = 0
+            gameState = 2
         }
-        else 
+        else
         {
             gameState++
-        } 
+        }
     }
 
     if (keyCode === 32)
     {
-        if (gameState === 5)
+        if (gameState === 0)
         {
             gameState = pastState
         }
@@ -133,11 +144,10 @@ function keyPressed()
 
     if (keyCode === 27)
     {
-        if (gameState !== 6)
+        if (gameState !== 1)
         {
             pastState = gameState
-            gameState = 6 
-            console.log(pastState)
+            gameState = 1
         }
         else
         {
@@ -147,7 +157,7 @@ function keyPressed()
 
     if (keyCode === 32)
     {
-        if (gameState === 6)
+        if (gameState === 1)
         {
             resetGame()
             gameState = pastState

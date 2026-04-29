@@ -6,14 +6,17 @@ let createdLvl1 = false
 let createdLvl2 = false
 let createdLvl3 = false
 let createdLvl4 = false
+let createdLvl5 = false
 let enemys = [] 
 let textureGrids = []
 let enemyCount = 0
 let scaleFactor = 1
+let character
+let dialogue =['hello','mate']
 
 function initializeGame()
 {
-    gameState = 0;
+    gameState = 2;
     let cnv = createCanvas(1500,1500)
 
     scaleFactor = Math.min(windowWidth / 1500, (windowHeight - 4) / 1500)
@@ -133,16 +136,34 @@ function level4()
     fullLevelLogic()
 }
 
+function level5()
+{
+    
+    if (!createdLvl5)
+    {
+        resetGame()
+        createdLvl5 = true 
+        
+        character = new NPC(width/2,height/2,npc,dialogue)
+
+        
+    }
+    fullLevelLogic()
+
+    character.logic(player,colGrid)
+}
+
 function dead()
 {
     if (player.getState() === false)
     {
         pastState = gameState
-        gameState = 5
+        gameState = 0
 
-        if (pastState === 1) createdLvl1 = false
-        if (pastState === 2) createdLvl2 = false
-        if (pastState === 3) createdLvl3 = false
+        if (pastState === 3) createdLvl1 = false
+        if (pastState === 4) createdLvl2 = false
+        if (pastState === 5) createdLvl3 = false
+        if (pastState === 6) createdLvl4 = false
     }
 }
 

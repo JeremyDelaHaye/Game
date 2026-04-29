@@ -93,6 +93,19 @@ function level3()
     if (!createdLvl3)
     {
         resetGame()
+        createdLvl3 = true 
+        let wallsGrid = new TextureGrid(CELLSIZE,walls)
+        let grassGrid = new TextureGrid(CELLSIZE,grass)
+
+        loadMap(LEVEL3MAP,wallsGrid,healthGrid)
+
+        mergeGrids(wallsGrid,colGrid)
+        occupyEmptyGrid(grassGrid,colGrid)
+
+        enemyCount = enemys.length
+        textureGrids.push(wallsGrid)
+        textureGrids.push(grassGrid)
+        textureGrids.push(healthGrid)
     }
     fullLevelLogic()
     
@@ -102,7 +115,20 @@ function level4()
 {
     if (!createdLvl4)
     {
-        
+        resetGame()
+        createdLvl4 = true
+        let wallsGrid = new TextureGrid(CELLSIZE,walls)
+        let grassGrid = new TextureGrid(CELLSIZE,grass)
+
+        loadMap(LEVEL4MAP,wallsGrid,healthGrid)
+
+        mergeGrids(wallsGrid,colGrid)
+        occupyEmptyGrid(grassGrid,colGrid)
+
+        enemyCount = enemys.length
+        textureGrids.push(wallsGrid)
+        textureGrids.push(grassGrid)
+        textureGrids.push(healthGrid)
     }
     fullLevelLogic()
 }

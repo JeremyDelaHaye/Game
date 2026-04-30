@@ -136,6 +136,12 @@ function nextLevel()
             if (gameState === 4) createdLvl2 = false
             if (gameState === 5) createdLvl3 = false
             if (gameState === 6) createdLvl4 = false
+            if (gameState === 8) 
+            {
+                createdLvlCreated = false
+                gameState = 2
+                return
+            }
             gameState++
         }
     }

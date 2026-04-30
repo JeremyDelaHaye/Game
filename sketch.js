@@ -12,7 +12,6 @@ function preload()
     enemyAttack = loadImage('Assets/enemyAttack.png')
     enemyUnarmed = loadImage('Assets/enemyUnarmed.png')
     enemyArmed = loadImage('Assets/enemyArmed.png')
-    npc = loadImage('Assets/npc.png')
     grass = loadImage('Assets/grass.jpg')
     playerAttack = loadImage('Assets/playerAttack.png')
     playerWalk = loadImage('Assets/playerWalk.png')
@@ -84,9 +83,6 @@ function draw()
             level4()
         break
         
-        case 7:
-            level5()
-        break
     }
 }
 
@@ -109,14 +105,6 @@ function mousePressed()
         resetGame()
     }
 
-    if (createdLvl5)
-    {
-        if (character.getDialogueState())
-        {
-            character.setDialogueIndex(character.getDialogueIndex()+1)
-            console.log(character.getDialogueIndex)
-        }
-    }
 }
 
 function keyPressed()

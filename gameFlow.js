@@ -6,13 +6,10 @@ let createdLvl1 = false
 let createdLvl2 = false
 let createdLvl3 = false
 let createdLvl4 = false
-let createdLvl5 = false
-let enemys = [] 
+let enemys = []
 let textureGrids = []
 let enemyCount = 0
 let scaleFactor = 1
-let character
-let dialogue =['hello','mate']
 
 function initializeGame()
 {
@@ -134,23 +131,6 @@ function level4()
         textureGrids.push(healthGrid)
     }
     fullLevelLogic()
-}
-
-function level5()
-{
-    
-    if (!createdLvl5)
-    {
-        resetGame()
-        createdLvl5 = true 
-        
-        character = new NPC(width/2,height/2,npc,dialogue)
-
-        
-    }
-    fullLevelLogic()
-
-    character.logic(player,colGrid)
 }
 
 function dead()

@@ -74,7 +74,7 @@ function drawUI()
 {
     const ui = document.getElementById('gameUI')
     
-    if (gameState >= 3)
+    if (gameState >= 3 && gameState <= 7)
     {
         ui.style.display = 'block'
         document.getElementById('healthDisplay').innerText = 'Health: ' + player.getHealth()/2

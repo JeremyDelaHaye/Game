@@ -158,8 +158,6 @@ function createdlevel()
             textureGrids.push(wallsGrid)
             textureGrids.push(grassGrid)
             textureGrids.push(healthGrid)
-
-            loadMap(CREATEDLEVEL,wallsGrid,healthGrid)
         }
         catch
         {
@@ -206,6 +204,7 @@ function dead()
         if (pastState === 4) createdLvl2 = false
         if (pastState === 5) createdLvl3 = false
         if (pastState === 6) createdLvl4 = false
+        if (pastState === 8) createdLvlCreated = false
     }
 }
 

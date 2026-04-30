@@ -149,7 +149,7 @@ function createdlevel()
         let wallsGrid = new TextureGrid(CELLSIZE,walls)
         let grassGrid = new TextureGrid(CELLSIZE,grass)
         try 
-        {
+        {   
             loadMap(CREATEDLEVEL,wallsGrid,healthGrid)
             mergeGrids(wallsGrid,colGrid)
             occupyEmptyGrid(grassGrid,colGrid)

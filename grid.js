@@ -321,8 +321,7 @@ class LevelEditorGrid extends Grid
             }
             CREATEDLEVEL.push(line)
         }
-
-    console.log(CREATEDLEVEL)
+        console.log(CREATEDLEVEL)
     }
 
     createUI()

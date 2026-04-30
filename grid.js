@@ -217,4 +217,154 @@ class ItemGrid extends TextureGrid
     }
 }
 
+class LevelEditorGrid extends Grid
+{
+    constructor(cellSize)
+    {
+        super(cellSize)
+        this.createEditorGrid()
+    }
+
+    createEditorGrid()
+    {
+        const rows = Math.ceil(height / this.getCellSize())
+        const cols = Math.ceil(width / this.getCellSize())
+        for (let row = 0; row < rows; row++)
+        {
+            for (let col = 0; col < cols; col++)
+            {
+                this.setCell(row, col, 0)
+            }
+        }
+    }
+
+    drawGrid()
+    {
+        const rows = Math.ceil(height / this.getCellSize())
+        const cols = Math.ceil(width / this.getCellSize())
+        stroke(30)
+
+        for (let row = 0; row < rows; row++)
+        {
+            for (let col = 0; col < cols; col++)
+            {
+                let val = this.getCell(row, col)
+
+                let x = col * this.getCellSize()
+                let y = row * this.getCellSize()
+
+                if (val === 1)      fill(255)
+                else if (val === 2) fill(0, 255, 0)
+                else if (val === 3) fill(255, 140, 0)
+                else if (val === 4) fill(255, 0, 0)
+                else if (val === 5) fill(0, 150, 255)
+                else if (val === 6) fill(255, 255, 0)
+                else                fill(0)
+
+                rect(x, y, this.getCellSize(), this.getCellSize())
+            }
+        }
+
+        noStroke()
+    }
+
+    fillPerimeter()
+    {
+        const rows = Math.ceil(height / this.getCellSize())
+        const cols = Math.ceil(width / this.getCellSize())
+
+        for (let col = 0; col < cols; col++)
+        {
+            this.setCell(0, col, 1)
+            this.setCell(rows - 1, col, 1)
+        }
+
+        for (let row = 0; row < rows; row++)
+        {
+            this.setCell(row, 0, 1)
+            this.setCell(row, cols - 1, 1)
+        }
+    }
+
+    paint(currentValue)
+    {
+        let col = Math.floor(mouseX / this.getCellSize())
+        let row = Math.floor(mouseY / this.getCellSize())
+
+        const rows = Math.ceil(height / this.getCellSize())
+        const cols = Math.ceil(width / this.getCellSize())
+
+        if (row < 0 || row >= rows || col < 0 || col >= cols) return
+        this.setCell(row, col, currentValue)   
+    }
+
+    exportLevel()
+    {
+        const rows = Math.ceil(height / this.getCellSize())
+        const cols = Math.ceil(width / this.getCellSize())
+    
+        CREATEDLEVEL = []
+
+        for (let row = 0; row < rows; row++)
+        {
+            let line = ""
+            for (let col = 0; col < cols; col++)
+            {
+                let val = this.getCell(row, col)
+                if (val === 0) line += " "
+                if (val === 1) line += "#"
+                if (val === 2) line += "."
+                if (val === 3) line += "+"
+                if (val === 4) line += "@"
+                if (val === 5) line += "^"
+                if (val === 6) line += "$"
+            }
+            CREATEDLEVEL.push(line)
+        }
+
+    console.log(CREATEDLEVEL)
+    }
+
+    createUI()
+    {
+        this.uiDiv = createDiv()
+        this.uiDiv.position(10, 10)
+        this.uiDiv.style("color", "white")
+        this.uiDiv.style("font-family", "monospace")
+        this.uiDiv.style("font-size", "14px")
+        this.uiDiv.style("line-height", "18px")
+        this.uiDiv.style("z-index", "20")
+        this.uiDiv.style("position", "fixed")
+
+        this.uiDiv.html(`
+            <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+                <div>0 <span style="display:inline-block;width:12px;height:12px;background:#000;border:1px solid #555"></span> empty</div>
+                <div>1 <span style="display:inline-block;width:12px;height:12px;background:#ffffff"></span> wall</div>
+                <div>2 <span style="display:inline-block;width:12px;height:12px;background:#00ff00"></span> health</div>
+                <div>3 <span style="display:inline-block;width:12px;height:12px;background:#ff8c00"></span> enemy</div>
+                <div>4 <span style="display:inline-block;width:12px;height:12px;background:#ff0000"></span> shooting enemy</div>
+                <div>5 <span style="display:inline-block;width:12px;height:12px;background:#00aaff"></span> spawn</div>
+                <div>6 <span style="display:inline-block;width:12px;height:12px;background:#ffff00"></span> end</div>
+                <div style="margin-left:20px;">SPACE = export</div>
+            </div>
+        `)
+
+        this.perimeterButton = createButton("Fill Perimeter")
+        this.perimeterButton.position(10, height + 70)
+        this.perimeterButton.mousePressed(() => this.fillPerimeter())
+    }
+
+    hideUI()
+    {
+        if (this.uiDiv) this.uiDiv.remove()
+        if (this.perimeterButton) this.perimeterButton.remove()
+    }
+
+    fullLogic()
+    {
+        this.drawGrid()
+    }
+}
+
+
 

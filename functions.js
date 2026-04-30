@@ -111,11 +111,15 @@ function resetGame()
     colGrid.createEmptyGrid()
     healthGrid.createEmptyGrid()
     doorGrid.createEmptyGrid()
+    if (levelEdit) levelEdit.hideUI()
     createdLvl0 = false
     createdLvl1 = false
     createdLvl2 = false
     createdLvl3 = false
     createdLvl4 = false
+    createdLvlCreated = false
+    createdLvlEditor = false
+    levelEdit = null
     enemys = []
     textureGrids = []
 }
@@ -150,4 +154,18 @@ function fullLevelLogic()
 function killAll()
 {
     enemyCount = 0
+    for(let i = 0; i < enemys.length; i++)
+    {
+        enemys[i].setState(false)
+    }
 }
+
+function refreshCanvas()
+{
+    drawingContext.save()
+    drawingContext.setTransform(1, 0, 0, 1, 0, 0)
+    drawingContext.fillStyle = '#000000'
+    drawingContext.fillRect(0, 0, 1500, 1500)
+    drawingContext.restore()
+}
+

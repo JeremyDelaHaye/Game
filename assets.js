@@ -13,53 +13,14 @@ function preload()
     enemyUnarmed = loadImage('Assets/enemyUnarmed.png')
     enemyArmed = loadImage('Assets/enemyArmed.png')
     grass = loadImage('Assets/grass.jpg')
-    legs = loadImage('Assets/legs.png')
     playerAttack = loadImage('Assets/playerAttack.png')
     playerWalk = loadImage('Assets/playerWalk.png')
     splatter1 = loadImage('Assets/splatter1.png')
     splatter2 = loadImage('Assets/splatter2.png')
-    splatter3 = loadImage('Assets/splatter3.png')
     walls = loadImage('Assets/walls.png')
     wood = loadImage('Assets/wood.jpg')
-}
-
-function setup()
-{
-    createCanvas(1250,1000)
-    level1Setup()
-}
-
-function draw() 
-{
-    
-    background(0)
-    if (player.getState())
-    {
-        brickGrid.drawTexture() 
-        healthGrid.drawTexture()
-        enemy1.logic(player,colGrid)
-        enemy2.logic(player,colGrid)
-        player.draw(colGrid,healthGrid)
-        drawUI(player)
-    }
-    else 
-    {
-        deathScreen(player)
-    }    
-}
-
-function mousePressed()
-{
-    if(player.getHealth()>=0)
-    {
-        if (player.getAttackFrame() === 0)
-        {
-            player.startAttack() 
-        }
-    }
-
-    if (player.getState() === false)
-    {
-        resetGame()
-    }
+    med = loadImage('Assets/med.png')
+    gunShot = loadSound('Assets/GunShot.mp3')
+    swordSwoosh = loadSound('Assets/SwordSwoosh.mp3')
+    grunt = loadSound('Assets/Grunt.mp3')
 }

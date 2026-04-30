@@ -6,10 +6,14 @@ let createdLvl1 = false
 let createdLvl2 = false
 let createdLvl3 = false
 let createdLvl4 = false
+let createdLvlCreated = false
+let createdLvlEditor = false
 let enemys = []
 let textureGrids = []
 let enemyCount = 0
 let scaleFactor = 1
+let paintVal = 1
+let levelEdit
 
 function initializeGame()
 {
@@ -32,7 +36,9 @@ function level0()
     textAlign(CENTER)
     textSize(50)
     fill(255)
-    text('Press to start', width/2, height/2)
+    text('Press space start', width/2, height/2)
+    text('Press 1 to create level',width/2,height/1.75)
+    text('Press 2 to play created level',width/2,height/1.5)
 }
 
 function level1()
@@ -133,6 +139,62 @@ function level4()
     fullLevelLogic()
 }
 
+function createdlevel()
+{
+    if (!createdLvlCreated)
+    {
+        resetGame()
+        createdLvlCreated = true
+
+        let wallsGrid = new TextureGrid(CELLSIZE,walls)
+        let grassGrid = new TextureGrid(CELLSIZE,grass)
+        try 
+        {
+            loadMap(CREATEDLEVEL,wallsGrid,healthGrid)
+            mergeGrids(wallsGrid,colGrid)
+            occupyEmptyGrid(grassGrid,colGrid)
+
+            enemyCount = enemys.length
+            textureGrids.push(wallsGrid)
+            textureGrids.push(grassGrid)
+            textureGrids.push(healthGrid)
+
+            loadMap(CREATEDLEVEL,wallsGrid,healthGrid)
+        }
+        catch
+        {
+            alert('must create level')
+            resetGame()
+            gameState = 2
+        }
+        
+    }
+    fullLevelLogic()
+}
+
+function levelEditor()
+{
+    if (!createdLvlEditor)
+    {
+        resetGame()
+        levelEdit = new LevelEditorGrid(CELLSIZE)
+        createdLvlEditor = true 
+        levelEdit.createUI()
+    }
+    levelEdit.drawGrid()
+}
+
+function endGame()
+{
+    background(0)
+    textAlign(CENTER)
+    textSize(50)
+    fill(255)
+    text("YOU WIN", width/2, height/2)
+    textSize(25)
+    text("Press ENTER to return to menu", width/2, height/1.5)
+}
+
 function dead()
 {
     if (player.getState() === false)
@@ -145,5 +207,28 @@ function dead()
         if (pastState === 5) createdLvl3 = false
         if (pastState === 6) createdLvl4 = false
     }
+}
+
+function pauseScreen()
+{
+    fill(0)
+    textAlign(CENTER)
+    textSize(50)
+    fill(255)
+    text("PAUSE", width/2, height/2)
+    textSize(50)
+    text("Press SPACE to restart", width/2, height/1.75)
+    text("Press ENTER to go to main menu", width/2, height/1.5)
+}
+
+function deathScreen()
+{
+    fill(0)    
+    textAlign(CENTER)
+    textSize(50)
+    fill(255)
+    text("YOU DIED", width/2, height/2)
+    textSize(25)
+    text("Press SPACE to respawn", width/2, height/1.5)
 }
 

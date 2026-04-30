@@ -337,7 +337,7 @@ class Enemy extends Character
         this.#health = input
     }
 
-    setEnemyState(input)
+    setState(input)
     {
         this.#state = input
     }

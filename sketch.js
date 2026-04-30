@@ -1,30 +1,3 @@
-function preload()
-{
-    walkSheet = loadImage('Assets/playerWalk.png')
-    attackSheet = loadImage('Assets/playerAttack.png')
-    enemyWalk = loadImage('Assets/enemyUnarmed.png')
-    bricks = loadImage('Assets/bricks.jpg')
-    darkStoneWall = loadImage('Assets/darkStoneWall.jpg')
-    dead1 = loadImage('Assets/dead1.png')
-    dead2 = loadImage('Assets/dead2.png')
-    dead3 = loadImage('Assets/dead3.png')
-    dead4 = loadImage('Assets/dead4.png')
-    enemyAttack = loadImage('Assets/enemyAttack.png')
-    enemyUnarmed = loadImage('Assets/enemyUnarmed.png')
-    enemyArmed = loadImage('Assets/enemyArmed.png')
-    grass = loadImage('Assets/grass.jpg')
-    playerAttack = loadImage('Assets/playerAttack.png')
-    playerWalk = loadImage('Assets/playerWalk.png')
-    splatter1 = loadImage('Assets/splatter1.png')
-    splatter2 = loadImage('Assets/splatter2.png')
-    walls = loadImage('Assets/walls.png')
-    wood = loadImage('Assets/wood.jpg')
-    med = loadImage('Assets/med.png')
-    gunShot = loadSound('Assets/GunShot.mp3')
-    swordSwoosh = loadSound('Assets/SwordSwoosh.mp3')
-    grunt = loadSound('Assets/Grunt.mp3')
-}
-
 function setup()
 {
     pixelDensity(1)
@@ -33,34 +6,16 @@ function setup()
 
 function draw()
 {   
-    drawingContext.save()
-    drawingContext.setTransform(1, 0, 0, 1, 0, 0)
-    drawingContext.fillStyle = '#000000'
-    drawingContext.fillRect(0, 0, 1500, 1500)
-    drawingContext.restore()
+    console.log(gameState)
+    refreshCanvas()
     switch(gameState)
     {
         case 0:
-            fill(0)
-            rect(1500,1500)
-            textAlign(CENTER)
-            textSize(50)
-            fill(255)
-            text("YOU DIED", width/2, height/2)
-            textSize(25)
-            text("Press SPACE to respawn", width/2, height/1.5)
+            deathScreen()
         break
 
         case 1:
-            fill(0)
-            rect(1500,1500)
-            textAlign(CENTER)
-            textSize(50)
-            fill(255)
-            text("PAUSE", width/2, height/2)
-            textSize(25)
-            text("Press SPACE to restart", width/2, height/1.5)
-            text("Press ENTER to go to main menu", width/2, height/1.25)
+            pauseScreen()
         break
 
         case 2:
@@ -82,21 +37,37 @@ function draw()
         case 6:
             level4()
         break
+
+        case 7:
+            endGame()
+        break
+
+        case 8:
+            createdlevel()
+        break
+
+        case 9:
+            levelEditor()
+        break
         
     }
 }
 
 function mousePressed()
 {
-    if (gameState === 2)
+    if (gameState === 9)
     {
-        gameState++
+        levelEdit.paint(paintVal)
     }
-    if(player.getHealth()>=0)
+    
+    if ((gameState>= '2' && gameState <= '6')|| gameState === 8)
     {
-        if (player.getAttackFrame() === 0)
+        if(player.getHealth()>=0)
         {
-            player.startAttack()
+            if (player.getAttackFrame() === 0)
+            {
+                player.startAttack()
+            }
         }
     }
 
@@ -104,7 +75,15 @@ function mousePressed()
     {
         resetGame()
     }
+}
 
+function mouseDragged()
+{
+    if (gameState===9)
+    {
+        levelEdit.paint(paintVal)
+    }
+    
 }
 
 function keyPressed()
@@ -116,20 +95,30 @@ function keyPressed()
             resetGame()
             gameState = 2
         }
-        else
+        if (gameState === 7)
         {
-            gameState++
+            resetGame()
+            gameState = 2
         }
     }
 
-    if (keyCode === 32)
+    if(key === '1')
     {
-        if (gameState === 0)
+        if (gameState === 2)
         {
-            gameState = pastState
+            gameState = 9 
         }
     }
 
+    if(key === '2')
+    {
+        if (gameState === 2)
+        {
+            gameState = 8
+        }
+    }
+    
+    //escape
     if (keyCode === 27)
     {
         if (gameState !== 1)
@@ -143,12 +132,38 @@ function keyPressed()
         }
     }
 
+    //space
     if (keyCode === 32)
     {
+        //pause
         if (gameState === 1)
         {
             resetGame()
             gameState = pastState
+        }
+
+        if (gameState === 2)
+        {
+            gameState++
+        }
+
+        if (gameState === 0)
+        {
+            gameState = pastState
+        }
+
+        if (gameState === 9)
+        {
+            levelEdit.exportLevel()
+        }
+    }
+
+    //level editor keys 
+    if (key >= '0' && key <= '6')
+    {
+        if (gameState === 9)
+        {
+            paintVal = Number(key)
         }
     }
 }
@@ -160,5 +175,6 @@ function windowResized()
     cnv.style.width  = (1500 * scaleFactor) + 'px'
     cnv.style.height = (1500 * scaleFactor) + 'px'
 }
+
 
 

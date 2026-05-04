@@ -72,7 +72,6 @@ class Character extends GameObject
 class Player extends Character
 {
     #movementState
-    #attackSheet
     #attackFrame
     #attackTimer
     #isAttacking
@@ -81,13 +80,11 @@ class Player extends Character
     #score
     #state
     #health
-    #damage
 
     constructor(x,y,attackSheet,walkSheet,damage)
     {
         super(x,y,walkSheet,attackSheet,damage)
-        this.#movementState = true 
-        this.#attackSheet = attackSheet
+        this.#movementState = true
         this.#attackFrame = 0
         this.#attackTimer = 0
         this.#isAttacking = false
@@ -96,7 +93,6 @@ class Player extends Character
         this.#score = 0
         this.#state = false
         this.#health = 200
-        this.#damage = damage
     }
 
     getHealth()
@@ -236,7 +232,7 @@ class Player extends Character
                     let sx = this.#attackFrame * 58
                     push()
                         rotate(-HALF_PI)
-                        image(this.#attackSheet, -75, -75, 150, 150, sx, 0, 58, 60)
+                        image(this.getAttackSheet(), -75, -75, 150, 150, sx, 0, 58, 60)
                     pop()    
                 }
                 else if (this.#movementState)
@@ -276,7 +272,6 @@ class Enemy extends Character
     #bloodSplatter
     #deadSprite
     #attackCooldown
-    #damage
 
     constructor(x,y,speed,walkSheet,attackSheet,bloodSplatter,deadSprite,damage)
     {
@@ -288,7 +283,6 @@ class Enemy extends Character
         this.#bullets = []
         this.#bulletSpeed = 40
         this.setSpeed(speed)
-        this.#damage = damage
         this.#bloodSplatter = bloodSplatter
         this.#deadSprite = deadSprite
         this.#attackCooldown = 0
@@ -327,7 +321,7 @@ class Enemy extends Character
         return(this.#bloodSplatter)
     }
 
-    getDead()
+    getDeadSprite()
     {
         return(this.#deadSprite)
     }
@@ -456,7 +450,7 @@ class Enemy extends Character
         else
         {
             image(this.getBloodSplatter(),this.getX(),this.getY(),150,150)
-            image(this.getDead(),this.getX(),this.getY(),125,125)
+            image(this.getDeadSprite(),this.getX(),this.getY(),125,125)
         }
     }
 

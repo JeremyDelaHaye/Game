@@ -13,43 +13,33 @@ function draw()
         case 0:
             deathScreen()
         break
-
         case 1:
             pauseScreen()
         break
-
         case 2:
             level0()
         break
-
         case 3:
             level1()
         break
-
         case 4:
             level2()
         break
-
         case 5:
             level3()
         break
-
         case 6:
             level4()
         break
-
         case 7:
             endGame()
         break
-
         case 8:
             createdlevel()
         break
-
         case 9:
             levelEditor()
-        break
-        
+        break 
     }
 }
 

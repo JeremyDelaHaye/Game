@@ -46,20 +46,12 @@ function level1()
     if (!createdLvl1)
     {
         resetGame()
-        createdLvl1 = true
-
-        
+        createdLvl1 = true    
         let brickGrid = new TextureGrid(CELLSIZE,bricks)
         let grassGrid = new TextureGrid(CELLSIZE,grass)
-
-
         loadMap(LEVEL1MAP,brickGrid,healthGrid)
-        console.log('door cells set:', doorGrid.getCells().flat().filter(x => x).length)
         mergeGrids(brickGrid,colGrid)
         occupyEmptyGrid(grassGrid,colGrid)
-        
-        //healthGrid.setCell(33,33,true)
-
         enemyCount = enemys.length
         textureGrids.push(brickGrid)
         textureGrids.push(grassGrid)
@@ -67,7 +59,6 @@ function level1()
         
     }
     fullLevelLogic()
-    //enemyCount = 0
 }
 
 function level2()

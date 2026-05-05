@@ -183,6 +183,9 @@ function nextLevel()
     }
 }
 
+/**
+ * Runs all per-frame level logic: textures, enemies, player, UI, level completion, and death check.
+ */
 function fullLevelLogic()
 {   
     textureDraw()
@@ -202,6 +205,9 @@ function killAll()
     }
 }
 
+/**
+ * Clears the canvas each frame using drawingContext to prevent ghosting from rotated sprites.
+ */
 function refreshCanvas()
 {
     drawingContext.save()

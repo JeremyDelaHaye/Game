@@ -151,7 +151,7 @@ class Player extends Character
         this.#score = score
     }
     
-    //starts the attack, plays the sound affect resets attackframe, attacktimer and isAttacking to true
+    //starts the attack, plays the sound effect resets attackframe, attacktimer and isAttacking to true
     startAttack()
     {
         swordSwoosh.play()
@@ -192,7 +192,7 @@ class Player extends Character
     }
 
     // uses keyIsDown for standard wasd movement, checks each corner of player against collision grid 
-    /** @param {class} grid - collision grid */
+    /** @param {Grid} grid - collision grid */
     movement(grid)
     {
         const A = 65, D = 68, W = 87, S = 83;
@@ -227,8 +227,8 @@ class Player extends Character
         return true
     }
 
-    /** @param {class} healthGrid - health item grid */
-    // checks if players on a healhpack on healthgrid, if true increases player health
+    /** @param {ItemGrid} healthGrid - health item grid */
+    // checks if players on a healthpack on healthgrid, if true increases player health
     healthPowerUp(healthGrid)
     {
         if (healthGrid.isOccupied(this.getX() + 25, this.getY() + 25))
@@ -239,8 +239,8 @@ class Player extends Character
     }
 
 
-    /** @param {class} grid - collision grid */
-    /** @param {class} healthgrid - healthGrid */
+    /** @param {Grid} grid - collision grid */
+    /** @param {ItemGrid} healthgrid - healthGrid */
 
     //ran every frame draws player while running movement code and healthchecking code 
     //entire player code
@@ -411,8 +411,8 @@ class Enemy extends Character
         }
     }
 
-    /** @param {class} player - player class */
-    //checks if player has attacked, decreases health if so, kills if health is below 0 and plays deathsound.
+    /** @param {Player} player - player class */
+    //checks if player has attacked, decreases health if so, kills if health is below 0 and plays death sound.
     checkDamage(player)
     {
         if (player.getAttackFrame() === 4 && dist(player.getX(), player.getY(), this.getX(), this.getY()) < 80)
@@ -439,8 +439,8 @@ class Enemy extends Character
         }
     }       
 
-    /** @param {class} grid - collision grid */
-    /** @param {class} player - player class*/
+    /** @param {Grid} grid - collision grid */
+    /** @param {Player} player - player class*/
     //iterates through bullets array to draw all bullets, checks if they have hit player, removes bullet if player is hit or if hits wall, damages player if hits player
     drawBullets(player,colGrid)
     {
@@ -458,10 +458,10 @@ class Enemy extends Character
             }
         }
     }
-    /** @param {class} grid - collision grid */
-    /** @param {class} player - player class*/
+    /** @param {Grid} grid - collision grid */
+    /** @param {Player} player - player class*/
 
-    //draws enemy, and calls patrol and checkdamage, if dead draws dead body and blood splayyer
+    //draws enemy, and calls patrol and checkdamage, if dead draws dead body and blood splatter
     //animates attack if attacking
     draw(player, colGrid)
     {   
@@ -505,10 +505,10 @@ class Enemy extends Character
     }
 
 
-    /** @param {class} grid - collision grid */
-    /** @param {class} player - player class*/
+    /** @param {Grid} grid - collision grid */
+    /** @param {Player} player - player class*/
 
-    //causes enemy to walk and bounce of collision cells, checks each corner of enemy for collision, uses bouncing ball physics
+    //causes enemy to walk and bounce off collision cells, checks each corner of enemy for collision, uses bouncing ball physics
     patrol(colGrid, player)
     {
         let s = this.getSpeed()
@@ -538,7 +538,7 @@ class Enemy extends Character
         }
     }
 
-    /** @param {class} player - player class*/
+    /** @param {Player} player - player class*/
     // if within attacking range of player starts the attack 
     triggerAttack(player)
     {
@@ -552,8 +552,8 @@ class Enemy extends Character
         }
     }
 
-    /** @param {class} grid - collision grid */
-    /** @param {class} player - player class*/
+    /** @param {Grid} grid - collision grid */
+    /** @param {Player} player - player class*/
     /** @returns true if can see player */
     /** @returns false if cant see player */
     
@@ -588,17 +588,17 @@ class Enemy extends Character
         return false
     }
 
-    /** @param {class} grid - collision grid */
-    /** @param {class} player - player class*/
-    //all code needed to run enemy as intented 
+    /** @param {Grid} grid - collision grid */
+    /** @param {Player} player - player class*/
+    //all code needed to run enemy as intended
 
     logic(player,colGrid)
     {
         this.triggerAttack(player)
         this.draw(player,colGrid)
     }
-    /** @param {class} grid - collision grid */
-    /** @param {class} player - player class*/
+    /** @param {Grid} grid - collision grid */
+    /** @param {Player} player - player class*/
 
     //damages inputted player class
     damagePlayer(player, damage)
@@ -614,8 +614,8 @@ class ShootingEnemy extends Enemy
         super(x,y,speed,walkSheet,walkSheet,bloodSplatter,deadSprite,damage)
     }
 
-    /** @param {class} grid - collision grid */
-    /** @param {class} player - player class*/
+    /** @param {Grid} grid - collision grid */
+    /** @param {Player} player - player class*/
 
     //all code needed to run shooting enemy, draws the enemy then checks for damage and draws all the bullets 
     logic(player, colGrid)

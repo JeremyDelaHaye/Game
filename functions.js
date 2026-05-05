@@ -1,3 +1,9 @@
+/**
+ * Copies all true cells from inputGrid into colGrid at the same positions.
+ * Used to merge a texture grid into the collision grid when loading a level.
+ * @param {Grid} inputGrid - The source grid to read from.
+ * @param {Grid} colGrid - The target collision grid to write into.
+ */
 function mergeGrids(inputGrid, colGrid)
 {
     const inputRow = (Math.ceil(height/inputGrid.getCellSize()));
@@ -12,6 +18,12 @@ function mergeGrids(inputGrid, colGrid)
     }
 }
 
+/**
+ * Parses a 2D string array map and sets grid cells and spawns entities accordingly.
+ * @param {string[]} map - The 2D string array representing the level layout.
+ * @param {TextureGrid} grid - The wall texture grid to populate.
+ * @param {ItemGrid} healthGrid - The health pickup grid to populate.
+ */
 function loadMap(map, grid,healthGrid)
 {
     for (let row = 0; row < map.length; row++)
@@ -50,6 +62,12 @@ function loadMap(map, grid,healthGrid)
     }
 }
 
+/**
+ * Sets all cells in fillGrid to true where checkGrid has false cells.
+ * Used to fill floor texture into all non-wall cells.
+ * @param {TextureGrid} fillGrid - The grid to fill with true values.
+ * @param {Grid} checkGrid - The grid to check against.
+ */
 function occupyEmptyGrid(fillGrid, checkGrid)
 {
     try{
@@ -70,6 +88,10 @@ function occupyEmptyGrid(fillGrid, checkGrid)
     catch{}
 }
 
+/**
+ * Updates the HTML UI elements with the player's current health and score.
+ * Hides the UI when not in an active level state.
+ */
 function drawUI()
 {
     const ui = document.getElementById('gameUI')
@@ -87,6 +109,9 @@ function drawUI()
     
 }
 
+/**
+ * Iterates through all enemies and calls their logic function each frame.
+ */
 function enemyDraw()
 {
     for (let i = 0; i < enemys.length; i++)
@@ -95,6 +120,9 @@ function enemyDraw()
     }
 }
 
+/**
+ * Iterates through all texture grids and calls their drawTexture function each frame.
+ */
 function textureDraw()
 {
     for (let i = 0; i < textureGrids.length; i++)
@@ -103,6 +131,10 @@ function textureDraw()
     }
 }
 
+/**
+ * Resets all game state to defaults. Clears grids, enemy and texture arrays,
+ * resets player stats, and clears level created flags.
+ */
 function resetGame()
 {
     player.setHealth(200)
@@ -124,6 +156,10 @@ function resetGame()
     textureGrids = []
 }
 
+/**
+ * Checks if the level is complete. If all enemies are dead and the player
+ * is standing on the door tile, advances the game state to the next level.
+ */
 function nextLevel()
 {
     if (enemyCount <= 0)
@@ -174,4 +210,3 @@ function refreshCanvas()
     drawingContext.fillRect(0, 0, 1500, 1500)
     drawingContext.restore()
 }
-

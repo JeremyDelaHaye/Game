@@ -221,4 +221,3 @@ function deathScreen()
     textSize(25)
     text("Press SPACE to respawn", width/2, height/1.5)
 }
-

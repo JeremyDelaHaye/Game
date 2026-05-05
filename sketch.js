@@ -165,6 +165,3 @@ function windowResized()
     cnv.style.width  = (1500 * scaleFactor) + 'px'
     cnv.style.height = (1500 * scaleFactor) + 'px'
 }
-
-
-

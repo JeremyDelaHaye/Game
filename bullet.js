@@ -1,7 +1,7 @@
 class Bullet extends GameObject
 {
-    
-    #angle 
+
+    #angle
     #speed
 
     constructor(x,y,angle,speed)
@@ -11,6 +11,10 @@ class Bullet extends GameObject
         this.#speed = speed
     }
 
+    /**
+     * Returns the bullet's current travel angle in radians.
+     * @returns {number} The angle in radians.
+     */
     getAngle()
     {
         return(this.#angle)
@@ -26,7 +30,7 @@ class Bullet extends GameObject
         this.setY(sy)
         fill(140)
         push();
-            translate(this.getX() + 25, this.getY() + 25); 
+            translate(this.getX() + 25, this.getY() + 25);
             rotate(this.#angle - Math.PI / 2);
             noStroke();
             rectMode(CENTER);

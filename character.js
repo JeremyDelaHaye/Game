@@ -28,73 +28,49 @@ class Character extends GameObject
         this.setY(val += (this.#speed * distance))
     }
 
-    /**
-     * Sets the character's facing angle in radians.
-     * @param {number} value - The angle in radians.
-     */
+    /** @param {number} value - facing angle in radians */
     setAngle(value)
     {
         this.#angle = value
     }
 
-    /**
-     * Sets the character's movement speed.
-     * @param {number} value - The new speed value.
-     */
+    /** @param {number} value - movement speed */
     setSpeed(value)
     {
         this.#speed = value
     }
 
-    /**
-     * Sets the character's damage value.
-     * @param {number} value - The damage amount per hit.
-     */
+    /** @param {number} value - damage per hit */
     setDamage(value)
     {
         this.#damage = value
     }
 
-    /**
-     * Returns the character's current facing angle in radians.
-     * @returns {number} The angle in radians.
-     */
+    /** @returns facing angle in radians */
     getAngle()
     {
         return(this.#angle)
     }
 
-    /**
-     * Returns the walk sprite sheet image.
-     * @returns {p5.Image} The walk animation sprite sheet.
-     */
+    /** @returns walk sprite sheet */
     getWalkSheet()
     {
         return(this.#walkSheet)
     }
 
-    /**
-     * Returns the attack sprite sheet image.
-     * @returns {p5.Image} The attack animation sprite sheet.
-     */
+    /** @returns attack sprite sheet */
     getAttackSheet()
     {
         return(this.#attackSheet)
     }
 
-    /**
-     * Returns the character's current movement speed.
-     * @returns {number} The speed value.
-     */
+    /** @returns movement speed */
     getSpeed()
     {
         return(this.#speed)
     }
 
-    /**
-     * Returns the character's damage value.
-     * @returns {number} The damage amount per hit.
-     */
+    /** @returns damage per hit */
     getDamage()
     {
         return(this.#damage)
@@ -127,73 +103,49 @@ class Player extends Character
         this.#health = 200
     }
 
-    /**
-     * Returns the player's current health.
-     * @returns {number} The health value.
-     */
+    /** @returns current health */
     getHealth()
     {
         return(this.#health)
     }
 
-    /**
-     * Returns the current attack animation frame index.
-     * @returns {number} The attack frame index.
-     */
+    /** @returns current attack frame index */
     getAttackFrame()
     {
         return(this.#attackFrame)
     }
 
-    /**
-     * Returns whether the player is currently attacking.
-     * @returns {boolean} True if attacking, false otherwise.
-     */
+    /** @returns true if currently attacking */
     getAttackState()
     {
         return(this.#isAttacking)
     }
 
-    /**
-     * Returns the player's current score.
-     * @returns {number} The score value.
-     */
+    /** @returns current score */
     getScore()
     {
         return(this.#score)
     }
 
-    /**
-     * Returns the player's alive state.
-     * @returns {boolean} True if alive, false if dead.
-     */
+    /** @returns true if alive */
     getState()
     {
         return(this.#state)
     }
 
-    /**
-     * Sets the player's alive state.
-     * @param {boolean} input - True for alive, false for dead.
-     */
+    /** @param {boolean} input - alive state */
     setState(input)
     {
         this.#state = input
     }
 
-    /**
-     * Sets the player's health value.
-     * @param {number} input - The new health value.
-     */
+    /** @param {number} input - new health value */
     setHealth(input)
     {
         this.#health = input
     }
 
-    /**
-     * Sets the player's score.
-     * @param {number} score - The new score value.
-     */
+    /** @param {number} score - new score */
     setScore(score)
     {
         this.#score = score
@@ -365,82 +317,55 @@ class Enemy extends Character
         }
     }
 
-    /**
-     * Returns the enemy's current health.
-     * @returns {number} The health value.
-     */
+    /** @returns current health */
     getHealth()
     {
         return(this.#health)
     }
 
-    /**
-     * Returns the enemy's alive state.
-     * @returns {boolean} True if alive, false if dead.
-     */
+    /** @returns true if alive */
     getState()
     {
         return(this.#state)
     }
 
-    /**
-     * Returns the current walk animation frame index.
-     * @returns {number} The walk frame index.
-     */
+    /** @returns current walk frame index */
     getWalkFrame()
     {
         return(this.#walkFrame)
     }
 
-    /**
-     * Returns the blood splatter sprite image.
-     * @returns {p5.Image} The blood splatter image.
-     */
+    /** @returns blood splatter sprite */
     getBloodSplatter()
     {
         return(this.#bloodSplatter)
     }
 
-    /**
-     * Returns the dead sprite image.
-     * @returns {p5.Image} The dead enemy sprite image.
-     */
+    /** @returns dead enemy sprite */
     getDeadSprite()
     {
         return(this.#deadSprite)
     }
 
-    /**
-     * Sets the enemy's health value.
-     * @param {number} input - The new health value.
-     */
+    /** @param {number} input - new health value */
     setEnemyHealth(input)
     {
         this.#health = input
     }
 
-    /**
-     * Sets the enemy's alive state.
-     * @param {boolean} input - True for alive, false for dead.
-     */
+    /** @param {boolean} input - alive state */
     setState(input)
     {
         this.#state = input
     }
 
-    /**
-     * Returns the current attack animation frame index.
-     * @returns {number} The attack frame index.
-     */
+    /** @returns current attack frame index */
     getAttackFrame()
     {
         return(this.#attackFrame)
     }
 
-    /**
-     * Returns whether the enemy is currently attacking.
-     * @returns {boolean} True if attacking, false otherwise.
-     */
+    /** @returns true if currently attacking */
     getAttackState()
     {
         return(this.#isAttacking)

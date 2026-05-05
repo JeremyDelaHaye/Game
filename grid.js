@@ -10,63 +10,37 @@ class Grid extends GameObject
         this.createEmptyGrid()
     }
 
-    /**
-     * Returns the full 2D cells array.
-     * @returns {Array} The 2D array of cell values.
-     */
+    /** @returns the full 2D cells array */
     getCells()
     {
         return this.#cells
     }
 
-    /**
-     * Returns the value of a cell at the given row and column.
-     * @param {number} x - The row index.
-     * @param {number} y - The column index.
-     * @returns {boolean} The cell value.
-     */
+    /** @returns value of cell at row x, col y */
     getCell(x,y)
     {
         return(this.#cells[x][y])
     }
 
-    /**
-     * Returns the size of each cell in pixels.
-     * @returns {number} The cell size in pixels.
-     */
+    /** @returns cell size in pixels */
     getCellSize()
     {
         return this.#cellSize
     }
 
-    /**
-     * Sets the value of a cell at the given row and column.
-     * @param {number} row - The row index.
-     * @param {number} col - The column index.
-     * @param {*} input - The value to set.
-     */
+    /** sets cell at row, col to input value */
     setCell(row,col,input)
     {
         this.#cells[row][col] = input
     }
 
-    /**
-     * Sets a cell value using pixel coordinates.
-     * @param {number} x - The x pixel coordinate.
-     * @param {number} y - The y pixel coordinate.
-     * @param {*} input - The value to set.
-     */
+    /** sets a cell using pixel coordinates */
     setCellFromCord(x,y,input)
     {
         this.setCell(this.getIndexOfCoord(x),this.getIndexOfCoord(y),input)
     }
 
-    /**
-     * Returns the value of a cell using pixel coordinates.
-     * @param {number} x - The x pixel coordinate.
-     * @param {number} y - The y pixel coordinate.
-     * @returns {*} The cell value.
-     */
+    /** @returns cell value at pixel coordinates x, y */
     getCellFromCord(x,y)
     {
         return(getCell(this.getIndexOfCoord(x),this.getIndexOfCoord(y)))
@@ -126,40 +100,25 @@ class Grid extends GameObject
         }
     }
 
-    /**
-     * Converts a pixel coordinate to a grid index.
-     * @param {number} coord - The pixel coordinate.
-     * @returns {number} The grid cell index.
-     */
+    /** @returns grid index for a pixel coordinate */
     getIndexOfCoord(coord)
     {
         return Math.floor(coord / this.#cellSize);
     }
 
-    /**
-     * Returns the grid column index for a given x pixel coordinate.
-     * @param {number} x - The x pixel coordinate.
-     * @returns {number} The column index.
-     */
+    /** @returns grid column index for pixel x */
     getGridPosX(x)
     {
         return(this.getIndexOfCoord(x))
     }
 
-    /**
-     * Returns the grid row index for a given y pixel coordinate.
-     * @param {number} y - The y pixel coordinate.
-     * @returns {number} The row index.
-     */
+    /** @returns grid row index for pixel y */
     getGridPosY(y)
     {
         return(this.getIndexOfCoord(y))
-    }  
+    }
 
-    /**
-     * Returns the pixel coordinates of a random empty cell in the grid.
-     * @returns {{x: number, y: number}} An object with x and y pixel coordinates.
-     */
+    /** @returns coordinates of a random empty cell */
     getEmptyCoord()
     {  
         const rows = Math.ceil(height/this.#cellSize);
@@ -193,8 +152,7 @@ class TextureGrid extends Grid
     }
 
     /**
-     * Returns the texture image assigned to this grid.
-     * @returns {p5.Image} The texture image.
+     * @returns texture image for this grid
      */
     getTexture()
     {

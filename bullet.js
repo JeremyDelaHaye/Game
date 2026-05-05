@@ -11,10 +11,7 @@ class Bullet extends GameObject
         this.#speed = speed
     }
 
-    /**
-     * Returns the bullet's current travel angle in radians.
-     * @returns {number} The angle in radians.
-     */
+    /** @returns bullet travel angle in radians */
     getAngle()
     {
         return(this.#angle)

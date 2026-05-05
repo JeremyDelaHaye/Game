@@ -45,7 +45,8 @@ class Grid extends GameObject
     {
         return(getCell(this.getIndexOfCoord(x),this.getIndexOfCoord(y)))
     }
-
+     
+    //creates an empty grid, used at class initialisation but can also be used to wipe the grid 
     createEmptyGrid()
     {
 
@@ -63,6 +64,7 @@ class Grid extends GameObject
         }
     }
 
+    //makes all occupied cells white
     drawGrid()
     {
         const rows = Math.ceil(height/this.#cellSize);
@@ -81,6 +83,11 @@ class Grid extends GameObject
 
     }
 
+    /** @param {number} x - x position */
+    /** @param {number} y - y position*/
+
+    /** @returns true if passed x and y are in an occupied cell  */
+     /** @returns false if passed x and y are not in an occupied cell  */
     isOccupied(x,y)
     {
         if (x < 0 || x >= width || y < 0 || y >= height)
@@ -159,6 +166,7 @@ class TextureGrid extends Grid
         return(this.#texture)
     }
 
+    //draws passed texture in each occupied cell
     drawTexture()
     {
         const rows = Math.ceil(height/this.getCellSize());
@@ -185,6 +193,7 @@ class uniqueTextureGrid extends TextureGrid
 
     }
 
+    //uses image dimensions to set all cells it would occupy as true
     setOccupied()
     {
         for (let row = this.getIndexOfCoord(this.getY()); row <= this.getIndexOfCoord(this.getY() + this.getHeight()); row++)
@@ -195,7 +204,7 @@ class uniqueTextureGrid extends TextureGrid
             }
         }
     }
-
+    //draws image
     drawTexture()
     {
         image(this.getTexture(),this.getX(),this.getY(),this.getWidth(),this.getHeight())
@@ -208,7 +217,12 @@ class ItemGrid extends TextureGrid
     {
         super(cellSize,texture)
     }
+    
+    /** @param {number} x - x position */
+    /** @param {number} y - y position*/
 
+    /** @returns true if passed x and y are in an occupied cell then sets cell to false  */
+     /** @returns false if passed x and y are not in an occupied cell  */
     isOccupied(x,y)
     {
         if (x < 0 || x >= width || y < 0 || y >= height)
@@ -238,6 +252,7 @@ class LevelEditorGrid extends Grid
         this.createEditorGrid()
     }
 
+    //same as create empty grid but uses a character rather than a bool set to false for each cell 
     createEditorGrid()
     {
         const rows = Math.ceil(height / this.getCellSize())
@@ -251,6 +266,7 @@ class LevelEditorGrid extends Grid
         }
     }
 
+    //draws 60x60 grid, fills squares according to value set 
     drawGrid()
     {
         const rows = Math.ceil(height / this.getCellSize())
@@ -281,6 +297,7 @@ class LevelEditorGrid extends Grid
         noStroke()
     }
 
+    // sets the outside cells to wall cells
     fillPerimeter()
     {
         const rows = Math.ceil(height / this.getCellSize())
@@ -299,6 +316,7 @@ class LevelEditorGrid extends Grid
         }
     }
 
+    // sets the cell the mouse is over to whatever value was passed (1-6)
     paint(currentValue)
     {
         let col = Math.floor(mouseX / this.getCellSize())
@@ -311,6 +329,8 @@ class LevelEditorGrid extends Grid
         this.setCell(row, col, currentValue)   
     }
 
+
+    //puts level value into a string, then sets this string to createdLevel, then sends user to created level
     exportLevel()
     {
         const rows = Math.ceil(height / this.getCellSize())
@@ -335,8 +355,10 @@ class LevelEditorGrid extends Grid
             CREATEDLEVEL.push(line)
         }
         console.log(CREATEDLEVEL)
+        gameState = 8;
     }
 
+    //creates ui labels for the brushes 
     createUI()
     {
         this.uiDiv = createDiv()
@@ -366,12 +388,15 @@ class LevelEditorGrid extends Grid
         this.perimeterButton.mousePressed(() => this.fillPerimeter())
     }
 
+    //hides the ui
     hideUI()
     {
         if (this.uiDiv) this.uiDiv.remove()
         if (this.perimeterButton) this.perimeterButton.remove()
     }
 
+
+    //all logic needed to run the level editor 
     fullLogic()
     {
         this.drawGrid()

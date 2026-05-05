@@ -166,6 +166,7 @@ function fullLevelLogic()
     dead()
 }
 
+//devtool 
 function killAll()
 {
     enemyCount = 0

@@ -126,7 +126,12 @@ class Grid extends GameObject
         }
     }
 
-    getIndexOfCoord(coord) 
+    /**
+     * Converts a pixel coordinate to a grid index.
+     * @param {number} coord - The pixel coordinate.
+     * @returns {number} The grid cell index.
+     */
+    getIndexOfCoord(coord)
     {
         return Math.floor(coord / this.#cellSize);
     }
@@ -151,6 +156,10 @@ class Grid extends GameObject
         return(this.getIndexOfCoord(y))
     }  
 
+    /**
+     * Returns the pixel coordinates of a random empty cell in the grid.
+     * @returns {{x: number, y: number}} An object with x and y pixel coordinates.
+     */
     getEmptyCoord()
     {  
         const rows = Math.ceil(height/this.#cellSize);

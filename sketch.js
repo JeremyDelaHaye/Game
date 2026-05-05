@@ -1,11 +1,13 @@
+// p5.js entry point, initialises the game
 function setup()
 {
     pixelDensity(1)
-    initializeGame() 
+    initializeGame()
 }
 
+// called every frame, routes to correct screen via gameState switch
 function draw()
-{   
+{
     console.log(gameState)
     refreshCanvas()
     switch(gameState)
@@ -39,17 +41,18 @@ function draw()
         break
         case 9:
             levelEditor()
-        break 
+        break
     }
 }
 
+// handles mouse click - triggers attack or paints level editor cell
 function mousePressed()
 {
     if (gameState === 9)
     {
         levelEdit.paint(paintVal)
     }
-    
+
     if ((gameState>= '2' && gameState <= '6')|| gameState === 8)
     {
         if(player.getHealth()>=0)
@@ -67,15 +70,17 @@ function mousePressed()
     }
 }
 
+// paints level editor cell while mouse is held and dragged
 function mouseDragged()
 {
     if (gameState===9)
     {
         levelEdit.paint(paintVal)
     }
-    
+
 }
 
+// handles all key input for game state transitions and level editor controls
 function keyPressed()
 {
     if (keyCode === ENTER)
@@ -96,7 +101,7 @@ function keyPressed()
     {
         if (gameState === 2)
         {
-            gameState = 9 
+            gameState = 9
         }
     }
 
@@ -107,8 +112,8 @@ function keyPressed()
             gameState = 8
         }
     }
-    
-    //escape
+
+    //escape - toggles pause
     if (keyCode === 27)
     {
         if (gameState !== 1)
@@ -125,30 +130,33 @@ function keyPressed()
     //space
     if (keyCode === 32)
     {
-        //pause
+        //resume from pause
         if (gameState === 1)
         {
             resetGame()
             gameState = pastState
         }
 
+        //start game from title
         if (gameState === 2)
         {
             gameState++
         }
 
+        //respawn from death screen
         if (gameState === 0)
         {
             gameState = pastState
         }
 
+        //export level in editor
         if (gameState === 9)
         {
             levelEdit.exportLevel()
         }
     }
 
-    //level editor keys 
+    //level editor brush selection keys 0-6
     if (key >= '0' && key <= '6')
     {
         if (gameState === 9)
@@ -158,6 +166,7 @@ function keyPressed()
     }
 }
 
+// rescales canvas to fit window on resize
 function windowResized()
 {
     scaleFactor = Math.min(windowWidth / 1500, (windowHeight - 4) / 1500)

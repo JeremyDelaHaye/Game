@@ -15,6 +15,7 @@ let scaleFactor = 1
 let paintVal = 1
 let levelEdit
 
+// creates canvas, initialises player and grids, sets starting gameState
 function initializeGame()
 {
     gameState = 2;
@@ -30,6 +31,7 @@ function initializeGame()
     healthGrid = new ItemGrid(CELLSIZE,med)
 }
 
+// draws title screen with control instructions
 function level0()
 {
     background(0)
@@ -41,12 +43,13 @@ function level0()
     text('Press 2 to play created level',width/2,height/1.5)
 }
 
+// loads and runs level 1 (brick/grass tileset)
 function level1()
 {
     if (!createdLvl1)
     {
         resetGame()
-        createdLvl1 = true    
+        createdLvl1 = true
         let brickGrid = new TextureGrid(CELLSIZE,bricks)
         let grassGrid = new TextureGrid(CELLSIZE,grass)
         loadMap(LEVEL1MAP,brickGrid,healthGrid)
@@ -56,11 +59,12 @@ function level1()
         textureGrids.push(brickGrid)
         textureGrids.push(grassGrid)
         textureGrids.push(healthGrid)
-        
+
     }
     fullLevelLogic()
 }
 
+// loads and runs level 2 (stone/wood tileset)
 function level2()
 {
     if (!createdLvl2)
@@ -79,18 +83,19 @@ function level2()
         textureGrids.push(stoneGrid)
         textureGrids.push(woodGrid)
         textureGrids.push(healthGrid)
-        
+
     }
     fullLevelLogic()
-    
+
 }
 
+// loads and runs level 3 (walls/grass tileset)
 function level3()
 {
     if (!createdLvl3)
     {
         resetGame()
-        createdLvl3 = true 
+        createdLvl3 = true
         let wallsGrid = new TextureGrid(CELLSIZE,walls)
         let grassGrid = new TextureGrid(CELLSIZE,grass)
 
@@ -105,9 +110,10 @@ function level3()
         textureGrids.push(healthGrid)
     }
     fullLevelLogic()
-    
+
 }
 
+// loads and runs level 4 (walls/grass tileset)
 function level4()
 {
     if (!createdLvl4)
@@ -130,6 +136,7 @@ function level4()
     fullLevelLogic()
 }
 
+// loads and runs the player-created level from CREATEDLEVEL global
 function createdlevel()
 {
     if (!createdLvlCreated)
@@ -139,8 +146,8 @@ function createdlevel()
 
         let wallsGrid = new TextureGrid(CELLSIZE,walls)
         let grassGrid = new TextureGrid(CELLSIZE,grass)
-        try 
-        {   
+        try
+        {
             loadMap(CREATEDLEVEL,wallsGrid,healthGrid)
             mergeGrids(wallsGrid,colGrid)
             occupyEmptyGrid(grassGrid,colGrid)
@@ -156,23 +163,25 @@ function createdlevel()
             resetGame()
             gameState = 2
         }
-        
+
     }
     fullLevelLogic()
 }
 
+// initialises and runs the level editor
 function levelEditor()
 {
     if (!createdLvlEditor)
     {
         resetGame()
         levelEdit = new LevelEditorGrid(CELLSIZE)
-        createdLvlEditor = true 
+        createdLvlEditor = true
         levelEdit.createUI()
     }
     levelEdit.drawGrid()
 }
 
+// draws the win screen
 function endGame()
 {
     background(0)
@@ -184,6 +193,7 @@ function endGame()
     text("Press ENTER to return to menu", width/2, height/1.5)
 }
 
+// checks if player is dead, sets gameState to death screen and resets level flag
 function dead()
 {
     if (player.getState() === false)
@@ -199,6 +209,7 @@ function dead()
     }
 }
 
+// draws pause screen
 function pauseScreen()
 {
     fill(0)
@@ -211,9 +222,10 @@ function pauseScreen()
     text("Press ENTER to go to main menu", width/2, height/1.5)
 }
 
+// draws death screen
 function deathScreen()
 {
-    fill(0)    
+    fill(0)
     textAlign(CENTER)
     textSize(50)
     fill(255)

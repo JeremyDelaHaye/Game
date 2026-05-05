@@ -404,7 +404,10 @@ class Enemy extends Character
         {
             this.#attackFrame++
             this.#attackTimer = 0
-            this.damagePlayer(player, this.getDamage())
+            if (this.#attackFrame === 1 )
+            {
+                this.damagePlayer(player, this.getDamage())
+            }
             if (this.#attackFrame >= 7)
             {
                 this.#attackFrame = 0

@@ -33,7 +33,7 @@ function loadMap(map, grid,healthGrid)
             
             if (map[row][col] ==='+')
             {
-                enemys.push( new Enemy(x,y,2,enemyUnarmed,enemyAttack,bloodSplatter,deadSprite,5))
+                enemys.push( new Enemy(x,y,2,enemyUnarmed,enemyAttack,bloodSplatter,deadSprite,50))
             }
             if (map[row][col] === '@')
             {
@@ -165,15 +165,6 @@ function fullLevelLogic()
     dead()
 }
 
-//devtool 
-function killAll()
-{
-    enemyCount = 0
-    for(let i = 0; i < enemys.length; i++)
-    {
-        enemys[i].setState(false)
-    }
-}
 
 // clears canvas each frame to prevent ghosting from rotated sprites
 function refreshCanvas()

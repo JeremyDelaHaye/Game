@@ -320,6 +320,9 @@ class Enemy extends Character
         let angle = Math.random() * Math.PI * 2
         this.#velX = Math.cos(angle) * speed
         this.#velY = Math.sin(angle) * speed
+        this.#attackFrame = 0
+        this.#attackTimer = 0
+        this.#isAttacking = false
     }
 
     #animateWalk()

@@ -55,7 +55,7 @@ function loadMap(map, grid,healthGrid)
 // fills all empty cells in fillGrid where checkGrid is false, used for floor textures
 function occupyEmptyGrid(fillGrid, checkGrid)
 {
-    try{
+    
     const checkRow = (Math.ceil(height/checkGrid.getCellSize()));
     const checkCol = (Math.ceil(width/checkGrid.getCellSize()));
 
@@ -69,8 +69,6 @@ function occupyEmptyGrid(fillGrid, checkGrid)
             }
         }
     }  
-    }
-    catch{}
 }
 
 // updates health and score UI, hides it outside of active level states
@@ -96,7 +94,9 @@ function enemyDraw()
 {
     for (let i = 0; i < enemys.length; i++)
     {
+        
         enemys[i].logic(player,colGrid)  
+        
     }
 }
 

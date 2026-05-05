@@ -43,7 +43,7 @@ class Grid extends GameObject
     /** @returns cell value at pixel coordinates x, y */
     getCellFromCord(x,y)
     {
-        return(getCell(this.getIndexOfCoord(x),this.getIndexOfCoord(y)))
+        return(this.getCell(this.getIndexOfCoord(x),this.getIndexOfCoord(y)))
     }
      
     //creates an empty grid, used at class initialisation but can also be used to wipe the grid 
@@ -177,7 +177,6 @@ class TextureGrid extends Grid
             {    
                 if((this.getCells()[row][col]) === true)
                 {
-                    fill(255,0,0)
                     image(this.#texture,col * this.getCellSize(), row * this.getCellSize(), this.getCellSize(), this.getCellSize())
                 }
             }

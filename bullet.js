@@ -25,6 +25,7 @@ class Bullet extends GameObject
 
         this.setX(sx)
         this.setY(sy)
+        
         fill(140)
         push();
             translate(this.getX() + 25, this.getY() + 25);

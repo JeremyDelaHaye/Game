@@ -16,6 +16,7 @@ class Bullet extends GameObject
         return(this.#angle)
     }
 
+    //draws singular bullet at given location and angle
     draw()
     {
         let sx = this.getX() + this.#speed * Math.cos(this.#angle + Math.PI / 2);

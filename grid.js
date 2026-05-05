@@ -353,7 +353,6 @@ class LevelEditorGrid extends Grid
             }
             CREATEDLEVEL.push(line)
         }
-        console.log(CREATEDLEVEL)
         gameState = 8;
     }
 

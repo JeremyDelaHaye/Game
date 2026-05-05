@@ -139,7 +139,6 @@ function nextLevel()
         doorGrid.drawTexture()
         if (doorGrid.isOccupied(player.getX() + 25, player.getY() + 25))
         {
-            console.log(player.getState())
             if (gameState === 3) createdLvl1 = false
             if (gameState === 4) createdLvl2 = false
             if (gameState === 5) createdLvl3 = false

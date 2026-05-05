@@ -8,7 +8,6 @@ function setup()
 // called every frame, routes to correct screen via gameState switch
 function draw()
 {
-    console.log(gameState)
     refreshCanvas()
     switch(gameState)
     {

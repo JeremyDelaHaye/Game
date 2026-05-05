@@ -22,5 +22,7 @@ function preload()
     med = loadImage('Assets/med.png')
     gunShot = loadSound('Assets/GunShot.mp3')
     swordSwoosh = loadSound('Assets/SwordSwoosh.mp3')
-    //grunt = loadSound('Assets/Grunt.mp3')
+    grunt = loadSound('Assets/Grunt.mp3')
+    homeScreen = loadImage('assets/homescreen.png')
+    pausedScreen = loadImage('assets/paused.png')
 }

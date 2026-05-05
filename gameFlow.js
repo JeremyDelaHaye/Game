@@ -34,13 +34,7 @@ function initializeGame()
 // draws title screen with control instructions
 function level0()
 {
-    background(0)
-    textAlign(CENTER)
-    textSize(50)
-    fill(255)
-    text('Press space start', width/2, height/2)
-    text('Press 1 to create level',width/2,height/1.75)
-    text('Press 2 to play created level',width/2,height/1.5)
+    image(homeScreen,0,0,width,height)
 }
 
 // loads and runs level 1 (brick/grass tileset)
@@ -212,14 +206,7 @@ function dead()
 // draws pause screen
 function pauseScreen()
 {
-    fill(0)
-    textAlign(CENTER)
-    textSize(50)
-    fill(255)
-    text("PAUSE", width/2, height/2)
-    textSize(50)
-    text("Press SPACE to restart", width/2, height/1.75)
-    text("Press ENTER to go to main menu", width/2, height/1.5)
+    image(pausedScreen,0,0,width,height)
 }
 
 // draws death screen

@@ -52,7 +52,7 @@ function mousePressed()
         levelEdit.paint(paintVal)
     }
 
-    if ((gameState>= '2' && gameState <= '6')|| gameState === 8)
+    if ((gameState >= 2 && gameState <= 6) || gameState === 8)
     {
         if(player.getHealth()>=0)
         {

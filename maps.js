@@ -318,21 +318,3 @@ const LEVEL4MAP = [
 ]
 
 let CREATEDLEVEL
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -12,7 +12,6 @@ class GameObject
         this.#width = width
         this.#height = height
     }
-
     /** @returns x position */
     getX()
     {

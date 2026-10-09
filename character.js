@@ -5,7 +5,6 @@ class Character extends GameObject
     #walkSheet
     #attackSheet
     #damage
-
     constructor(x,y,walkSheet,attackSheet,damage)
     {
         super(x,y,width,height)

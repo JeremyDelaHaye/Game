@@ -14,7 +14,6 @@ let enemyCount = 0
 let scaleFactor = 1
 let paintVal = 1
 let levelEdit
-
 // creates canvas, initialises player and grids, sets starting gameState
 function initializeGame()
 {

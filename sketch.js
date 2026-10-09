@@ -4,7 +4,6 @@ function setup()
     pixelDensity(1)
     initializeGame()
 }
-
 // called every frame, routes to correct screen via gameState switch
 function draw()
 {

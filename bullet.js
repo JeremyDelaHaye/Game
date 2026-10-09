@@ -16,7 +16,6 @@ class Bullet extends GameObject
     {
         return(this.#angle)
     }
-
     //draws singular bullet at given location and angle
     draw()
     {

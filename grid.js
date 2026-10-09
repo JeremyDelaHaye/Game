@@ -94,7 +94,6 @@ class Grid extends GameObject
         {
             return true;
         }
-
         const row = this.getIndexOfCoord(y)
         const col = this.getIndexOfCoord(x)
         if (this.#cells[row][col] === true)

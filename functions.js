@@ -12,7 +12,6 @@ function mergeGrids(inputGrid, colGrid)
         }
     }
 }
-
 // parses map string array, sets grid cells and spawns enemies/items at correct positions
 function loadMap(map, grid,healthGrid)
 {
